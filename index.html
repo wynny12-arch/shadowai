@@ -560,17 +560,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         </div>
 
         <div class="field">
-          <label>Primary communication tool(s)</label>
-          <div class="check-group" id="q-comms">
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="teams"/><div class="opt-label"><span class="opt-title">Microsoft Teams</span></div></label>
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="slack"/><div class="opt-label"><span class="opt-title">Slack</span></div></label>
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="whatsapp"/><div class="opt-label"><span class="opt-title">WhatsApp (business use)</span><span class="opt-desc">Staff use personal WhatsApp for work communications</span></div></label>
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="zoom"/><div class="opt-label"><span class="opt-title">Zoom</span></div></label>
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="email-only"/><div class="opt-label"><span class="opt-title">Email only</span></div></label>
-          </div>
-        </div>
-
-        <div class="field">
           <label>Any AI tools currently formally approved for use?</label>
           <div class="check-group" id="q-approved-ai">
             <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="none"/><div class="opt-label"><span class="opt-title">None formally approved</span></div></label>
@@ -618,38 +607,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
           </div>
 
           <div class="field">
-            <label>How are API keys managed in code?</label>
-            <div class="radio-group" id="q-api-key-mgmt">
-              <label class="radio-opt" onclick="selectRadio('q-api-key-mgmt','hardcoded',this)"><input type="radio" name="apikeymgmt" value="hardcoded"/><div class="opt-label"><span class="opt-title">Hardcoded in source code</span><span class="opt-desc">Critical risk — keys exposed in repositories, scope of data sent is unauditable</span></div></label>
-              <label class="radio-opt" onclick="selectRadio('q-api-key-mgmt','env',this)"><input type="radio" name="apikeymgmt" value="env"/><div class="opt-label"><span class="opt-title">Environment variables / .env files</span><span class="opt-desc">Better, but .env files are frequently committed to repos accidentally</span></div></label>
-              <label class="radio-opt" onclick="selectRadio('q-api-key-mgmt','vault',this)"><input type="radio" name="apikeymgmt" value="vault"/><div class="opt-label"><span class="opt-title">Secrets vault (AWS Secrets Manager, Azure Key Vault, HashiCorp)</span><span class="opt-desc">Best practice</span></div></label>
-              <label class="radio-opt" onclick="selectRadio('q-api-key-mgmt','unknown',this)"><input type="radio" name="apikeymgmt" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown / not assessed</span></div></label>
-              <label class="radio-opt" onclick="selectRadio('q-api-key-mgmt','na',this)"><input type="radio" name="apikeymgmt" value="na"/><div class="opt-label"><span class="opt-title">Not applicable — no AI APIs in use</span></div></label>
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Local LLMs in use (on-premises, no external data transfer)</label>
-            <div class="check-group" id="q-local-llm">
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="ollama"/><div class="opt-label"><span class="opt-title">Ollama</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="lmstudio"/><div class="opt-label"><span class="opt-title">LM Studio</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="private-model"/><div class="opt-label"><span class="opt-title">Private / self-hosted model</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-local"/><div class="opt-label"><span class="opt-title">None — all AI is cloud-based</span></div></label>
-            </div>
-          </div>
-
-          <div class="field">
-            <label>AI integration frameworks in use</label>
-            <div class="check-group" id="q-ai-frameworks">
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="langchain"/><div class="opt-label"><span class="opt-title">LangChain / LangGraph</span><span class="opt-desc">Orchestration framework — can create complex data pipelines that are hard to audit</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="llamaindex"/><div class="opt-label"><span class="opt-title">LlamaIndex</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="huggingface"/><div class="opt-label"><span class="opt-title">Hugging Face</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="autogen"/><div class="opt-label"><span class="opt-title">AutoGen / CrewAI / other agent frameworks</span><span class="opt-desc">Agentic AI — models taking autonomous actions, high governance risk</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-framework"/><div class="opt-label"><span class="opt-title">None</span></div></label>
-            </div>
-          </div>
-
-          <div class="field">
             <label>Have any internal AI applications or tools been built or are in development using this stack?</label>
             <div class="radio-group" id="q-internal-ai-built">
               <label class="radio-opt" onclick="selectRadio('q-internal-ai-built','yes-governed',this)"><input type="radio" name="internalaibuilt" value="yes-governed"/><div class="opt-label"><span class="opt-title">Yes — formally reviewed and governed by IT</span><span class="opt-desc">Security review completed, data flows documented, risks assessed</span></div></label>
@@ -673,26 +630,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
             <label class="radio-opt" onclick="selectRadio('q-mcp','yes-external',this)"><input type="radio" name="mcp" value="yes-external"/><div class="opt-label"><span class="opt-title">Yes — connecting to external services only</span><span class="opt-desc">Web search, public APIs, SaaS tools</span></div></label>
             <label class="radio-opt" onclick="selectRadio('q-mcp','no',this)"><input type="radio" name="mcp" value="no"/><div class="opt-label"><span class="opt-title">No</span></div></label>
             <label class="radio-opt" onclick="selectRadio('q-mcp','unknown',this)"><input type="radio" name="mcp" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown / not assessed</span><span class="opt-desc">High risk — if developers are using AI tools, MCP usage may be occurring without IT knowledge</span></div></label>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>ChatGPT Plugins, GPT Actions, or custom GPTs in use?</label>
-          <div class="radio-group" id="q-plugins">
-            <label class="radio-opt" onclick="selectRadio('q-plugins','yes-internal',this)"><input type="radio" name="plugins" value="yes-internal"/><div class="opt-label"><span class="opt-title">Yes — connecting to internal data or systems</span><span class="opt-desc">Internal APIs, databases, document stores</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-plugins','yes-external',this)"><input type="radio" name="plugins" value="yes-external"/><div class="opt-label"><span class="opt-title">Yes — external integrations only</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-plugins','no',this)"><input type="radio" name="plugins" value="no"/><div class="opt-label"><span class="opt-title">No</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-plugins','unknown',this)"><input type="radio" name="plugins" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown</span></div></label>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Microsoft Copilot Skills, Copilot Studio, or Power Platform AI in use?</label>
-          <div class="radio-group" id="q-skills">
-            <label class="radio-opt" onclick="selectRadio('q-skills','yes-governed',this)"><input type="radio" name="skills" value="yes-governed"/><div class="opt-label"><span class="opt-title">Yes — IT-governed, formally deployed</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-skills','yes-ungoverned',this)"><input type="radio" name="skills" value="yes-ungoverned"/><div class="opt-label"><span class="opt-title">Yes — built by individuals or teams without IT oversight</span><span class="opt-desc">High risk — custom skills may access data beyond intended scope</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-skills','no',this)"><input type="radio" name="skills" value="no"/><div class="opt-label"><span class="opt-title">No</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-skills','unknown',this)"><input type="radio" name="skills" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown</span></div></label>
           </div>
         </div>
 
