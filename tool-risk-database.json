@@ -646,6 +646,127 @@
     },
 
     {
+      "id": "slack-ai",
+      "name": "Slack AI",
+      "vendor": "Salesforce / Slack",
+      "category": "AI-Enhanced Productivity",
+      "description": "AI features built into Slack that summarise channels, threads, and messages. Surfaces content the user may not have intended to share — including messages from private channels if permissions allow.",
+      "dataRisk": "high",
+      "adoptionLikelihood": "high",
+      "likelyDepts": ["all — wherever Slack is used"],
+      "commonUseCases": [
+        "Channel and thread summarisation",
+        "Message drafting",
+        "Search across workspace history"
+      ],
+      "dataTypesAtRisk": ["internal communications", "client discussions", "HR conversations", "commercially sensitive messages", "PII in chat"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Slack AI processes workspace content; DPA required and must cover AI features specifically"
+        },
+        {
+          "regulation": "EU AI Act",
+          "description": "Deployer obligations apply when using AI to process employee communications"
+        }
+      ],
+      "enterpriseMitigation": "Slack AI is only available on paid plans with enterprise data controls. Ensure DPA covers AI features. Audit which channels AI can access — private channels may be included.",
+      "mitigations": [
+        "Verify DPA covers Slack AI specifically — standard Slack DPA may predate AI features",
+        "Audit channel permissions before enabling Slack AI",
+        "Policy on what topics may be discussed in Slack given AI summarisation",
+        "Consider disabling Slack AI in channels containing HR or legally sensitive discussions"
+      ],
+      "notes": "High adoption risk because Slack AI activates within an existing approved tool — staff and IT teams may not notice it has been enabled. Channel history going back years is suddenly being processed by AI."
+    },
+
+    {
+      "id": "zoom-ai-companion",
+      "name": "Zoom AI Companion",
+      "vendor": "Zoom Video Communications",
+      "category": "AI Meeting Assistant",
+      "description": "AI meeting summarisation, transcription, and Q&A built into Zoom. Automatically generates meeting summaries shared with participants and potentially stored in Zoom's cloud.",
+      "dataRisk": "critical",
+      "adoptionLikelihood": "high",
+      "likelyDepts": ["all — wherever Zoom is used for meetings"],
+      "commonUseCases": [
+        "Automatic meeting transcription",
+        "AI-generated meeting summaries",
+        "In-meeting Q&A ('catch me up')",
+        "Action item extraction"
+      ],
+      "dataTypesAtRisk": ["meeting audio and transcripts", "confidential discussions", "client meeting content", "HR conversations", "board discussions", "legally privileged discussions"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 6",
+          "description": "Recording and processing meeting content requires lawful basis; participants must be informed"
+        },
+        {
+          "regulation": "GDPR Article 9",
+          "description": "Transcripts of health or HR meetings may contain special category data"
+        },
+        {
+          "regulation": "Legal privilege",
+          "description": "Transcripts of legally privileged discussions stored on Zoom servers may waive privilege"
+        },
+        {
+          "regulation": "EU AI Act",
+          "description": "Automated processing of employee communications triggers deployer obligations"
+        }
+      ],
+      "enterpriseMitigation": "Zoom AI Companion is included in paid Zoom plans. Enterprise customers can configure data retention and residency. Consent and notification obligations apply regardless of plan.",
+      "mitigations": [
+        "Enable notification to all participants when AI Companion is active",
+        "Prohibit AI Companion in legally privileged, HR, and board meetings",
+        "Configure Zoom data retention policy for AI-generated transcripts",
+        "Review and update meeting recording consent policies to cover AI summarisation",
+        "Audit who receives AI-generated summaries — default may be broader than intended"
+      ],
+      "notes": "Extremely high risk in regulated industries. Unlike Otter.ai which requires deliberate installation, Zoom AI Companion is built in and can be activated by any meeting host. Participants may not know their words are being transcribed and summarised."
+    },
+
+    {
+      "id": "apple-intelligence",
+      "name": "Apple Intelligence",
+      "vendor": "Apple Inc",
+      "category": "Embedded Consumer AI",
+      "description": "AI features built into iOS 18+, macOS Sequoia+, and iPadOS. Processes emails, messages, documents, and notifications on-device and via Apple's Private Cloud Compute. Some features route through OpenAI (ChatGPT integration).",
+      "dataRisk": "high",
+      "adoptionLikelihood": "very high",
+      "likelyDepts": ["all — on personal and managed Apple devices"],
+      "commonUseCases": [
+        "Email summarisation and smart replies",
+        "Document summarisation",
+        "Notification prioritisation",
+        "Writing assistance across all apps",
+        "Siri with ChatGPT integration"
+      ],
+      "dataTypesAtRisk": ["emails", "messages", "documents", "notifications containing sensitive information", "any content visible to the OS"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Where content is processed via Private Cloud Compute or routed to OpenAI, data processor obligations apply"
+        },
+        {
+          "regulation": "GDPR Article 46",
+          "description": "Data processed on US infrastructure when routed to Apple or OpenAI servers"
+        },
+        {
+          "regulation": "EU AI Act",
+          "description": "General-purpose AI obligations apply to ChatGPT integration"
+        }
+      ],
+      "enterpriseMitigation": "Apple Business Manager allows MDM policies to restrict or disable Apple Intelligence features on managed devices. The ChatGPT integration can be disabled separately from on-device features.",
+      "mitigations": [
+        "Audit MDM policy — ensure Apple Intelligence is explicitly addressed",
+        "Disable ChatGPT integration via MDM on managed devices",
+        "Update BYOD policy to address Apple Intelligence on personal devices used for work",
+        "Staff awareness that AI features may process work emails and documents on personal phones"
+      ],
+      "notes": "Particularly insidious on BYOD devices — work emails and documents visible on a personal iPhone are being processed by Apple Intelligence without any organisational control. The ChatGPT integration is off by default but easily enabled by users."
+    },
+
+    {
       "id": "whatsapp-meta-ai",
       "name": "WhatsApp / Meta AI",
       "vendor": "Meta Platforms",

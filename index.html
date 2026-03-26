@@ -693,6 +693,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
           </div>
         </div>
 
+        <div class="field">
+          <label>Browser Extensions — are any of the following in use across the organisation?</label>
+          <div class="check-group" id="q-browser-ext">
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="grammarly"/><div class="opt-label"><span class="opt-title">Grammarly (personal accounts)</span><span class="opt-desc">Critical risk — intercepts all text typed in the browser including passwords, client data, and confidential documents</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="chatgpt-ext"/><div class="opt-label"><span class="opt-title">ChatGPT browser extension</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="other-ai-ext"/><div class="opt-label"><span class="opt-title">Other AI browser extensions</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-ext-policy"/><div class="opt-label"><span class="opt-title">No browser extension policy in place</span><span class="opt-desc">Extensions are not audited or controlled</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="ext-controlled"/><div class="opt-label"><span class="opt-title">Extensions are controlled via MDM / policy</span></div></label>
+          </div>
+        </div>
+
         <div class="q-nav">
           <button class="btn" onclick="prevSection(2)">← Back</button>
           <button class="btn-primary" onclick="nextSection(2)">Next →</button>
@@ -742,11 +753,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         </div>
 
         <div class="field">
-          <label>Are personal devices (BYOD) used for work? </label>
+          <label>Personal Device Usage (BYOD)</label>
           <div class="radio-group" id="q-byod">
-            <label class="radio-opt" onclick="selectRadio('q-byod','yes',this)"><input type="radio" name="byod" value="yes"/><div class="opt-label"><span class="opt-title">Yes — common practice</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-byod','partial',this)"><input type="radio" name="byod" value="partial"/><div class="opt-label"><span class="opt-title">Partially — some staff use personal devices</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-byod','no',this)"><input type="radio" name="byod" value="no"/><div class="opt-label"><span class="opt-title">No — managed devices only</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-byod','high',this)">
+              <input type="radio" name="byod" value="high"/>
+              <div class="opt-label">
+                <span class="opt-title">High — staff routinely use personal devices for work</span>
+                <span class="opt-desc">Work email and documents accessed on personal phones and laptops without MDM</span>
+              </div>
+            </label>
+            <label class="radio-opt" onclick="selectRadio('q-byod','medium',this)">
+              <input type="radio" name="byod" value="medium"/>
+              <div class="opt-label">
+                <span class="opt-title">Medium — some personal device use, partial MDM coverage</span>
+              </div>
+            </label>
+            <label class="radio-opt" onclick="selectRadio('q-byod','low',this)">
+              <input type="radio" name="byod" value="low"/>
+              <div class="opt-label">
+                <span class="opt-title">Low — corporate devices only, MDM enforced</span>
+              </div>
+            </label>
+            <label class="radio-opt" onclick="selectRadio('q-byod','unknown',this)">
+              <input type="radio" name="byod" value="unknown"/>
+              <div class="opt-label">
+                <span class="opt-title">Unknown — not assessed</span>
+              </div>
+            </label>
           </div>
         </div>
 
@@ -877,6 +910,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
             <label class="radio-opt" onclick="selectRadio('q-ai-decisions','yes-no-review',this)"><input type="radio" name="aidecisions" value="yes-no-review"/><div class="opt-label"><span class="opt-title">Yes — AI output acted on without consistent human review</span><span class="opt-desc">Critical risk — EU AI Act high-risk classification likely triggered; GDPR Article 22 automated decision-making obligations apply</span></div></label>
             <label class="radio-opt" onclick="selectRadio('q-ai-decisions','unknown',this)"><input type="radio" name="aidecisions" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown — not assessed</span></div></label>
             <label class="radio-opt" onclick="selectRadio('q-ai-decisions','no',this)"><input type="radio" name="aidecisions" value="no"/><div class="opt-label"><span class="opt-title">No — AI not used for people-affecting decisions</span></div></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Known Incidents or Near-Misses</label>
+          <div class="check-group" id="q-incidents">
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="known-data-shared"/><div class="opt-label"><span class="opt-title">Staff have knowingly shared client or company data with an AI tool</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="suspected-data-shared"/><div class="opt-label"><span class="opt-title">Suspected incidents — not formally investigated</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="reported-to-ico"/><div class="opt-label"><span class="opt-title">An incident has been reported to the ICO / supervisory authority</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-incidents"/><div class="opt-label"><span class="opt-title">No known incidents</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-process"/><div class="opt-label"><span class="opt-title">No incident reporting process exists for AI-related events</span></div></label>
           </div>
         </div>
 
@@ -1103,7 +1147,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 /* ═══════════════════════════════════════════════════════════
    TOOL RISK DATABASE (embedded)
    ═══════════════════════════════════════════════════════════ */
-const TOOL_DB = {"version":"1.0","lastReviewed":"2026-03","reviewer":"Tactica","tools":[{"id":"chatgpt","name":"ChatGPT","vendor":"OpenAI","category":"General LLM","description":"General-purpose AI assistant. Free and Pro tiers widely used by individuals without IT knowledge or approval.","dataRisk":"critical","adoptionLikelihood":"very high","likelyDepts":["marketing","hr","legal","finance","operations","sales","executive"],"commonUseCases":["Drafting emails and documents","Summarising reports and contracts","Writing job descriptions and HR policies","Generating code","Customer communications"],"dataTypesAtRisk":["PII","contracts","financial data","IP","HR records","client data","strategy documents"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Data processor obligations — OpenAI acting as processor without a formal DPA in place for free/Pro tier users"},{"regulation":"GDPR Article 46","description":"International data transfers — data processed on US servers without adequate transfer mechanisms for free tier"},{"regulation":"EU AI Act Article 28","description":"Deployer obligations when using general-purpose AI in professional context"},{"regulation":"UK GDPR","description":"Same DPA and transfer obligations apply post-Brexit under UK equivalent"}],"enterpriseMitigation":"OpenAI Enterprise plan provides DPA, data is not used for training, SOC2 compliance. Free/Pro tiers do not provide these guarantees.","mitigations":["Procure OpenAI Enterprise with signed DPA","Publish acceptable use policy prohibiting personal data input on free/Pro tier","Staff training on what constitutes personal or sensitive data","Technical controls to detect ChatGPT access on corporate devices"],"notes":"The most widely deployed shadow AI tool globally. Assume it is in use across all departments unless actively controlled."},{"id":"microsoft-copilot-consumer","name":"Microsoft Copilot (Consumer)","vendor":"Microsoft","category":"General LLM","description":"Consumer-facing Copilot accessible via browser and integrated into Windows. Distinct from Microsoft 365 Copilot enterprise product.","dataRisk":"high","adoptionLikelihood":"very high","likelyDepts":["all"],"commonUseCases":["Document drafting","Email writing","Research and summarisation","Image generation"],"dataTypesAtRisk":["PII","internal documents","emails","financial data","client data"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Consumer tier does not provide enterprise DPA — data handling terms apply for personal accounts"},{"regulation":"EU AI Act","description":"General-purpose AI model obligations apply"}],"enterpriseMitigation":"Microsoft 365 Copilot (enterprise) provides DPA and does not use customer data for training.","mitigations":["Audit whether staff are using consumer or enterprise Copilot","Disable consumer Copilot on managed devices via Intune/Group Policy","Ensure M365 Copilot enterprise licence is in place before encouraging use"],"notes":"Particularly insidious because it appears legitimate — it is a Microsoft product — but the consumer version has very different data handling terms to the enterprise product."},{"id":"grammarly","name":"Grammarly","vendor":"Grammarly Inc","category":"AI Writing Assistant","description":"AI-powered writing assistant. Browser extension installs silently and intercepts all text input across all web applications.","dataRisk":"critical","adoptionLikelihood":"very high","likelyDepts":["all"],"commonUseCases":["Email proofreading","Document editing","Communication drafting"],"dataTypesAtRisk":["all typed text — including passwords, PII, confidential documents, client data, financial data"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Grammarly processes all text typed in the browser as a data processor — requires DPA for enterprise use"},{"regulation":"GDPR Article 5","description":"Data minimisation — Grammarly free tier collects more data than necessary for the service"}],"enterpriseMitigation":"Grammarly Business provides DPA and enhanced data controls. Free personal accounts do not.","mitigations":["Audit browser extensions across managed devices — Grammarly is often installed without IT knowledge","Block Grammarly personal accounts via endpoint management","Procure Grammarly Business with DPA if the tool is needed","Include browser extensions in acceptable use policy"],"notes":"One of the highest-risk shadow AI tools because it is invisible — employees do not consider it an 'AI tool' and IT teams frequently overlook it. Intercepts every keystroke in the browser."},{"id":"notion-ai","name":"Notion AI","vendor":"Notion Labs","category":"AI-Enhanced Productivity","description":"AI features built into Notion workspace. Often adopted by teams as an unofficial knowledge base before IT is aware.","dataRisk":"high","adoptionLikelihood":"medium","likelyDepts":["product","engineering","marketing","operations"],"commonUseCases":["Meeting notes and summaries","Project documentation","Process documentation","Content drafting"],"dataTypesAtRisk":["internal processes","project data","meeting notes","strategy","IP"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"DPA available but may not be in place for teams that adopted Notion informally"}],"enterpriseMitigation":"Notion Enterprise provides DPA, SSO, and admin controls.","mitigations":["Audit for unofficial Notion workspaces in use across teams","Centralise onto enterprise plan with SSO","Data classification policy for what can be stored in Notion"],"notes":"Shadow IT risk predates the AI features — teams adopt Notion independently. AI features add a new data processing layer to an already ungoverned tool."},{"id":"claude-consumer","name":"Claude (Consumer)","vendor":"Anthropic","category":"General LLM","description":"Anthropic's AI assistant. Free and Pro tiers. Strong reasoning capability drives professional adoption.","dataRisk":"high","adoptionLikelihood":"medium","likelyDepts":["legal","finance","strategy","hr","engineering"],"commonUseCases":["Contract and document analysis","Policy drafting","Complex research and reasoning","Code generation","Report writing"],"dataTypesAtRisk":["contracts","legal documents","financial data","strategy","IP","HR records"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Free/Pro tier does not provide enterprise DPA"},{"regulation":"GDPR Article 46","description":"Data processed on US infrastructure"}],"enterpriseMitigation":"Anthropic Claude for Enterprise provides DPA, zero data retention, and admin controls.","mitigations":["Acceptable use policy covering claude.ai consumer use","Procure Claude for Enterprise if significant use is detected","Training on what constitutes sensitive data"],"notes":"Particularly likely to be used by high-value staff (legal, finance, strategy) for sophisticated tasks — the very use cases where data sensitivity is highest."},{"id":"perplexity","name":"Perplexity AI","vendor":"Perplexity AI Inc","category":"AI Search","description":"AI-powered search and research tool. Growing rapidly as a Google alternative among knowledge workers.","dataRisk":"medium","adoptionLikelihood":"medium","likelyDepts":["research","marketing","strategy","legal","finance"],"commonUseCases":["Market research","Competitive intelligence","Regulatory research","Background research"],"dataTypesAtRisk":["research queries may reveal strategic intent, M&A activity, competitive intelligence"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Queries processed on US infrastructure — query content may reveal confidential strategy"}],"enterpriseMitigation":"Lower direct data risk — primary risk is query content revealing strategic intent.","mitigations":["Include in AI tool policy","Train staff on query hygiene — do not include company names or confidential context in searches"],"notes":"Lower risk than generative tools but search queries can reveal strategic intent."},{"id":"grammarly","name":"Grammarly","vendor":"Grammarly Inc","category":"AI Writing Assistant","description":"Browser extension that intercepts all typed text.","dataRisk":"critical","adoptionLikelihood":"very high","likelyDepts":["all"],"commonUseCases":["Email proofreading","Document editing"],"dataTypesAtRisk":["all typed text"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Processes all browser text — requires enterprise DPA"}],"enterpriseMitigation":"Grammarly Business with DPA.","mitigations":["Audit browser extensions","Block personal accounts","Procure Business plan"],"notes":"Invisible risk — staff don't consider it an AI tool."},{"id":"otter-ai","name":"Otter.ai","vendor":"AISense Inc","category":"AI Transcription","description":"AI meeting transcription. Records and transcribes meetings, often installed by individuals without IT knowledge.","dataRisk":"critical","adoptionLikelihood":"medium","likelyDepts":["executive","hr","legal","sales"],"commonUseCases":["Meeting transcription","Interview recording","Sales call capture","Board meeting notes"],"dataTypesAtRisk":["meeting audio","confidential discussions","HR conversations","legally privileged discussions","PII of participants"],"regulatoryFlags":[{"regulation":"GDPR Article 6","description":"Recording individuals requires lawful basis — consent obligations"},{"regulation":"GDPR Article 9","description":"HR or health meeting transcripts may contain special category data"},{"regulation":"Legal privilege","description":"Privileged discussions stored on third-party servers may waive privilege"}],"enterpriseMitigation":"Otter.ai Business provides DPA. Consent obligation applies regardless of plan.","mitigations":["Policy requiring disclosure when recording is active","Prohibit use in legally privileged or HR discussions","Train staff on consent obligations"],"notes":"Extremely high risk in regulated industries. Legal and HR conversations are the most common use case — also the highest sensitivity."},{"id":"github-copilot","name":"GitHub Copilot (Personal)","vendor":"GitHub / Microsoft","category":"AI Code Assistant","description":"AI code completion. Personal accounts may be used by developers without IT approval.","dataRisk":"high","adoptionLikelihood":"high","likelyDepts":["engineering","it","data"],"commonUseCases":["Code completion","Test generation","Bug fixing"],"dataTypesAtRisk":["source code","API keys","proprietary algorithms","database schemas"],"regulatoryFlags":[{"regulation":"IP / Copyright","description":"Output may reproduce GPL-licensed code — commercial use risk"},{"regulation":"GDPR","description":"Code containing personal data is processed by GitHub servers"}],"enterpriseMitigation":"GitHub Copilot Business/Enterprise provides DPA and code is not used for training.","mitigations":["Audit developer personal Copilot subscriptions","Centralise onto Business plan","Policy prohibiting hardcoded secrets in code"],"notes":"Developers frequently subscribe personally before IT has a policy."},{"id":"zapier-ai","name":"Zapier / Make (AI workflows)","vendor":"Zapier / Make","category":"AI Workflow Automation","description":"Automation platforms with AI steps. Staff build automations routing business data through external AI models.","dataRisk":"high","adoptionLikelihood":"medium","likelyDepts":["operations","marketing","sales","hr"],"commonUseCases":["Automated email processing","CRM data enrichment","Document processing","Customer data routing"],"dataTypesAtRisk":["customer data","CRM records","emails","financial data","HR records"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Automations routing personal data require DPA with each processor"},{"regulation":"GDPR Article 30","description":"Records of processing — informal automations are rarely documented"}],"enterpriseMitigation":"Enterprise plans provide DPA. Governance challenge is visibility.","mitigations":["Audit for personal accounts","Centralise under IT","Require ROPA documentation for all automations","Policy prohibiting personal data in unapproved workflows"],"notes":"The silent multiplier — one employee can route thousands of customer records through an ungoverned AI pipeline."},{"id":"midjourney","name":"Midjourney","vendor":"Midjourney Inc","category":"AI Image Generation","description":"AI image generation via Discord. Free tier generates images in public channels by default.","dataRisk":"high","adoptionLikelihood":"medium","likelyDepts":["marketing","design","creative"],"commonUseCases":["Marketing imagery","Presentation visuals","Brand concepts"],"dataTypesAtRisk":["brand assets","unreleased product concepts","campaign ideas","IP"],"regulatoryFlags":[{"regulation":"IP / Copyright","description":"Ownership of AI-generated images legally unclear in many jurisdictions"},{"regulation":"GDPR","description":"Prompts describing real people may trigger GDPR obligations"}],"enterpriseMitigation":"Pro plan provides private mode. Free tier exposes all prompts publicly.","mitigations":["Prohibit free tier for work content","Procure Pro with private mode","IP policy for AI-generated assets"],"notes":"Free tier is particularly dangerous — all prompts visible in public Discord channels."},{"id":"whatsapp-meta-ai","name":"WhatsApp / Meta AI","vendor":"Meta","category":"Embedded Consumer AI","description":"Meta AI embedded in WhatsApp. Staff using WhatsApp for work may use AI features inadvertently.","dataRisk":"critical","adoptionLikelihood":"high","likelyDepts":["sales","operations","executive"],"commonUseCases":["AI-assisted replies","Summarising conversations","Document drafting from chat"],"dataTypesAtRisk":["client communications","commercial negotiations","personal data of contacts","business strategy"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Meta consumer terms not appropriate for business personal data"}],"enterpriseMitigation":"WhatsApp Business API with enterprise DPA for business use.","mitigations":["Policy on consumer messaging apps for business","Migrate to approved platform","Explicit guidance on Meta AI features"],"notes":"AI risk is secondary to the underlying governance issue of consumer apps for business use."}],"industryRiskProfiles":{"financial-services":{"regulatoryContext":["FCA","PRA","GDPR","EU AI Act","MiFID II"],"highestRiskTools":["chatgpt","grammarly","otter-ai","zapier-ai"],"specificConcerns":"FCA PS7/24 on AI governance, SMCR accountability for AI decisions, operational resilience"},"legal":{"regulatoryContext":["GDPR","SRA","Bar Standards Board","Legal privilege","EU AI Act"],"highestRiskTools":["chatgpt","claude-consumer","otter-ai"],"specificConcerns":"Legal professional privilege, client confidentiality, SRA guidance on AI"},"healthcare":{"regulatoryContext":["GDPR","NHS DSP Toolkit","CQC","EU AI Act (high-risk)"],"highestRiskTools":["chatgpt","otter-ai","grammarly","microsoft-copilot-consumer"],"specificConcerns":"Special category health data, NHS data residency, EU AI Act high-risk classification"},"professional-services":{"regulatoryContext":["GDPR","EU AI Act","Client confidentiality"],"highestRiskTools":["chatgpt","grammarly","otter-ai","claude-consumer"],"specificConcerns":"Client confidentiality, IP ownership of AI-assisted deliverables"},"public-sector":{"regulatoryContext":["GDPR","UK Government AI Framework","EU AI Act","Official Sensitive"],"highestRiskTools":["chatgpt","grammarly","microsoft-copilot-consumer","otter-ai"],"specificConcerns":"Official Sensitive data, Cabinet Office AI guidance, democratic accountability"},"retail-ecommerce":{"regulatoryContext":["GDPR","Consumer Rights Act","EU AI Act"],"highestRiskTools":["chatgpt","zapier-ai","grammarly","midjourney"],"specificConcerns":"Customer PII in AI workflows, AI-generated marketing compliance"}}};
+const TOOL_DB = {"version":"1.0","lastReviewed":"2026-03","reviewer":"Tactica","tools":[{"id":"chatgpt","name":"ChatGPT","vendor":"OpenAI","category":"General LLM","description":"General-purpose AI assistant. Free and Pro tiers widely used by individuals without IT knowledge or approval.","dataRisk":"critical","adoptionLikelihood":"very high","likelyDepts":["marketing","hr","legal","finance","operations","sales","executive"],"commonUseCases":["Drafting emails and documents","Summarising reports and contracts","Writing job descriptions and HR policies","Generating code","Customer communications"],"dataTypesAtRisk":["PII","contracts","financial data","IP","HR records","client data","strategy documents"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Data processor obligations — OpenAI acting as processor without a formal DPA in place for free/Pro tier users"},{"regulation":"GDPR Article 46","description":"International data transfers — data processed on US servers without adequate transfer mechanisms for free tier"},{"regulation":"EU AI Act Article 28","description":"Deployer obligations when using general-purpose AI in professional context"},{"regulation":"UK GDPR","description":"Same DPA and transfer obligations apply post-Brexit under UK equivalent"}],"enterpriseMitigation":"OpenAI Enterprise plan provides DPA, data is not used for training, SOC2 compliance. Free/Pro tiers do not provide these guarantees.","mitigations":["Procure OpenAI Enterprise with signed DPA","Publish acceptable use policy prohibiting personal data input on free/Pro tier","Staff training on what constitutes personal or sensitive data","Technical controls to detect ChatGPT access on corporate devices"],"notes":"The most widely deployed shadow AI tool globally. Assume it is in use across all departments unless actively controlled."},{"id":"microsoft-copilot-consumer","name":"Microsoft Copilot (Consumer)","vendor":"Microsoft","category":"General LLM","description":"Consumer-facing Copilot accessible via browser and integrated into Windows. Distinct from Microsoft 365 Copilot enterprise product.","dataRisk":"high","adoptionLikelihood":"very high","likelyDepts":["all"],"commonUseCases":["Document drafting","Email writing","Research and summarisation","Image generation"],"dataTypesAtRisk":["PII","internal documents","emails","financial data","client data"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Consumer tier does not provide enterprise DPA — data handling terms apply for personal accounts"},{"regulation":"EU AI Act","description":"General-purpose AI model obligations apply"}],"enterpriseMitigation":"Microsoft 365 Copilot (enterprise) provides DPA and does not use customer data for training.","mitigations":["Audit whether staff are using consumer or enterprise Copilot","Disable consumer Copilot on managed devices via Intune/Group Policy","Ensure M365 Copilot enterprise licence is in place before encouraging use"],"notes":"Particularly insidious because it appears legitimate — it is a Microsoft product — but the consumer version has very different data handling terms to the enterprise product."},{"id":"grammarly","name":"Grammarly","vendor":"Grammarly Inc","category":"AI Writing Assistant","description":"AI-powered writing assistant. Browser extension installs silently and intercepts all text input across all web applications.","dataRisk":"critical","adoptionLikelihood":"very high","likelyDepts":["all"],"commonUseCases":["Email proofreading","Document editing","Communication drafting"],"dataTypesAtRisk":["all typed text — including passwords, PII, confidential documents, client data, financial data"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Grammarly processes all text typed in the browser as a data processor — requires DPA for enterprise use"},{"regulation":"GDPR Article 5","description":"Data minimisation — Grammarly free tier collects more data than necessary for the service"}],"enterpriseMitigation":"Grammarly Business provides DPA and enhanced data controls. Free personal accounts do not.","mitigations":["Audit browser extensions across managed devices — Grammarly is often installed without IT knowledge","Block Grammarly personal accounts via endpoint management","Procure Grammarly Business with DPA if the tool is needed","Include browser extensions in acceptable use policy"],"notes":"One of the highest-risk shadow AI tools because it is invisible — employees do not consider it an 'AI tool' and IT teams frequently overlook it. Intercepts every keystroke in the browser."},{"id":"notion-ai","name":"Notion AI","vendor":"Notion Labs","category":"AI-Enhanced Productivity","description":"AI features built into Notion workspace. Often adopted by teams as an unofficial knowledge base before IT is aware.","dataRisk":"high","adoptionLikelihood":"medium","likelyDepts":["product","engineering","marketing","operations"],"commonUseCases":["Meeting notes and summaries","Project documentation","Process documentation","Content drafting"],"dataTypesAtRisk":["internal processes","project data","meeting notes","strategy","IP"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"DPA available but may not be in place for teams that adopted Notion informally"}],"enterpriseMitigation":"Notion Enterprise provides DPA, SSO, and admin controls.","mitigations":["Audit for unofficial Notion workspaces in use across teams","Centralise onto enterprise plan with SSO","Data classification policy for what can be stored in Notion"],"notes":"Shadow IT risk predates the AI features — teams adopt Notion independently. AI features add a new data processing layer to an already ungoverned tool."},{"id":"claude-consumer","name":"Claude (Consumer)","vendor":"Anthropic","category":"General LLM","description":"Anthropic's AI assistant. Free and Pro tiers. Strong reasoning capability drives professional adoption.","dataRisk":"high","adoptionLikelihood":"medium","likelyDepts":["legal","finance","strategy","hr","engineering"],"commonUseCases":["Contract and document analysis","Policy drafting","Complex research and reasoning","Code generation","Report writing"],"dataTypesAtRisk":["contracts","legal documents","financial data","strategy","IP","HR records"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Free/Pro tier does not provide enterprise DPA"},{"regulation":"GDPR Article 46","description":"Data processed on US infrastructure"}],"enterpriseMitigation":"Anthropic Claude for Enterprise provides DPA, zero data retention, and admin controls.","mitigations":["Acceptable use policy covering claude.ai consumer use","Procure Claude for Enterprise if significant use is detected","Training on what constitutes sensitive data"],"notes":"Particularly likely to be used by high-value staff (legal, finance, strategy) for sophisticated tasks — the very use cases where data sensitivity is highest."},{"id":"perplexity","name":"Perplexity AI","vendor":"Perplexity AI Inc","category":"AI Search","description":"AI-powered search and research tool. Growing rapidly as a Google alternative among knowledge workers.","dataRisk":"medium","adoptionLikelihood":"medium","likelyDepts":["research","marketing","strategy","legal","finance"],"commonUseCases":["Market research","Competitive intelligence","Regulatory research","Background research"],"dataTypesAtRisk":["research queries may reveal strategic intent, M&A activity, competitive intelligence"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Queries processed on US infrastructure — query content may reveal confidential strategy"}],"enterpriseMitigation":"Lower direct data risk — primary risk is query content revealing strategic intent.","mitigations":["Include in AI tool policy","Train staff on query hygiene — do not include company names or confidential context in searches"],"notes":"Lower risk than generative tools but search queries can reveal strategic intent."},{"id":"grammarly","name":"Grammarly","vendor":"Grammarly Inc","category":"AI Writing Assistant","description":"Browser extension that intercepts all typed text.","dataRisk":"critical","adoptionLikelihood":"very high","likelyDepts":["all"],"commonUseCases":["Email proofreading","Document editing"],"dataTypesAtRisk":["all typed text"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Processes all browser text — requires enterprise DPA"}],"enterpriseMitigation":"Grammarly Business with DPA.","mitigations":["Audit browser extensions","Block personal accounts","Procure Business plan"],"notes":"Invisible risk — staff don't consider it an AI tool."},{"id":"otter-ai","name":"Otter.ai","vendor":"AISense Inc","category":"AI Transcription","description":"AI meeting transcription. Records and transcribes meetings, often installed by individuals without IT knowledge.","dataRisk":"critical","adoptionLikelihood":"medium","likelyDepts":["executive","hr","legal","sales"],"commonUseCases":["Meeting transcription","Interview recording","Sales call capture","Board meeting notes"],"dataTypesAtRisk":["meeting audio","confidential discussions","HR conversations","legally privileged discussions","PII of participants"],"regulatoryFlags":[{"regulation":"GDPR Article 6","description":"Recording individuals requires lawful basis — consent obligations"},{"regulation":"GDPR Article 9","description":"HR or health meeting transcripts may contain special category data"},{"regulation":"Legal privilege","description":"Privileged discussions stored on third-party servers may waive privilege"}],"enterpriseMitigation":"Otter.ai Business provides DPA. Consent obligation applies regardless of plan.","mitigations":["Policy requiring disclosure when recording is active","Prohibit use in legally privileged or HR discussions","Train staff on consent obligations"],"notes":"Extremely high risk in regulated industries. Legal and HR conversations are the most common use case — also the highest sensitivity."},{"id":"github-copilot","name":"GitHub Copilot (Personal)","vendor":"GitHub / Microsoft","category":"AI Code Assistant","description":"AI code completion. Personal accounts may be used by developers without IT approval.","dataRisk":"high","adoptionLikelihood":"high","likelyDepts":["engineering","it","data"],"commonUseCases":["Code completion","Test generation","Bug fixing"],"dataTypesAtRisk":["source code","API keys","proprietary algorithms","database schemas"],"regulatoryFlags":[{"regulation":"IP / Copyright","description":"Output may reproduce GPL-licensed code — commercial use risk"},{"regulation":"GDPR","description":"Code containing personal data is processed by GitHub servers"}],"enterpriseMitigation":"GitHub Copilot Business/Enterprise provides DPA and code is not used for training.","mitigations":["Audit developer personal Copilot subscriptions","Centralise onto Business plan","Policy prohibiting hardcoded secrets in code"],"notes":"Developers frequently subscribe personally before IT has a policy."},{"id":"zapier-ai","name":"Zapier / Make (AI workflows)","vendor":"Zapier / Make","category":"AI Workflow Automation","description":"Automation platforms with AI steps. Staff build automations routing business data through external AI models.","dataRisk":"high","adoptionLikelihood":"medium","likelyDepts":["operations","marketing","sales","hr"],"commonUseCases":["Automated email processing","CRM data enrichment","Document processing","Customer data routing"],"dataTypesAtRisk":["customer data","CRM records","emails","financial data","HR records"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Automations routing personal data require DPA with each processor"},{"regulation":"GDPR Article 30","description":"Records of processing — informal automations are rarely documented"}],"enterpriseMitigation":"Enterprise plans provide DPA. Governance challenge is visibility.","mitigations":["Audit for personal accounts","Centralise under IT","Require ROPA documentation for all automations","Policy prohibiting personal data in unapproved workflows"],"notes":"The silent multiplier — one employee can route thousands of customer records through an ungoverned AI pipeline."},{"id":"midjourney","name":"Midjourney","vendor":"Midjourney Inc","category":"AI Image Generation","description":"AI image generation via Discord. Free tier generates images in public channels by default.","dataRisk":"high","adoptionLikelihood":"medium","likelyDepts":["marketing","design","creative"],"commonUseCases":["Marketing imagery","Presentation visuals","Brand concepts"],"dataTypesAtRisk":["brand assets","unreleased product concepts","campaign ideas","IP"],"regulatoryFlags":[{"regulation":"IP / Copyright","description":"Ownership of AI-generated images legally unclear in many jurisdictions"},{"regulation":"GDPR","description":"Prompts describing real people may trigger GDPR obligations"}],"enterpriseMitigation":"Pro plan provides private mode. Free tier exposes all prompts publicly.","mitigations":["Prohibit free tier for work content","Procure Pro with private mode","IP policy for AI-generated assets"],"notes":"Free tier is particularly dangerous — all prompts visible in public Discord channels."},{"id":"slack-ai","name":"Slack AI","vendor":"Salesforce / Slack","category":"AI-Enhanced Productivity","description":"AI features built into Slack that summarise channels, threads, and messages. Surfaces content the user may not have intended to share — including messages from private channels if permissions allow.","dataRisk":"high","adoptionLikelihood":"high","likelyDepts":["all — wherever Slack is used"],"commonUseCases":["Channel and thread summarisation","Message drafting","Search across workspace history"],"dataTypesAtRisk":["internal communications","client discussions","HR conversations","commercially sensitive messages","PII in chat"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Slack AI processes workspace content; DPA required and must cover AI features specifically"},{"regulation":"EU AI Act","description":"Deployer obligations apply when using AI to process employee communications"}],"enterpriseMitigation":"Slack AI is only available on paid plans with enterprise data controls. Ensure DPA covers AI features. Audit which channels AI can access — private channels may be included.","mitigations":["Verify DPA covers Slack AI specifically — standard Slack DPA may predate AI features","Audit channel permissions before enabling Slack AI","Policy on what topics may be discussed in Slack given AI summarisation","Consider disabling Slack AI in channels containing HR or legally sensitive discussions"],"notes":"High adoption risk because Slack AI activates within an existing approved tool — staff and IT teams may not notice it has been enabled. Channel history going back years is suddenly being processed by AI."},{"id":"zoom-ai-companion","name":"Zoom AI Companion","vendor":"Zoom Video Communications","category":"AI Meeting Assistant","description":"AI meeting summarisation, transcription, and Q&A built into Zoom. Automatically generates meeting summaries shared with participants and potentially stored in Zoom's cloud.","dataRisk":"critical","adoptionLikelihood":"high","likelyDepts":["all — wherever Zoom is used for meetings"],"commonUseCases":["Automatic meeting transcription","AI-generated meeting summaries","In-meeting Q&A","Action item extraction"],"dataTypesAtRisk":["meeting audio and transcripts","confidential discussions","client meeting content","HR conversations","board discussions","legally privileged discussions"],"regulatoryFlags":[{"regulation":"GDPR Article 6","description":"Recording and processing meeting content requires lawful basis; participants must be informed"},{"regulation":"GDPR Article 9","description":"Transcripts of health or HR meetings may contain special category data"},{"regulation":"Legal privilege","description":"Transcripts of legally privileged discussions stored on Zoom servers may waive privilege"},{"regulation":"EU AI Act","description":"Automated processing of employee communications triggers deployer obligations"}],"enterpriseMitigation":"Zoom AI Companion is included in paid Zoom plans. Enterprise customers can configure data retention and residency. Consent and notification obligations apply regardless of plan.","mitigations":["Enable notification to all participants when AI Companion is active","Prohibit AI Companion in legally privileged, HR, and board meetings","Configure Zoom data retention policy for AI-generated transcripts","Review and update meeting recording consent policies to cover AI summarisation","Audit who receives AI-generated summaries — default may be broader than intended"],"notes":"Extremely high risk in regulated industries. Unlike Otter.ai which requires deliberate installation, Zoom AI Companion is built in and can be activated by any meeting host. Participants may not know their words are being transcribed and summarised."},{"id":"apple-intelligence","name":"Apple Intelligence","vendor":"Apple Inc","category":"Embedded Consumer AI","description":"AI features built into iOS 18+, macOS Sequoia+, and iPadOS. Processes emails, messages, documents, and notifications on-device and via Apple's Private Cloud Compute. Some features route through OpenAI (ChatGPT integration).","dataRisk":"high","adoptionLikelihood":"very high","likelyDepts":["all — on personal and managed Apple devices"],"commonUseCases":["Email summarisation and smart replies","Document summarisation","Notification prioritisation","Writing assistance across all apps","Siri with ChatGPT integration"],"dataTypesAtRisk":["emails","messages","documents","notifications containing sensitive information","any content visible to the OS"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Where content is processed via Private Cloud Compute or routed to OpenAI, data processor obligations apply"},{"regulation":"GDPR Article 46","description":"Data processed on US infrastructure when routed to Apple or OpenAI servers"},{"regulation":"EU AI Act","description":"General-purpose AI obligations apply to ChatGPT integration"}],"enterpriseMitigation":"Apple Business Manager allows MDM policies to restrict or disable Apple Intelligence features on managed devices. The ChatGPT integration can be disabled separately from on-device features.","mitigations":["Audit MDM policy — ensure Apple Intelligence is explicitly addressed","Disable ChatGPT integration via MDM on managed devices","Update BYOD policy to address Apple Intelligence on personal devices used for work","Staff awareness that AI features may process work emails and documents on personal phones"],"notes":"Particularly insidious on BYOD devices — work emails and documents visible on a personal iPhone are being processed by Apple Intelligence without any organisational control. The ChatGPT integration is off by default but easily enabled by users."},{"id":"whatsapp-meta-ai","name":"WhatsApp / Meta AI","vendor":"Meta","category":"Embedded Consumer AI","description":"Meta AI embedded in WhatsApp. Staff using WhatsApp for work may use AI features inadvertently.","dataRisk":"critical","adoptionLikelihood":"high","likelyDepts":["sales","operations","executive"],"commonUseCases":["AI-assisted replies","Summarising conversations","Document drafting from chat"],"dataTypesAtRisk":["client communications","commercial negotiations","personal data of contacts","business strategy"],"regulatoryFlags":[{"regulation":"GDPR Article 28","description":"Meta consumer terms not appropriate for business personal data"}],"enterpriseMitigation":"WhatsApp Business API with enterprise DPA for business use.","mitigations":["Policy on consumer messaging apps for business","Migrate to approved platform","Explicit guidance on Meta AI features"],"notes":"AI risk is secondary to the underlying governance issue of consumer apps for business use."}],"industryRiskProfiles":{"financial-services":{"regulatoryContext":["FCA","PRA","GDPR","EU AI Act","MiFID II"],"highestRiskTools":["chatgpt","grammarly","otter-ai","zapier-ai"],"specificConcerns":"FCA PS7/24 on AI governance, SMCR accountability for AI decisions, operational resilience"},"legal":{"regulatoryContext":["GDPR","SRA","Bar Standards Board","Legal privilege","EU AI Act"],"highestRiskTools":["chatgpt","claude-consumer","otter-ai"],"specificConcerns":"Legal professional privilege, client confidentiality, SRA guidance on AI"},"healthcare":{"regulatoryContext":["GDPR","NHS DSP Toolkit","CQC","EU AI Act (high-risk)"],"highestRiskTools":["chatgpt","otter-ai","grammarly","microsoft-copilot-consumer"],"specificConcerns":"Special category health data, NHS data residency, EU AI Act high-risk classification"},"professional-services":{"regulatoryContext":["GDPR","EU AI Act","Client confidentiality"],"highestRiskTools":["chatgpt","grammarly","otter-ai","claude-consumer"],"specificConcerns":"Client confidentiality, IP ownership of AI-assisted deliverables"},"public-sector":{"regulatoryContext":["GDPR","UK Government AI Framework","EU AI Act","Official Sensitive"],"highestRiskTools":["chatgpt","grammarly","microsoft-copilot-consumer","otter-ai"],"specificConcerns":"Official Sensitive data, Cabinet Office AI guidance, democratic accountability"},"retail-ecommerce":{"regulatoryContext":["GDPR","Consumer Rights Act","EU AI Act"],"highestRiskTools":["chatgpt","zapier-ai","grammarly","midjourney"],"specificConcerns":"Customer PII in AI workflows, AI-generated marketing compliance"}}};
 
 /* ═══════════════════════════════════════════════════════════
    STATE
@@ -1202,6 +1246,7 @@ function collectSection(n) {
     a.skillsUsage        = getRadioValue('skills');
     a.internalAIBuilt    = getRadioValue('internalaibuilt');
     a.aiDeployed         = getRadioValue('aideployed');
+    a.browserExt         = getCheckedValues('q-browser-ext');
   } else if (n === 3) {
     a.departments    = getCheckedValues('q-departments');
     a.techLiteracy   = getRadioValue('techliteracy');
@@ -1225,6 +1270,7 @@ function collectSection(n) {
     a.aiAccountability   = getRadioValue('aiaccountability');
     a.aiSpend            = getRadioValue('aispend');
     a.aiOffboarding      = getRadioValue('aioffboarding');
+    a.incidentDetails    = getCheckedValues('q-incidents');
     a.additionalContext  = document.getElementById('q-additional-context').value.trim();
   }
   currentSession.updatedAt = new Date().toISOString();
@@ -1306,15 +1352,17 @@ async function generateReport(answers) {
   report.overallScore = calculateOverallScore(answers, report.shadowTools);
   await setProcStep(3, 'done');
 
-  // Step 4: Regulatory flags
+  // Step 4: Regulatory flags — also kick off Claude API call in parallel if configured
   await setProcStep(4, 'active');
   report.regulatoryFlags = buildRegulatoryFlags(answers, report.shadowTools);
   report.policyGaps = buildPolicyGaps(answers);
+  // Start Claude API call in parallel now that we have all the rule-based data
+  const claudeExecPromise = startClaudeExecSummaryCall(answers, report);
   await setProcStep(4, 'done');
 
-  // Step 5: Executive summary (AI)
+  // Step 5: Executive summary — awaits Claude if available, falls back to rule-based
   await setProcStep(5, 'active');
-  report.execSummary = await generateExecSummary(answers, report);
+  report.execSummary = await generateExecSummary(answers, report, claudeExecPromise);
   await setProcStep(5, 'done');
 
   // Step 6: Roadmap + workshop (AI)
@@ -1360,11 +1408,15 @@ function identifyShadowTools(answers) {
 
     // special signals
     if (t.id === 'whatsapp-meta-ai' && comms.includes('whatsapp')) score += 20;
+    if (t.id === 'slack-ai' && comms.includes('slack')) score += 20;
+    if (t.id === 'zoom-ai-companion' && comms.includes('zoom')) score += 20;
+    if (t.id === 'apple-intelligence' && (answers.byod === 'high' || answers.byod === 'medium')) score += 15;
     if (t.id === 'microsoft-copilot-consumer' && (productivity === 'm365' || productivity === 'both')) score += 15;
     if (t.id === 'github-copilot' && answers.hasDev === 'yes') score += 15;
     if (t.id === 'cursor' && (answers.aiCodeTools||[]).includes('cursor')) score += 20;
     if (t.id === 'zapier-ai' && depts.includes('operations')) score += 10;
     if (t.id === 'otter-ai' && depts.length > 3) score += 10;
+    if (t.id === 'grammarly' && (answers.browserExt||[]).includes('grammarly')) score += 20;
 
     // tech literacy
     if (answers.techLiteracy === 'high') score += 8;
@@ -1372,11 +1424,13 @@ function identifyShadowTools(answers) {
 
     // remote / BYOD increases risk
     if (answers.workPattern === 'remote') score += 10;
-    if (answers.byod === 'yes') score += 8;
-    if (answers.byod === 'partial') score += 4;
+    if (answers.byod === 'high') score += 8;
+    if (answers.byod === 'medium') score += 4;
 
     // known incidents = assume tools are in use
     if (answers.knownIncidents === 'yes') score += 15;
+    if ((answers.incidentDetails||[]).includes('known-data-shared')) score += 15;
+    if ((answers.incidentDetails||[]).includes('reported-to-ico')) score += 10;
 
     return { ...t, riskScore: score, alreadyApproved };
   });
@@ -1417,6 +1471,9 @@ function calculateOverallScore(answers, shadowTools) {
   else if (score >= 55) level = 'high';
 
   if (answers.knownIncidents === 'yes')                          { level = 'critical'; score = Math.max(score, 80); }
+  if ((answers.incidentDetails||[]).includes('known-data-shared'))  { level = 'critical'; score = Math.max(score, 82); }
+  if ((answers.incidentDetails||[]).includes('reported-to-ico'))    { level = 'critical'; score = Math.max(score, 90); }
+  if ((answers.incidentDetails||[]).includes('no-process'))         { score = Math.max(score, 65); }
   if (answers.apiKeyMgmt === 'hardcoded')                        { level = 'critical'; score = Math.max(score, 85); }
   if (answers.mcpUsage === 'yes-internal')                       { score = Math.max(score, 75); }
   if (answers.pluginUsage === 'yes-internal')                    { score = Math.max(score, 70); }
@@ -1522,8 +1579,15 @@ function buildPolicyGaps(answers) {
   if ((answers.comms || []).includes('whatsapp')) {
     gaps.push({ priority: 'high', gap: 'Consumer Messaging Apps Used for Business', action: 'Policy required on use of WhatsApp and other consumer messaging apps for business communications. AI features embedded in these apps create data processing risk.' });
   }
-  if (answers.byod === 'yes' && answers.governance !== 'high') {
-    gaps.push({ priority: 'medium', gap: 'BYOD Without AI Governance', action: 'BYOD policy must address AI tool installation on personal devices used for work. MDM or MAM controls should prevent unapproved AI tool access to corporate data.' });
+  if ((answers.byod === 'high' || answers.byod === 'medium') && answers.governance !== 'high') {
+    gaps.push({ priority: answers.byod === 'high' ? 'high' : 'medium', gap: 'BYOD Without AI Governance', action: 'BYOD policy must address AI tool installation on personal devices used for work, including Apple Intelligence on personal iPhones accessing work email. MDM or MAM controls should prevent unapproved AI tool access to corporate data.' });
+  }
+  if ((answers.browserExt||[]).includes('grammarly')) {
+    gaps.push({ priority: 'critical', gap: 'Grammarly Personal Accounts in Use', action: 'Grammarly personal accounts intercept all text typed in the browser — including passwords, client data, and confidential documents. Immediately audit browser extensions across managed devices, block personal Grammarly accounts via endpoint management, and procure Grammarly Business with DPA if the tool is needed.' });
+  } else if ((answers.browserExt||[]).includes('no-ext-policy')) {
+    gaps.push({ priority: 'high', gap: 'No Browser Extension Policy', action: 'Browser extensions are not audited or controlled. Implement an extension policy and audit installed extensions on managed devices. AI browser extensions (Grammarly, ChatGPT extension, others) can silently intercept all typed content across all web applications.' });
+  } else if ((answers.browserExt||[]).some(e => ['chatgpt-ext','other-ai-ext'].includes(e))) {
+    gaps.push({ priority: 'high', gap: 'AI Browser Extensions in Use Without Policy', action: 'AI browser extensions are in use without a governing policy. Audit which extensions are installed, ensure they are covered by a DPA, and communicate acceptable use to staff.' });
   }
   // MCP / Plugin / Skills gaps
   if (answers.mcpUsage === 'yes-internal' || answers.mcpUsage === 'unknown') {
@@ -1580,6 +1644,12 @@ function buildPolicyGaps(answers) {
   if (answers.aiIncidentResponse === 'no') {
     gaps.push({ priority: 'high', gap: 'No AI Incident Response Process', action: 'Extend existing incident response procedures to cover AI-related data incidents. Ensure the DPO understands what an AI data breach looks like and how to assess 72-hour GDPR notification obligations. Run a tabletop exercise simulating an AI data exposure event.' });
   }
+  if ((answers.incidentDetails||[]).includes('reported-to-ico')) {
+    gaps.push({ priority: 'critical', gap: 'ICO / Supervisory Authority Notification Already Made', action: 'An incident has already been reported to the supervisory authority. Ensure the incident is fully documented, remediation actions are tracked and evidenced, and a post-incident review has been completed. Regulators expect to see evidence of systemic improvements following a notified breach.' });
+  }
+  if ((answers.incidentDetails||[]).includes('suspected-data-shared') && !(answers.incidentDetails||[]).includes('known-data-shared')) {
+    gaps.push({ priority: 'high', gap: 'Suspected Incidents Not Formally Investigated', action: 'Suspected AI data incidents must be formally investigated — under GDPR, failure to investigate a suspected personal data breach may itself constitute a compliance failure. Conduct a structured investigation, document findings, and assess whether supervisory authority notification is required.' });
+  }
   if (answers.supplyChainAI === 'unknown' || answers.supplyChainAI === 'yes-not-reviewed') {
     gaps.push({ priority: 'high', gap: 'Supplier AI Use Not Assessed', action: 'Audit contracts with key data processors and suppliers for AI clauses. Request AI usage disclosures from suppliers handling personal or sensitive data. Update supplier onboarding to include AI usage questions and data protection obligations.' });
   }
@@ -1602,50 +1672,71 @@ function buildPolicyGaps(answers) {
 /* ═══════════════════════════════════════════════════════════
    AI-POWERED SECTIONS
    ═══════════════════════════════════════════════════════════ */
-async function generateExecSummary(answers, report) {
-  if (!aiConfig.apiKey && aiConfig.mode === 'cloud') {
-    return buildFallbackExecSummary(answers, report);
+async function generateExecSummary(answers, report, claudePromise) {
+  // If a Claude API call was already started in parallel, await it
+  if (claudePromise) {
+    try {
+      const result = await claudePromise;
+      if (result) return result;
+    } catch(e) {
+      // fall through to fallback
+    }
   }
-  const toolNames = report.shadowTools.slice(0,5).map(t => t.name).join(', ');
-  const geoLabel = { uk:'United Kingdom', eu:'European Union', 'uk-eu':'UK and EU', us:'United States', global:'Global / Multi-region', other:'Other' }[answers.geography] || answers.geography;
-  const regContext = answers.geography === 'us' ? 'US regulations (CCPA, state privacy laws, FTC, NIST AI RMF, HIPAA if applicable)' :
-                     answers.geography === 'uk' ? 'UK GDPR, ICO guidance, and relevant sector regulation' :
-                     answers.geography === 'eu' ? 'GDPR, EU AI Act, and relevant sector regulation' :
-                     'GDPR/UK GDPR, EU AI Act, US state privacy laws, and relevant sector regulation';
+  return buildFallbackExecSummary(answers, report);
+}
 
-  const prompt = `You are a senior IT governance consultant at Tactica. Write an executive summary for a Shadow AI Risk Report.
+function buildClaudeExecSummaryPrompt(answers, report) {
+  const geoLabel = { uk:'United Kingdom', eu:'European Union', 'uk-eu':'UK and EU', us:'United States', global:'Global / Multi-region', other:'Other' }[answers.geography] || answers.geography || 'Unknown';
+  const regContext = answers.geography === 'us'
+    ? 'US regulations (CCPA, applicable state privacy laws, FTC Act Section 5, NIST AI RMF, HIPAA if healthcare)'
+    : answers.geography === 'uk'
+    ? 'UK GDPR, ICO guidance, and relevant sector regulation'
+    : answers.geography === 'eu'
+    ? 'GDPR, EU AI Act, and relevant sector regulation'
+    : 'GDPR/UK GDPR, EU AI Act, US state privacy laws, and relevant sector regulation';
 
-Organisation: ${answers.orgName}
-Sector: ${answers.industry}
+  const toolNames = report.shadowTools.slice(0,5).map(t => `${t.name} (${t.dataRisk} risk)`).join(', ');
+  const topGaps   = report.policyGaps.filter(g => g.priority === 'critical').slice(0,3).map(g => g.gap).join(', ') || 'None critical';
+  const byodLabel = { high:'High — staff routinely use personal devices without MDM', medium:'Medium — some personal device use, partial MDM', low:'Low — corporate devices only, MDM enforced', unknown:'Unknown — not assessed' }[answers.byod] || answers.byod || 'Not assessed';
+  const incidents = (answers.incidentDetails || []).join(', ') || answers.knownIncidents || 'None reported';
+  const browserExt = (answers.browserExt || []).join(', ') || 'Not assessed';
+
+  return `Organisation: ${answers.orgName || 'Unknown'}
+Sector: ${answers.industry || 'Unknown'}
 Geography: ${geoLabel}
-Size: ${answers.size}
+Size: ${answers.size || 'Unknown'}
 Overall risk level: ${report.overallScore.level} (score: ${report.overallScore.score}/100)
 Top shadow AI tools identified: ${toolNames}
-AI policy in place: ${answers.aiPolicy}
-Known incidents: ${answers.knownIncidents}
-Board attitude to AI: ${answers.boardAttitude}
+Critical policy gaps: ${topGaps}
+AI acceptable use policy: ${answers.aiPolicy || 'not assessed'}
+AI awareness training: ${answers.aiTraining || 'not assessed'}
+Known incidents / near-misses: ${incidents}
+Board attitude to AI: ${answers.boardAttitude || 'not assessed'}
+BYOD / personal device usage: ${byodLabel}
+Browser extensions: ${browserExt}
 MCP / system integration: ${answers.mcpUsage || 'not assessed'}
 Plugin / GPT Actions in use: ${answers.pluginUsage || 'not assessed'}
 API key management: ${answers.apiKeyMgmt || 'not assessed'}
-Internal AI applications built or in development: ${answers.aiDeployed || answers.internalAIBuilt || 'not assessed'}
+Internal AI applications built or deployed: ${answers.aiDeployed || answers.internalAIBuilt || 'not assessed'}
 AI used in people-affecting decisions: ${answers.aiDecisions || 'not assessed'}
 Named AI accountability: ${answers.aiAccountability || 'not assessed'}
-Supplier AI assessed: ${answers.supplyChainAI || 'not assessed'}
+Supplier AI use assessed: ${answers.supplyChainAI || 'not assessed'}
+AI incident response process: ${answers.aiIncidentResponse || 'not assessed'}
 Applicable regulatory framework: ${regContext}
 
-Write 3 concise paragraphs suitable for a board-level audience:
-1. The current shadow AI situation and overall risk level
-2. The key risks and regulatory exposure — reference ONLY the regulations applicable to ${geoLabel}, not GDPR if the organisation is US-based
-3. The recommended immediate actions
+Write a contextualised executive summary for a board-level risk report. Include:
+1. A paragraph summarising the organisation's shadow AI situation and overall risk level — be specific about which tools and departments are most exposed
+2. A paragraph covering the key regulatory and commercial risks — reference ONLY the regulations applicable to ${geoLabel} (do not reference GDPR or EU AI Act if the organisation is US-based)
+3. Three to five specific, prioritised recommendations tailored to this organisation's profile — ordered by urgency
 
-No jargon. Authoritative tone. Focus on commercial and regulatory consequence. Plain HTML paragraphs only (use <p> tags).`;
+Format as plain HTML using <p> tags for paragraphs and <ol><li> for the recommendations. No markdown. Professional tone suitable for a board-level audience.`;
+}
 
-  try {
-    const result = await callAI(prompt, 400);
-    return result;
-  } catch(e) {
-    return buildFallbackExecSummary(answers, report);
-  }
+function startClaudeExecSummaryCall(answers, report) {
+  if (!aiConfig.apiKey || aiConfig.mode !== 'cloud') return null;
+  const systemPrompt = 'You are an AI governance expert specialising in shadow AI risk for enterprises. Provide concise, specific advice based on the organisation\'s profile. Write in a professional tone suitable for a board-level risk report.';
+  const userPrompt = buildClaudeExecSummaryPrompt(answers, report);
+  return callAI(userPrompt, 1024, systemPrompt).catch(() => null);
 }
 
 function buildFallbackExecSummary(answers, report) {
@@ -1761,10 +1852,16 @@ function buildFallbackWorkshopPrompts(answers, report) {
 </ol>`;
 }
 
-async function callAI(prompt, maxTokens) {
+async function callAI(prompt, maxTokens, systemPrompt) {
   if (aiConfig.mode === 'local') {
     return callOllama(prompt, maxTokens);
   }
+  const body = {
+    model: 'claude-opus-4-6',
+    max_tokens: maxTokens,
+    messages: [{ role: 'user', content: prompt }]
+  };
+  if (systemPrompt) body.system = systemPrompt;
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -1773,11 +1870,7 @@ async function callAI(prompt, maxTokens) {
       'content-type': 'application/json',
       'anthropic-dangerous-direct-browser-access': 'true',
     },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: maxTokens,
-      messages: [{ role: 'user', content: prompt }]
-    })
+    body: JSON.stringify(body)
   });
   if (!res.ok) throw new Error('API error ' + res.status);
   const data = await res.json();
