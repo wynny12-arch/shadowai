@@ -513,6 +513,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         </div>
 
         <div class="field">
+          <label>AI-Assisted Building — No-Code, Low-Code &amp; Vibe Coding</label>
+          <p class="hint">Staff across all departments, not just IT, are increasingly building tools, automations, and dashboards using AI. This is one of the fastest-growing and least-governed shadow AI risk areas.</p>
+          <div class="check-group" id="q-vibe-coding">
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="claude-code"/><div class="opt-label"><span class="opt-title">Claude Code / Cursor Agent / Devin</span><span class="opt-desc">Agentic AI tools that autonomously write and run code — often used by non-developers to build internal tools</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="replit"/><div class="opt-label"><span class="opt-title">Replit</span><span class="opt-desc">Browser-based AI coding — code and data sent to Replit servers</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="bubble-glide"/><div class="opt-label"><span class="opt-title">Bubble / Glide / Softr / Retool</span><span class="opt-desc">No-code app builders often connected to live company data</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="vercel-v0"/><div class="opt-label"><span class="opt-title">Vercel v0 / Lovable / Bolt</span><span class="opt-desc">AI UI builders that generate and deploy web applications</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="zapier-make"/><div class="opt-label"><span class="opt-title">Zapier / Make with AI steps</span><span class="opt-desc">Automation platforms routing business data through AI — often built by non-IT staff</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="staff-built-tools"/><div class="opt-label"><span class="opt-title">Staff-built internal tools (any method)</span><span class="opt-desc">Internal tools or automations built by non-IT staff, regardless of platform</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-vibe-coding"/><div class="opt-label"><span class="opt-title">None known — but not formally assessed</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="vibe-coding-controlled"/><div class="opt-label"><span class="opt-title">This is governed — IT reviews all internally-built tools</span></div></label>
+          </div>
+        </div>
+
+        <div class="field">
           <label>Productivity Suite</label>
           <div class="radio-group" id="q-productivity">
             <label class="radio-opt" onclick="selectRadio('q-productivity','m365',this)">
@@ -690,6 +705,82 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
             <label class="radio-opt" onclick="selectRadio('q-ai-deployed','in-progress',this)"><input type="radio" name="aideployed" value="in-progress"/><div class="opt-label"><span class="opt-title">In progress or planned — no governance framework yet in place</span></div></label>
             <label class="radio-opt" onclick="selectRadio('q-ai-deployed','unknown',this)"><input type="radio" name="aideployed" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown — not been assessed</span><span class="opt-desc">Treat as high risk — shadow AI development is common and hard to detect</span></div></label>
             <label class="radio-opt" onclick="selectRadio('q-ai-deployed','no',this)"><input type="radio" name="aideployed" value="no"/><div class="opt-label"><span class="opt-title">No — confirmed none in use or development</span></div></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>AI Meeting Transcription &amp; Note-taking</label>
+          <div class="check-group" id="q-transcription">
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="otter-ai"/><div class="opt-label"><span class="opt-title">Otter.ai</span><span class="opt-desc">Critical risk — records and transcribes meetings, stores audio on US servers</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="fireflies"/><div class="opt-label"><span class="opt-title">Fireflies.ai</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="zoom-ai-companion"/><div class="opt-label"><span class="opt-title">Zoom AI Companion (meeting summaries)</span><span class="opt-desc">Built into Zoom — may be active without staff awareness</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="teams-transcription"/><div class="opt-label"><span class="opt-title">Microsoft Teams transcription / Copilot in Teams</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="notion-meetings"/><div class="opt-label"><span class="opt-title">Notion AI meeting notes</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-transcription"/><div class="opt-label"><span class="opt-title">None in use</span></div></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>General AI Assistants in use by staff (approved or personal)</label>
+          <div class="check-group" id="q-general-ai">
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="chatgpt"/><div class="opt-label"><span class="opt-title">ChatGPT (personal / Pro accounts)</span><span class="opt-desc">Critical risk — most widely used shadow AI tool globally; free/Pro tiers have no enterprise DPA</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="google-gemini-consumer"/><div class="opt-label"><span class="opt-title">Google Gemini (consumer / free tier)</span><span class="opt-desc">Critical risk — data processed on US servers; Google may use inputs to improve models</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="claude-consumer"/><div class="opt-label"><span class="opt-title">Claude (claude.ai — personal / Pro)</span><span class="opt-desc">High risk — no enterprise DPA on free/Pro tier; often used for complex document and contract analysis</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="perplexity"/><div class="opt-label"><span class="opt-title">Perplexity AI</span><span class="opt-desc">Search queries may reveal strategic intent, M&amp;A activity, or confidential research</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="microsoft-copilot-consumer"/><div class="opt-label"><span class="opt-title">Microsoft Copilot (consumer / web — not M365 enterprise)</span><span class="opt-desc">Distinct from M365 Copilot enterprise; consumer version has different data handling terms</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="harvey-ai"/><div class="opt-label"><span class="opt-title">Harvey AI (legal AI platform)</span><span class="opt-desc">High risk — uploading legally privileged documents to any third-party AI may waive privilege; SRA client confidentiality obligations apply</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-general-ai"/><div class="opt-label"><span class="opt-title">None known to be in use</span></div></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Slack AI — are AI features enabled in Slack?</label>
+          <div class="radio-group" id="q-slack-ai">
+            <label class="radio-opt" onclick="selectRadio('q-slack-ai','yes',this)"><input type="radio" name="slackai" value="yes"/><div class="opt-label"><span class="opt-title">Yes — Slack AI is active (channel summaries, thread recaps, search)</span><span class="opt-desc">High risk — years of internal communications, client discussions, and HR conversations are now being processed by AI; DPA may not cover AI features</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-slack-ai','unknown',this)"><input type="radio" name="slackai" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown — not assessed</span><span class="opt-desc">High risk — Slack AI can be enabled by workspace admins without staff awareness; treat as active if not confirmed disabled</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-slack-ai','no',this)"><input type="radio" name="slackai" value="no"/><div class="opt-label"><span class="opt-title">No — confirmed disabled or not using Slack</span></div></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Device AI Features — Apple Intelligence or Android AI on staff devices</label>
+          <p class="hint" style="margin-bottom:8px">Built-in OS AI features process emails, messages, and documents on device and sometimes via cloud — including work content on personal phones.</p>
+          <div class="radio-group" id="q-device-ai">
+            <label class="radio-opt" onclick="selectRadio('q-device-ai','yes-unmanaged',this)"><input type="radio" name="deviceai" value="yes-unmanaged"/><div class="opt-label"><span class="opt-title">Yes — Apple Intelligence / Android AI active on unmanaged personal devices used for work</span><span class="opt-desc">High risk — work emails and documents on personal iPhones are processed by Apple Intelligence without any organisational control; ChatGPT integration may also be active</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-device-ai','yes-managed',this)"><input type="radio" name="deviceai" value="yes-managed"/><div class="opt-label"><span class="opt-title">Yes — but managed devices have MDM policies restricting AI features</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-device-ai','unknown',this)"><input type="radio" name="deviceai" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown — device AI features have not been assessed</span><span class="opt-desc">If staff use Apple devices (iOS 18+) for work email or documents, Apple Intelligence is likely active by default</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-device-ai','no',this)"><input type="radio" name="deviceai" value="no"/><div class="opt-label"><span class="opt-title">No — confirmed disabled via MDM or not applicable</span></div></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>AI Workflow Automation — are any of the following used to automate business processes?</label>
+          <div class="check-group" id="q-ai-automation">
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="zapier-ai"/><div class="opt-label"><span class="opt-title">Zapier (with AI steps)</span><span class="opt-desc">High risk — AI steps in automations route business data through external AI models without a documented DPA chain</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="make-ai"/><div class="opt-label"><span class="opt-title">Make (formerly Integromat) with AI modules</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="power-automate-ai"/><div class="opt-label"><span class="opt-title">Power Automate with AI Builder</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-ai-automation"/><div class="opt-label"><span class="opt-title">None in use</span></div></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>AI Productivity &amp; Collaboration Tools (documents, notes, presentations)</label>
+          <div class="check-group" id="q-ai-productivity-tools">
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="notion-ai"/><div class="opt-label"><span class="opt-title">Notion AI</span><span class="opt-desc">High risk — often adopted informally by teams; AI features add a data processing layer to an already ungoverned tool</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="beautiful-ai"/><div class="opt-label"><span class="opt-title">Beautiful.ai / Gamma (AI presentation builders)</span><span class="opt-desc">Staff paste strategy documents, financials, and client data to auto-generate slides</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="google-gemini-workspace"/><div class="opt-label"><span class="opt-title">Google Gemini for Workspace (enterprise)</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-ai-productivity-tools"/><div class="opt-label"><span class="opt-title">None in use</span></div></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Creative AI Tools (marketing, design, media)</label>
+          <div class="check-group" id="q-ai-creative">
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="midjourney"/><div class="opt-label"><span class="opt-title">Midjourney</span><span class="opt-desc">High risk — free tier generates images in public Discord channels; brand concepts and unreleased campaigns are publicly visible</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="elevenlabs"/><div class="opt-label"><span class="opt-title">ElevenLabs (AI voice / voice cloning)</span><span class="opt-desc">Critical risk — voice data may constitute biometric data under GDPR Article 9; cloning executives creates fraud risk</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="runway"/><div class="opt-label"><span class="opt-title">Runway (AI video generation)</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="adobe-firefly"/><div class="opt-label"><span class="opt-title">Adobe Firefly / Adobe AI</span></div></label>
+            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-ai-creative"/><div class="opt-label"><span class="opt-title">None in use</span></div></label>
           </div>
         </div>
 
@@ -1241,12 +1332,20 @@ function collectSection(n) {
     a.apiKeyMgmt     = getRadioValue('apikeymgmt');
     a.localLLM       = getCheckedValues('q-local-llm');
     a.aiFrameworks   = getCheckedValues('q-ai-frameworks');
+    a.transcriptionTools = getCheckedValues('q-transcription');
+    a.generalAITools     = getCheckedValues('q-general-ai');
+    a.slackAI            = getRadioValue('slackai');
+    a.deviceAI           = getRadioValue('deviceai');
+    a.aiAutomation       = getCheckedValues('q-ai-automation');
+    a.aiProductivityTools = getCheckedValues('q-ai-productivity-tools');
+    a.aiCreativeTools    = getCheckedValues('q-ai-creative');
     a.mcpUsage           = getRadioValue('mcp');
     a.pluginUsage        = getRadioValue('plugins');
     a.skillsUsage        = getRadioValue('skills');
     a.internalAIBuilt    = getRadioValue('internalaibuilt');
     a.aiDeployed         = getRadioValue('aideployed');
     a.browserExt         = getCheckedValues('q-browser-ext');
+    a.vibeCoding         = getCheckedValues('q-vibe-coding');
   } else if (n === 3) {
     a.departments    = getCheckedValues('q-departments');
     a.techLiteracy   = getRadioValue('techliteracy');
@@ -1409,14 +1508,29 @@ function identifyShadowTools(answers) {
     // special signals
     if (t.id === 'whatsapp-meta-ai' && comms.includes('whatsapp')) score += 20;
     if (t.id === 'slack-ai' && comms.includes('slack')) score += 20;
+    if (t.id === 'slack-ai' && answers.slackAI === 'yes') score += 25;
+    if (t.id === 'slack-ai' && answers.slackAI === 'unknown' && comms.includes('slack')) score += 15;
     if (t.id === 'zoom-ai-companion' && comms.includes('zoom')) score += 20;
+    if (t.id === 'zoom-ai-companion' && (answers.transcriptionTools||[]).includes('zoom-ai-companion')) score += 25;
+    if (t.id === 'otter-ai' && (answers.transcriptionTools||[]).includes('otter-ai')) score += 25;
     if (t.id === 'apple-intelligence' && (answers.byod === 'high' || answers.byod === 'medium')) score += 15;
+    if (t.id === 'apple-intelligence' && answers.deviceAI === 'yes-unmanaged') score += 25;
+    if (t.id === 'apple-intelligence' && answers.deviceAI === 'unknown') score += 15;
     if (t.id === 'microsoft-copilot-consumer' && (productivity === 'm365' || productivity === 'both')) score += 15;
     if (t.id === 'github-copilot' && answers.hasDev === 'yes') score += 15;
     if (t.id === 'cursor' && (answers.aiCodeTools||[]).includes('cursor')) score += 20;
     if (t.id === 'zapier-ai' && depts.includes('operations')) score += 10;
     if (t.id === 'otter-ai' && depts.length > 3) score += 10;
     if (t.id === 'grammarly' && (answers.browserExt||[]).includes('grammarly')) score += 20;
+    if (t.id === 'harvey-ai' && (answers.generalAITools||[]).includes('harvey-ai')) score += 30;
+    if (t.id === 'harvey-ai' && depts.includes('legal')) score += 15;
+
+    // vibe coding / no-code signals
+    const vibeCoding = answers.vibeCoding || [];
+    if (t.id === 'agentic-ai-coding' && (vibeCoding.includes('claude-code') || vibeCoding.includes('staff-built-tools'))) score += 25;
+    if (t.id === 'agentic-ai-coding' && (vibeCoding.includes('replit') || vibeCoding.includes('vercel-v0'))) score += 15;
+    if (t.id === 'replit-nocode-ai' && (vibeCoding.includes('replit') || vibeCoding.includes('bubble-glide') || vibeCoding.includes('vercel-v0') || vibeCoding.includes('staff-built-tools'))) score += 25;
+    if (t.id === 'zapier-ai' && vibeCoding.includes('zapier-make')) score += 20;
 
     // tech literacy
     if (answers.techLiteracy === 'high') score += 8;
@@ -1589,6 +1703,23 @@ function buildPolicyGaps(answers) {
   } else if ((answers.browserExt||[]).some(e => ['chatgpt-ext','other-ai-ext'].includes(e))) {
     gaps.push({ priority: 'high', gap: 'AI Browser Extensions in Use Without Policy', action: 'AI browser extensions are in use without a governing policy. Audit which extensions are installed, ensure they are covered by a DPA, and communicate acceptable use to staff.' });
   }
+  // Slack AI gap
+  if (answers.slackAI === 'yes' || (answers.slackAI === 'unknown' && (answers.comms||[]).includes('slack'))) {
+    gaps.push({ priority: answers.slackAI === 'yes' ? 'high' : 'medium', gap: answers.slackAI === 'yes' ? 'Slack AI Active — DPA and Channel Access Not Assessed' : 'Slack AI Status Unknown', action: 'Verify whether the Slack DPA covers AI features — the standard Slack DPA may predate AI. Audit which channels Slack AI can access (private and HR channels may be included). Define which channel types may not be summarised by AI and implement a policy for Slack AI use.' });
+  }
+
+  // Apple Intelligence / device AI gap
+  if (answers.deviceAI === 'yes-unmanaged') {
+    gaps.push({ priority: 'high', gap: 'Apple Intelligence Active on Unmanaged Personal Devices', action: 'Work emails and documents visible on personal iPhones running iOS 18+ are being processed by Apple Intelligence without organisational control. Update BYOD policy to address Apple Intelligence. Deploy MDM or MAM controls to prevent corporate data being processed by device AI on unmanaged devices. Disable the ChatGPT integration in Apple Intelligence via MDM on managed devices.' });
+  } else if (answers.deviceAI === 'unknown') {
+    gaps.push({ priority: 'medium', gap: 'Device AI Features Not Assessed', action: 'Apple Intelligence (iOS 18+ / macOS Sequoia) is active by default on compatible devices and processes emails, messages, and documents — including work content on personal phones. Assess which staff devices have Apple Intelligence active and whether MDM policy addresses it. The ChatGPT integration within Apple Intelligence is a particular risk and can be disabled separately.' });
+  }
+
+  // Harvey AI gap
+  if ((answers.generalAITools||[]).includes('harvey-ai')) {
+    gaps.push({ priority: 'high', gap: 'Harvey AI in Use — Legal Privilege and Professional Conduct Risk', action: 'Uploading legally privileged documents to any third-party AI platform, including Harvey AI, requires a privilege analysis. Implement a client disclosure policy for AI tool use in legal work, aligned with SRA guidance. Verify the DPA with Harvey AI is in place and covers all data processed. Confirm the use case does not breach client confidentiality obligations under the SRA Code of Conduct.' });
+  }
+
   // MCP / Plugin / Skills gaps
   if (answers.mcpUsage === 'yes-internal' || answers.mcpUsage === 'unknown') {
     gaps.push({ priority: 'critical', gap: 'MCP Servers Connecting AI to Internal Systems', action: 'Audit all MCP server configurations. Document which AI models have access to which internal systems, databases, and APIs. Implement least-privilege access controls and logging for all AI-to-system connections.' });
@@ -1661,6 +1792,14 @@ function buildPolicyGaps(answers) {
   }
   if (answers.aiOffboarding === 'no' || answers.aiOffboarding === 'partial') {
     gaps.push({ priority: 'medium', gap: 'AI Tools Not Included in Staff Offboarding', action: 'Update the offboarding checklist to include revocation of AI tool access, API keys, MCP connections, and any personally-held AI subscriptions used for work. Former staff with retained AI access is a data and IP risk.' });
+  }
+
+  // Vibe coding / no-code / staff-built tools gap
+  const vibeCoding = answers.vibeCoding || [];
+  const vibeToolsPresent = vibeCoding.some(v => ['claude-code','replit','bubble-glide','vercel-v0','zapier-make','staff-built-tools'].includes(v));
+  const vibeControlled = vibeCoding.includes('vibe-coding-controlled');
+  if (vibeToolsPresent && !vibeControlled) {
+    gaps.push({ priority: 'critical', gap: 'No governance over staff-built AI tools', action: 'Audit for internally-built tools and automations created by non-IT staff. Mandate IT review before any staff-built tool connects to personal data or production systems. This is the fastest-growing ungoverned data processing risk.' });
   }
 
   if (!gaps.length) {

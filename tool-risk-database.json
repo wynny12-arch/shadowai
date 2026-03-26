@@ -799,6 +799,98 @@
         "This is often a pre-existing governance issue — AI features make it more urgent to resolve"
       ],
       "notes": "The AI risk is secondary to the underlying governance issue of consumer apps being used for business. AI features turn a communication governance problem into a data processing one."
+    },
+
+    {
+      "id": "agentic-ai-coding",
+      "name": "Claude Code / Agentic AI Coding Tools",
+      "vendor": "Anthropic / Various",
+      "category": "Agentic AI Development",
+      "description": "Agentic AI coding tools (Claude Code, Devin, Cursor Agent mode) that autonomously write, run, and deploy code. Staff with no formal development background can build and deploy working applications connected to company data.",
+      "dataRisk": "critical",
+      "adoptionLikelihood": "medium",
+      "likelyDepts": ["operations", "finance", "marketing", "hr", "product", "any department with data access"],
+      "commonUseCases": [
+        "Building internal tools and dashboards",
+        "Automating data workflows",
+        "Creating customer-facing prototypes",
+        "Connecting internal systems via APIs",
+        "Processing company data at scale"
+      ],
+      "dataTypesAtRisk": ["entire codebases sent to AI", "API keys and credentials embedded in generated code", "company data processed by AI-generated scripts", "proprietary business logic", "customer data processed by ungoverned scripts"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 25",
+          "description": "Privacy by design obligations not met when non-technical staff build data processing tools without oversight"
+        },
+        {
+          "regulation": "GDPR Article 32",
+          "description": "Security of processing — AI-generated code is rarely security-reviewed"
+        },
+        {
+          "regulation": "EU AI Act Article 28",
+          "description": "Deployer obligations apply when AI-generated tools are used in professional contexts"
+        },
+        {
+          "regulation": "IP",
+          "description": "Ownership of AI-generated code is legally uncertain in many jurisdictions"
+        }
+      ],
+      "enterpriseMitigation": "No enterprise-tier mitigation exists for this risk — the tools are inherently ungoverned. Mitigation requires organisational policy: all internally-built tools must go through IT review regardless of how they were built.",
+      "mitigations": [
+        "Policy requiring IT review of any internally-built tool before deployment, regardless of how it was created",
+        "Prohibition on embedding API keys or credentials in AI-generated code without secrets management review",
+        "Inventory of all internal tools built by non-IT staff",
+        "Training on data handling obligations for non-technical staff building tools",
+        "Code review requirement before any AI-generated script processes personal or confidential data"
+      ],
+      "notes": "The governance gap here is not the AI tool itself — it is the ungoverned application that results. A finance analyst using Claude Code to build a customer data dashboard is creating a data processing system with no security review, no DPA consideration, and no audit trail. This is the fastest-growing shadow IT risk category."
+    },
+
+    {
+      "id": "replit-nocode-ai",
+      "name": "Replit / No-Code AI Platforms",
+      "vendor": "Replit / Various (Bubble, Glide, Softr, V0)",
+      "category": "No-Code / Low-Code AI Development",
+      "description": "AI-powered no-code and low-code platforms (Replit, Bubble, Glide, Softr, Vercel v0) that allow non-technical staff to build and deploy web applications, internal tools, and data dashboards — often connected to company data sources.",
+      "dataRisk": "critical",
+      "adoptionLikelihood": "medium",
+      "likelyDepts": ["operations", "marketing", "hr", "sales", "finance", "any department with data access"],
+      "commonUseCases": [
+        "Internal dashboards connected to company databases",
+        "Customer-facing web tools built without IT",
+        "HR and operations workflow automation",
+        "Data collection and processing forms",
+        "Prototype products deployed without security review"
+      ],
+      "dataTypesAtRisk": ["customer data in connected databases", "HR records in connected spreadsheets", "financial data in connected systems", "any data source the builder has access to"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Applications built on these platforms use the platform as a data processor — no DPA typically in place"
+        },
+        {
+          "regulation": "GDPR Article 32",
+          "description": "No security review of applications processing personal data"
+        },
+        {
+          "regulation": "GDPR Article 35",
+          "description": "DPIA may be required for tools processing large volumes of personal data"
+        },
+        {
+          "regulation": "EU AI Act",
+          "description": "AI features in these platforms may trigger deployer obligations"
+        }
+      ],
+      "enterpriseMitigation": "Enterprise plans for some platforms provide DPA and data residency controls. The primary governance risk is the absence of IT oversight — not the platform itself.",
+      "mitigations": [
+        "Audit for internally-built tools on no-code platforms",
+        "Policy: all tools that process personal data require IT review and DPA before deployment",
+        "Centralise approved no-code platforms under IT governance",
+        "Training: data handling obligations apply regardless of how a tool was built",
+        "Require security review before any no-code tool connects to production data sources"
+      ],
+      "notes": "No-code platforms remove the technical barrier to building data processing applications. A non-technical staff member can build a customer data dashboard connected to Salesforce in an afternoon — with no IT oversight, no security review, and no GDPR consideration."
     }
 
   ],
