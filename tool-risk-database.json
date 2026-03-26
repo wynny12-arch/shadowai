@@ -1,0 +1,743 @@
+{
+  "version": "1.0",
+  "lastReviewed": "2026-03",
+  "reviewer": "Tactica",
+  "tools": [
+
+    {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "vendor": "OpenAI",
+      "category": "General LLM",
+      "description": "General-purpose AI assistant. Free and Pro tiers widely used by individuals without IT knowledge or approval.",
+      "dataRisk": "critical",
+      "adoptionLikelihood": "very high",
+      "likelyDepts": ["marketing", "hr", "legal", "finance", "operations", "sales", "executive"],
+      "commonUseCases": [
+        "Drafting emails and documents",
+        "Summarising reports and contracts",
+        "Writing job descriptions and HR policies",
+        "Generating code",
+        "Customer communications"
+      ],
+      "dataTypesAtRisk": ["PII", "contracts", "financial data", "IP", "HR records", "client data", "strategy documents"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Data processor obligations — OpenAI acting as processor without a formal DPA in place for free/Pro tier users"
+        },
+        {
+          "regulation": "GDPR Article 46",
+          "description": "International data transfers — data processed on US servers without adequate transfer mechanisms for free tier"
+        },
+        {
+          "regulation": "EU AI Act Article 28",
+          "description": "Deployer obligations when using general-purpose AI in professional context"
+        },
+        {
+          "regulation": "UK GDPR",
+          "description": "Same DPA and transfer obligations apply post-Brexit under UK equivalent"
+        }
+      ],
+      "enterpriseMitigation": "OpenAI Enterprise plan provides DPA, data is not used for training, SOC2 compliance. Free/Pro tiers do not provide these guarantees.",
+      "mitigations": [
+        "Procure OpenAI Enterprise with signed DPA",
+        "Publish acceptable use policy prohibiting personal data input on free/Pro tier",
+        "Staff training on what constitutes personal or sensitive data",
+        "Technical controls to detect ChatGPT access on corporate devices"
+      ],
+      "notes": "The most widely deployed shadow AI tool globally. Assume it is in use across all departments unless actively controlled."
+    },
+
+    {
+      "id": "microsoft-copilot-consumer",
+      "name": "Microsoft Copilot (Consumer / Web)",
+      "vendor": "Microsoft",
+      "category": "General LLM",
+      "description": "Consumer-facing Copilot accessible via browser and integrated into Windows. Distinct from Microsoft 365 Copilot enterprise product.",
+      "dataRisk": "high",
+      "adoptionLikelihood": "very high",
+      "likelyDepts": ["all"],
+      "commonUseCases": [
+        "Document drafting",
+        "Email writing",
+        "Research and summarisation",
+        "Image generation"
+      ],
+      "dataTypesAtRisk": ["PII", "internal documents", "emails", "financial data", "client data"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Consumer tier does not provide enterprise DPA — data handling terms apply for personal accounts"
+        },
+        {
+          "regulation": "EU AI Act",
+          "description": "General-purpose AI model obligations apply"
+        }
+      ],
+      "enterpriseMitigation": "Microsoft 365 Copilot (enterprise) provides DPA and does not use customer data for training. Ensure staff are using enterprise, not consumer, version.",
+      "mitigations": [
+        "Audit whether staff are using consumer or enterprise Copilot",
+        "Disable consumer Copilot on managed devices via Intune/Group Policy",
+        "Ensure M365 Copilot enterprise licence is in place before encouraging use"
+      ],
+      "notes": "Particularly insidious because it appears legitimate — it is a Microsoft product — but the consumer version has very different data handling terms to the enterprise product."
+    },
+
+    {
+      "id": "microsoft-365-copilot",
+      "name": "Microsoft 365 Copilot (Enterprise)",
+      "vendor": "Microsoft",
+      "category": "Integrated AI Assistant",
+      "description": "Enterprise AI assistant integrated into Word, Excel, PowerPoint, Outlook, Teams. Licenced separately.",
+      "dataRisk": "medium",
+      "adoptionLikelihood": "high",
+      "likelyDepts": ["all"],
+      "commonUseCases": [
+        "Email drafting and summarisation",
+        "Meeting summaries and action capture",
+        "Document generation from prompts",
+        "Data analysis in Excel",
+        "Presentation generation"
+      ],
+      "dataTypesAtRisk": ["all internal data accessible to the user's M365 account"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR",
+          "description": "Compliant under enterprise DPA — but over-permissioned users may expose data they should not have access to"
+        },
+        {
+          "regulation": "EU AI Act",
+          "description": "Deployer obligations apply — organisation must assess use cases, particularly in HR and performance management contexts"
+        }
+      ],
+      "enterpriseMitigation": "Enterprise product with DPA. Primary risk is internal — Copilot surfaces data the user has access to, so over-permissioned users can inadvertently expose sensitive data.",
+      "mitigations": [
+        "Review and tighten M365 permissions before enabling Copilot",
+        "Audit SharePoint and OneDrive access controls",
+        "Define approved and prohibited Copilot use cases",
+        "Train staff on what Copilot can and cannot access"
+      ],
+      "notes": "Often rolled out without accompanying permission review. The AI does not create data access problems — it amplifies existing ones."
+    },
+
+    {
+      "id": "google-gemini-consumer",
+      "name": "Google Gemini (Consumer)",
+      "vendor": "Google",
+      "category": "General LLM",
+      "description": "Google's AI assistant. Free tier widely accessible. Integrated into Google Search, Chrome, and Android.",
+      "dataRisk": "critical",
+      "adoptionLikelihood": "high",
+      "likelyDepts": ["marketing", "hr", "operations", "sales", "executive"],
+      "commonUseCases": [
+        "Document drafting",
+        "Research",
+        "Email writing",
+        "Data analysis"
+      ],
+      "dataTypesAtRisk": ["PII", "client data", "financial data", "internal documents", "IP"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Free tier terms allow Google to use inputs to improve models — no DPA for personal use"
+        },
+        {
+          "regulation": "GDPR Article 46",
+          "description": "Data processed in US — transfer mechanism requirements apply"
+        },
+        {
+          "regulation": "EU AI Act",
+          "description": "General-purpose AI model obligations"
+        }
+      ],
+      "enterpriseMitigation": "Google Workspace with Gemini for Google Workspace addon provides enterprise data protection. Free consumer Gemini does not.",
+      "mitigations": [
+        "Block consumer Gemini on corporate devices",
+        "Procure Gemini for Google Workspace if using Google Workspace",
+        "Explicit policy on use of Google consumer AI tools"
+      ],
+      "notes": "Increasingly embedded in Android devices and Chrome browser, making it accessible without deliberate installation."
+    },
+
+    {
+      "id": "grammarly",
+      "name": "Grammarly",
+      "vendor": "Grammarly Inc",
+      "category": "AI Writing Assistant",
+      "description": "AI-powered writing assistant. Browser extension installs silently and intercepts all text input across all web applications.",
+      "dataRisk": "critical",
+      "adoptionLikelihood": "very high",
+      "likelyDepts": ["all"],
+      "commonUseCases": [
+        "Email proofreading",
+        "Document editing",
+        "Communication drafting"
+      ],
+      "dataTypesAtRisk": ["all typed text — including passwords, PII, confidential documents, client data, financial data"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Grammarly processes all text typed in the browser as a data processor — requires DPA for enterprise use"
+        },
+        {
+          "regulation": "GDPR Article 5",
+          "description": "Data minimisation — Grammarly free tier collects more data than necessary for the service"
+        }
+      ],
+      "enterpriseMitigation": "Grammarly Business provides DPA and enhanced data controls. Free personal accounts do not.",
+      "mitigations": [
+        "Audit browser extensions across managed devices — Grammarly is often installed without IT knowledge",
+        "Block Grammarly personal accounts via endpoint management",
+        "Procure Grammarly Business with DPA if the tool is needed",
+        "Include browser extensions in acceptable use policy"
+      ],
+      "notes": "One of the highest-risk shadow AI tools because it is invisible — employees do not consider it an 'AI tool' and IT teams frequently overlook it. Intercepts every keystroke in the browser."
+    },
+
+    {
+      "id": "notion-ai",
+      "name": "Notion AI",
+      "vendor": "Notion Labs",
+      "category": "AI-Enhanced Productivity",
+      "description": "AI features built into Notion workspace. Often adopted by teams as an unofficial knowledge base before IT is aware.",
+      "dataRisk": "high",
+      "adoptionLikelihood": "medium",
+      "likelyDepts": ["product", "engineering", "marketing", "operations"],
+      "commonUseCases": [
+        "Meeting notes and summaries",
+        "Project documentation",
+        "Process documentation",
+        "Content drafting"
+      ],
+      "dataTypesAtRisk": ["internal processes", "project data", "meeting notes", "strategy", "IP"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "DPA available but may not be in place for teams that adopted Notion informally"
+        }
+      ],
+      "enterpriseMitigation": "Notion Enterprise provides DPA, SSO, and admin controls. Team or personal plans lack adequate enterprise data controls.",
+      "mitigations": [
+        "Audit for unofficial Notion workspaces in use across teams",
+        "Centralise onto enterprise plan with SSO",
+        "Data classification policy for what can be stored in Notion"
+      ],
+      "notes": "Shadow IT risk predates the AI features — teams adopt Notion independently. AI features add a new data processing layer to an already ungoverned tool."
+    },
+
+    {
+      "id": "claude-consumer",
+      "name": "Claude (Consumer / claude.ai)",
+      "vendor": "Anthropic",
+      "category": "General LLM",
+      "description": "Anthropic's AI assistant. Free and Pro tiers. Strong reasoning capability drives professional adoption.",
+      "dataRisk": "high",
+      "adoptionLikelihood": "medium",
+      "likelyDepts": ["legal", "finance", "strategy", "hr", "technical"],
+      "commonUseCases": [
+        "Contract and document analysis",
+        "Policy drafting",
+        "Complex research and reasoning",
+        "Code generation",
+        "Report writing"
+      ],
+      "dataTypesAtRisk": ["contracts", "legal documents", "financial data", "strategy", "IP", "HR records"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Free/Pro tier does not provide enterprise DPA — data handling governed by consumer terms"
+        },
+        {
+          "regulation": "GDPR Article 46",
+          "description": "Data processed on US infrastructure"
+        }
+      ],
+      "enterpriseMitigation": "Anthropic Claude for Enterprise provides DPA, zero data retention, and admin controls.",
+      "mitigations": [
+        "Acceptable use policy covering claude.ai consumer use",
+        "Procure Claude for Enterprise if significant use is detected",
+        "Training on what constitutes sensitive data"
+      ],
+      "notes": "Particularly likely to be used by high-value staff (legal, finance, strategy) for sophisticated tasks — the very use cases where data sensitivity is highest."
+    },
+
+    {
+      "id": "perplexity",
+      "name": "Perplexity AI",
+      "vendor": "Perplexity AI Inc",
+      "category": "AI Search",
+      "description": "AI-powered search and research tool. Growing rapidly as a Google alternative among knowledge workers.",
+      "dataRisk": "medium",
+      "adoptionLikelihood": "medium",
+      "likelyDepts": ["research", "marketing", "strategy", "legal", "finance"],
+      "commonUseCases": [
+        "Market research",
+        "Competitive intelligence",
+        "Regulatory research",
+        "Background checks on companies and people"
+      ],
+      "dataTypesAtRisk": ["research queries may reveal strategic intent, M&A activity, competitive intelligence"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Queries processed on US infrastructure — query content may reveal confidential strategy"
+        }
+      ],
+      "enterpriseMitigation": "Lower direct data risk than generative tools — primary risk is query content revealing strategic intent rather than data being uploaded.",
+      "mitigations": [
+        "Include in AI tool policy",
+        "Train staff on query hygiene — do not include company names, client names, or confidential context in searches"
+      ],
+      "notes": "Lower risk than generative tools but search queries can reveal strategic intent (e.g. researching a competitor, an M&A target, or a regulatory issue)."
+    },
+
+    {
+      "id": "midjourney",
+      "name": "Midjourney",
+      "vendor": "Midjourney Inc",
+      "category": "AI Image Generation",
+      "description": "AI image generation tool accessed via Discord. Free tier generates images in public Discord channels by default.",
+      "dataRisk": "high",
+      "adoptionLikelihood": "medium",
+      "likelyDepts": ["marketing", "design", "communications"],
+      "commonUseCases": [
+        "Marketing imagery",
+        "Presentation visuals",
+        "Brand concept exploration",
+        "Product visualisation"
+      ],
+      "dataTypesAtRisk": ["brand assets", "unreleased product concepts", "campaign ideas", "IP"],
+      "regulatoryFlags": [
+        {
+          "regulation": "IP / Copyright",
+          "description": "Ownership of AI-generated images is legally unclear in many jurisdictions — commercial use risk"
+        },
+        {
+          "regulation": "GDPR",
+          "description": "If prompts include descriptions of real people, GDPR obligations may apply"
+        }
+      ],
+      "enterpriseMitigation": "Midjourney Pro plan provides private mode (images not shown in public channels). Free tier exposes all prompts and outputs publicly.",
+      "mitigations": [
+        "Prohibit free tier use for any work-related content",
+        "Procure Pro plan with private mode if image generation is needed",
+        "IP policy covering AI-generated content ownership"
+      ],
+      "notes": "Free tier is particularly dangerous — all prompts and images are visible in public Discord channels, meaning unreleased campaign concepts or product ideas are publicly visible."
+    },
+
+    {
+      "id": "elevenlabs",
+      "name": "ElevenLabs",
+      "vendor": "ElevenLabs Inc",
+      "category": "AI Voice & Audio",
+      "description": "AI voice cloning and text-to-speech. Capable of cloning a voice from a short audio sample.",
+      "dataRisk": "critical",
+      "adoptionLikelihood": "low",
+      "likelyDepts": ["marketing", "communications", "learning-development"],
+      "commonUseCases": [
+        "Voiceover production",
+        "Training material narration",
+        "Podcast and content production"
+      ],
+      "dataTypesAtRisk": ["voice biometrics of executives or staff", "audio recordings"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 9",
+          "description": "Voice data may constitute biometric data — special category data requiring explicit consent"
+        },
+        {
+          "regulation": "EU AI Act",
+          "description": "Biometric identification systems subject to high-risk classification requirements"
+        }
+      ],
+      "enterpriseMitigation": "Explicit consent required before cloning any voice. Enterprise plan provides data controls.",
+      "mitigations": [
+        "Explicit policy prohibiting voice cloning of any person without written consent",
+        "Include in AI acceptable use policy",
+        "Assess biometric data classification under GDPR Article 9"
+      ],
+      "notes": "Low adoption likelihood but critical risk if used — voice cloning of executives creates fraud and reputational risk. Also a social engineering vector."
+    },
+
+    {
+      "id": "runway",
+      "name": "Runway",
+      "vendor": "Runway AI Inc",
+      "category": "AI Video Generation",
+      "description": "AI video generation and editing. Can generate video from text prompts or edit existing footage.",
+      "dataRisk": "high",
+      "adoptionLikelihood": "low",
+      "likelyDepts": ["marketing", "communications", "creative"],
+      "commonUseCases": [
+        "Marketing video production",
+        "Social media content",
+        "Concept visualisation"
+      ],
+      "dataTypesAtRisk": ["brand assets", "unreleased campaigns", "footage of people"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR",
+          "description": "Video containing identifiable individuals requires lawful basis for processing"
+        },
+        {
+          "regulation": "IP / Copyright",
+          "description": "Training data and output ownership legally unclear"
+        }
+      ],
+      "enterpriseMitigation": "Enterprise plan provides data controls and clearer IP terms.",
+      "mitigations": [
+        "Policy on AI video generation covering IP and GDPR",
+        "Prohibit uploading footage of identifiable individuals without consent"
+      ],
+      "notes": "Emerging risk as AI video becomes mainstream. Watch for rapid adoption in marketing and communications teams."
+    },
+
+    {
+      "id": "github-copilot",
+      "name": "GitHub Copilot",
+      "vendor": "GitHub / Microsoft",
+      "category": "AI Code Assistant",
+      "description": "AI code completion integrated into VS Code and other IDEs. Personal accounts may be used without IT approval.",
+      "dataRisk": "high",
+      "adoptionLikelihood": "high",
+      "likelyDepts": ["engineering", "it", "data"],
+      "commonUseCases": [
+        "Code completion and generation",
+        "Test generation",
+        "Code documentation",
+        "Bug fixing"
+      ],
+      "dataTypesAtRisk": ["source code", "API keys and secrets in code", "proprietary algorithms", "database schemas"],
+      "regulatoryFlags": [
+        {
+          "regulation": "IP / Copyright",
+          "description": "Copilot trained on public code — output may reproduce GPL-licensed code without attribution"
+        },
+        {
+          "regulation": "GDPR",
+          "description": "If code contains personal data (e.g. hardcoded test data), this is processed by GitHub servers"
+        }
+      ],
+      "enterpriseMitigation": "GitHub Copilot Business/Enterprise provides DPA, code is not used for training, and admin controls over which repositories it can access.",
+      "mitigations": [
+        "Audit developer personal Copilot subscriptions",
+        "Centralise onto GitHub Copilot Business with DPA",
+        "Policy prohibiting hardcoded secrets or personal data in code",
+        "Secret scanning in CI/CD pipeline"
+      ],
+      "notes": "Developers frequently subscribe personally before IT has a policy. Personal accounts mean code snippets may be used to train future models."
+    },
+
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "vendor": "Anysphere Inc",
+      "category": "AI Code Editor",
+      "description": "AI-native code editor built on VS Code. Sends code to external AI models for analysis and generation.",
+      "dataRisk": "high",
+      "adoptionLikelihood": "medium",
+      "likelyDepts": ["engineering", "it", "data"],
+      "commonUseCases": [
+        "Full codebase AI analysis",
+        "Code generation from natural language",
+        "Refactoring and debugging"
+      ],
+      "dataTypesAtRisk": ["entire codebase", "proprietary algorithms", "API keys", "database schemas", "infrastructure config"],
+      "regulatoryFlags": [
+        {
+          "regulation": "IP",
+          "description": "Entire codebase sent to external servers — significant IP exposure risk"
+        },
+        {
+          "regulation": "GDPR",
+          "description": "Any personal data in the codebase is processed externally"
+        }
+      ],
+      "enterpriseMitigation": "Cursor Business plan provides data controls. Privacy mode prevents code from being used for training.",
+      "mitigations": [
+        "Enable privacy mode at minimum",
+        "Procure Business plan with DPA",
+        "Policy on what codebases can be opened in AI-native editors",
+        "Never open production infrastructure code in personal AI code editors"
+      ],
+      "notes": "Higher risk than GitHub Copilot because it indexes and sends larger code context. The convenience is significantly higher — so adoption is rapid once discovered."
+    },
+
+    {
+      "id": "zapier-ai",
+      "name": "Zapier / Make (with AI steps)",
+      "vendor": "Zapier Inc / Make",
+      "category": "AI Workflow Automation",
+      "description": "Automation platforms that now include AI steps. Staff build automations that route business data through external AI models.",
+      "dataRisk": "high",
+      "adoptionLikelihood": "medium",
+      "likelyDepts": ["operations", "marketing", "sales", "hr"],
+      "commonUseCases": [
+        "Automated email processing",
+        "CRM data enrichment",
+        "Document processing pipelines",
+        "Customer data routing"
+      ],
+      "dataTypesAtRisk": ["customer data", "CRM records", "emails", "financial data", "HR records"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Automations routing personal data require DPA with each processor in the chain"
+        },
+        {
+          "regulation": "GDPR Article 30",
+          "description": "Records of processing obligations — informal automations are rarely documented"
+        }
+      ],
+      "enterpriseMitigation": "Enterprise plans for both platforms provide DPA. The governance challenge is visibility — informal automations built by individuals are difficult to discover.",
+      "mitigations": [
+        "Audit for personal Zapier/Make accounts in use across the business",
+        "Centralise automation platforms under IT governance",
+        "Require all automations to be documented in ROPA (Records of Processing Activities)",
+        "Policy prohibiting personal data in unapproved automation workflows"
+      ],
+      "notes": "The silent multiplier — one employee building a Zapier automation can route thousands of customer records through an ungoverned AI pipeline without IT ever knowing."
+    },
+
+    {
+      "id": "otter-ai",
+      "name": "Otter.ai",
+      "vendor": "AISense Inc",
+      "category": "AI Transcription",
+      "description": "AI meeting transcription and summarisation. Often installed by individuals to record and transcribe meetings.",
+      "dataRisk": "critical",
+      "adoptionLikelihood": "medium",
+      "likelyDepts": ["all — particularly sales, hr, executive, legal"],
+      "commonUseCases": [
+        "Meeting transcription",
+        "Interview recording",
+        "Sales call capture",
+        "Board meeting notes"
+      ],
+      "dataTypesAtRisk": ["meeting audio and transcripts", "confidential discussions", "HR conversations", "legal privileged discussions", "board discussions", "PII of meeting participants"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 6",
+          "description": "Recording individuals requires lawful basis — participants must be informed and consent obtained where required"
+        },
+        {
+          "regulation": "GDPR Article 9",
+          "description": "Transcripts of HR or health-related meetings may contain special category data"
+        },
+        {
+          "regulation": "Legal privilege",
+          "description": "Transcripts of legally privileged discussions stored on third-party servers may waive privilege"
+        }
+      ],
+      "enterpriseMitigation": "Otter.ai Business provides DPA. The consent and notification obligation applies regardless of plan tier.",
+      "mitigations": [
+        "Policy requiring disclosure when any recording or transcription tool is active in a meeting",
+        "Prohibit use in legally privileged, HR, or board discussions",
+        "DPA with Otter.ai if used on enterprise plan",
+        "Train staff on consent obligations before recording"
+      ],
+      "notes": "Extremely high risk in regulated industries. Legal and HR conversations are the most common use case — also the highest sensitivity. Recording without consent is a GDPR violation and potential criminal offence in some jurisdictions."
+    },
+
+    {
+      "id": "beautiful-ai",
+      "name": "Beautiful.ai / Gamma",
+      "vendor": "Beautiful.ai / Gamma App",
+      "category": "AI Presentation Tools",
+      "description": "AI-powered presentation builders. Staff paste content — including confidential strategy, financials, and client data — to auto-generate slides.",
+      "dataRisk": "high",
+      "adoptionLikelihood": "medium",
+      "likelyDepts": ["sales", "marketing", "strategy", "finance", "executive"],
+      "commonUseCases": [
+        "Pitch deck creation",
+        "Client presentations",
+        "Strategy documents",
+        "Board presentations"
+      ],
+      "dataTypesAtRisk": ["strategy", "financial data", "client data", "IP", "unreleased product plans"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Presentation content including personal data requires DPA"
+        },
+        {
+          "regulation": "IP / Confidentiality",
+          "description": "Strategy and financial data pasted into consumer tools may be used for model training"
+        }
+      ],
+      "enterpriseMitigation": "Enterprise plans provide DPA and data controls. Consumer tiers vary — check terms of service.",
+      "mitigations": [
+        "Policy on pasting confidential content into AI presentation tools",
+        "Procure enterprise plan with DPA for approved use",
+        "Data classification training — staff must recognise what is and isn't suitable for external AI tools"
+      ],
+      "notes": "Presentation tools feel low-risk because the output is visual — staff do not perceive pasting strategy documents as a data exposure event."
+    },
+
+    {
+      "id": "adobe-firefly",
+      "name": "Adobe Firefly / Adobe AI",
+      "vendor": "Adobe Inc",
+      "category": "AI Creative Tools",
+      "description": "AI image generation and editing integrated into Adobe Creative Cloud. Enterprise customers may assume compliance without verifying terms.",
+      "dataRisk": "medium",
+      "adoptionLikelihood": "medium",
+      "likelyDepts": ["design", "marketing", "creative"],
+      "commonUseCases": [
+        "Image generation",
+        "Photo editing with AI",
+        "Brand asset creation"
+      ],
+      "dataTypesAtRisk": ["brand assets", "unreleased creative work", "client assets"],
+      "regulatoryFlags": [
+        {
+          "regulation": "IP / Copyright",
+          "description": "Adobe states Firefly outputs are commercially safe — but terms should be verified for enterprise use"
+        }
+      ],
+      "enterpriseMitigation": "Adobe Creative Cloud Enterprise provides clearer IP indemnification. Enterprise customers have stronger data controls.",
+      "mitigations": [
+        "Verify enterprise vs personal Creative Cloud licences",
+        "Review IP indemnification terms for commercial output",
+        "Policy on AI-generated assets in client deliverables"
+      ],
+      "notes": "Lower risk than many tools due to Adobe's enterprise focus and IP indemnification commitments, but terms should be reviewed rather than assumed."
+    },
+
+    {
+      "id": "harvey-ai",
+      "name": "Harvey AI",
+      "vendor": "Harvey AI Inc",
+      "category": "Legal AI",
+      "description": "AI platform specifically designed for legal work. Used by law firms and legal teams for contract analysis, drafting, and research.",
+      "dataRisk": "high",
+      "adoptionLikelihood": "low",
+      "likelyDepts": ["legal"],
+      "commonUseCases": [
+        "Contract review and analysis",
+        "Legal research",
+        "Document drafting",
+        "Due diligence"
+      ],
+      "dataTypesAtRisk": ["legally privileged documents", "client contracts", "M&A documents", "litigation materials"],
+      "regulatoryFlags": [
+        {
+          "regulation": "Legal privilege",
+          "description": "Uploading privileged documents to any third-party AI platform requires careful privilege analysis"
+        },
+        {
+          "regulation": "GDPR Article 28",
+          "description": "DPA required — Harvey provides enterprise DPA but verification is needed"
+        },
+        {
+          "regulation": "Bar / SRA regulations",
+          "description": "Solicitors must maintain client confidentiality — use of external AI tools must be disclosed to clients in some jurisdictions"
+        }
+      ],
+      "enterpriseMitigation": "Harvey is built for enterprise legal use with appropriate data controls. Risk is primarily privilege and professional conduct, not data security.",
+      "mitigations": [
+        "Legal privilege analysis before uploading any privileged materials",
+        "Client disclosure policy for AI tool use",
+        "SRA / Bar guidance review on AI tool obligations"
+      ],
+      "notes": "Lower shadow IT risk (expensive, specialist tool) but extremely high legal and professional conduct risk when used. Relevant primarily to legal sector clients."
+    },
+
+    {
+      "id": "whatsapp-meta-ai",
+      "name": "WhatsApp / Meta AI",
+      "vendor": "Meta Platforms",
+      "category": "Embedded Consumer AI",
+      "description": "Meta AI is embedded directly into WhatsApp and Instagram. Staff using WhatsApp for work communications may inadvertently use AI features.",
+      "dataRisk": "critical",
+      "adoptionLikelihood": "high",
+      "likelyDepts": ["sales", "operations", "executive", "all — where WhatsApp is used for business"],
+      "commonUseCases": [
+        "AI-assisted replies in WhatsApp conversations",
+        "Summarising conversation threads",
+        "Document drafting triggered from chat"
+      ],
+      "dataTypesAtRisk": ["client communications", "commercial negotiations", "personal data of contacts", "business strategy discussed in chat"],
+      "regulatoryFlags": [
+        {
+          "regulation": "GDPR Article 28",
+          "description": "Meta's data processing terms for consumer WhatsApp are not appropriate for business personal data"
+        },
+        {
+          "regulation": "GDPR Article 5",
+          "description": "Data minimisation — WhatsApp collects extensive metadata even without AI features"
+        }
+      ],
+      "enterpriseMitigation": "WhatsApp Business API with enterprise data processing agreement is appropriate for business use. Consumer WhatsApp for business communications is a pre-existing governance issue that AI features exacerbate.",
+      "mitigations": [
+        "Policy on use of consumer messaging apps for business communications",
+        "Migrate to approved business communication platform",
+        "Explicit guidance on Meta AI features in WhatsApp",
+        "This is often a pre-existing governance issue — AI features make it more urgent to resolve"
+      ],
+      "notes": "The AI risk is secondary to the underlying governance issue of consumer apps being used for business. AI features turn a communication governance problem into a data processing one."
+    }
+
+  ],
+
+  "industryRiskProfiles": {
+    "financial-services": {
+      "regulatoryContext": ["FCA", "PRA", "GDPR", "EU AI Act", "MiFID II", "Basel III"],
+      "highestRiskTools": ["chatgpt", "grammarly", "otter-ai", "zapier-ai"],
+      "specificConcerns": "FCA's PS7/24 on AI governance, FCA operational resilience requirements, SMCR accountability for AI decisions",
+      "notes": "Financial services has the most mature regulatory framework for AI. FCA expects firms to demonstrate AI governance. SR 11-7 equivalent expectations are emerging."
+    },
+    "legal": {
+      "regulatoryContext": ["GDPR", "SRA", "Bar Standards Board", "Legal privilege", "EU AI Act"],
+      "highestRiskTools": ["chatgpt", "claude-consumer", "otter-ai", "harvey-ai"],
+      "specificConcerns": "Legal professional privilege, client confidentiality obligations, SRA guidance on AI tool use, conflict checking",
+      "notes": "Legal privilege is the primary differentiator for legal sector risk — once privileged documents are shared with a third-party AI, privilege may be waived."
+    },
+    "healthcare": {
+      "regulatoryContext": ["GDPR", "UK GDPR", "NHS DSP Toolkit", "CQC", "EU AI Act (high-risk)", "HIPAA (US)"],
+      "highestRiskTools": ["chatgpt", "otter-ai", "grammarly", "microsoft-copilot-consumer"],
+      "specificConcerns": "Special category health data, clinical AI high-risk classification under EU AI Act, NHS data residency requirements",
+      "notes": "Health data is special category under GDPR. EU AI Act classifies AI systems used in healthcare decisions as high-risk, triggering conformity assessment requirements."
+    },
+    "professional-services": {
+      "regulatoryContext": ["GDPR", "EU AI Act", "Client confidentiality"],
+      "highestRiskTools": ["chatgpt", "grammarly", "otter-ai", "claude-consumer", "beautiful-ai"],
+      "specificConcerns": "Client confidentiality, IP ownership of AI-assisted deliverables, staff productivity vs risk trade-off",
+      "notes": "Professional services firms face high pressure to adopt AI for productivity while managing client confidentiality obligations. The conflict between speed and governance is acute."
+    },
+    "public-sector": {
+      "regulatoryContext": ["GDPR", "UK Government AI Framework", "EU AI Act", "Official Sensitive classification"],
+      "highestRiskTools": ["chatgpt", "grammarly", "microsoft-copilot-consumer", "otter-ai"],
+      "specificConcerns": "Official Sensitive data classification, Cabinet Office AI guidance, procurement rules for AI tools, democratic accountability",
+      "notes": "Public sector AI use is subject to increasing scrutiny. Government AI Framework requires transparency. Some data classifications (Official Sensitive and above) cannot be processed on commercial AI platforms."
+    },
+    "retail-ecommerce": {
+      "regulatoryContext": ["GDPR", "Consumer Rights Act", "EU AI Act"],
+      "highestRiskTools": ["chatgpt", "zapier-ai", "grammarly", "midjourney"],
+      "specificConcerns": "Customer PII in AI workflows, AI-generated marketing compliance, personalisation transparency",
+      "notes": "Retail sector often has large volumes of customer PII flowing through marketing and operations — AI tools in these workflows create significant GDPR exposure."
+    }
+  },
+
+  "policyTemplates": {
+    "acceptableUse": {
+      "keyPrinciples": [
+        "Never input personal data, client data, or confidential company information into any AI tool without IT approval",
+        "All AI tools must be approved before use — personal accounts are not permitted for work purposes",
+        "AI-generated output must be reviewed and verified by a human before use in client-facing or business-critical contexts",
+        "Any data breach or suspected data exposure via an AI tool must be reported immediately",
+        "Use of AI tools must be disclosed where required by professional regulations or client agreements"
+      ]
+    },
+    "dataClassification": {
+      "levels": [
+        { "level": "Public", "aiUse": "Any approved AI tool", "examples": "Published content, press releases, public datasets" },
+        { "level": "Internal", "aiUse": "Approved enterprise AI tools with DPA only", "examples": "Internal processes, general business documents" },
+        { "level": "Confidential", "aiUse": "Approved enterprise AI tools with DPA and data residency controls", "examples": "Client data, financial data, strategy documents, contracts" },
+        { "level": "Restricted", "aiUse": "On-premises or air-gapped AI only — no external processing", "examples": "Legally privileged, M&A sensitive, health data, Official Sensitive" }
+      ]
+    }
+  }
+}
