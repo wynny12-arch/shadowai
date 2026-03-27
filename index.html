@@ -418,7 +418,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <!-- Section 1: Organisation -->
     <div class="card">
       <div class="q-section active" id="qs-1">
-        <div class="section-num">Section 1 of 6</div>
+        <div class="section-num">Section 1 of 7</div>
         <div class="section-header">
           <h2>Organisation Profile</h2>
           <p>Basic information about the organisation being assessed.</p>
@@ -506,25 +506,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
       <!-- Section 2: Tool Stack -->
       <div class="q-section" id="qs-2">
-        <div class="section-num">Section 2 of 6</div>
+        <div class="section-num">Section 2 of 7</div>
         <div class="section-header">
           <h2>Tool Stack</h2>
-          <p>Current technology environment. Be as specific as possible — this directly informs which shadow AI tools are most likely in use.</p>
+          <p>The AI tools your staff are currently using — approved and otherwise. The next section covers AI tools staff are building.</p>
         </div>
 
-        <div class="field">
-          <label>AI-Assisted Building — No-Code, Low-Code &amp; Vibe Coding</label>
-          <p class="hint">Staff across all departments, not just IT, are increasingly building tools, automations, and dashboards using AI. This is one of the fastest-growing and least-governed shadow AI risk areas.</p>
-          <div class="check-group" id="q-vibe-coding">
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="claude-code"/><div class="opt-label"><span class="opt-title">Claude Code / Cursor Agent / Devin</span><span class="opt-desc">Agentic AI tools that autonomously write and run code — often used by non-developers to build internal tools</span></div></label>
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="replit"/><div class="opt-label"><span class="opt-title">Replit</span><span class="opt-desc">Browser-based AI coding — code and data sent to Replit servers</span></div></label>
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="bubble-glide"/><div class="opt-label"><span class="opt-title">Bubble / Glide / Softr / Retool</span><span class="opt-desc">No-code app builders often connected to live company data</span></div></label>
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="vercel-v0"/><div class="opt-label"><span class="opt-title">Vercel v0 / Lovable / Bolt</span><span class="opt-desc">AI UI builders that generate and deploy web applications</span></div></label>
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="zapier-make"/><div class="opt-label"><span class="opt-title">Zapier / Make with AI steps</span><span class="opt-desc">Automation platforms routing business data through AI — often built by non-IT staff</span></div></label>
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="staff-built-tools"/><div class="opt-label"><span class="opt-title">Staff-built internal tools (any method)</span><span class="opt-desc">Internal tools or automations built by non-IT staff, regardless of platform</span></div></label>
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-vibe-coding"/><div class="opt-label"><span class="opt-title">None known — but not formally assessed</span></div></label>
-            <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="vibe-coding-controlled"/><div class="opt-label"><span class="opt-title">This is governed — IT reviews all internally-built tools</span></div></label>
-          </div>
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:16px 20px;margin-bottom:24px;font-size:.88rem;color:#1e40af;line-height:1.65;">
+          <strong>Two types of shadow AI risk:</strong> Traditional shadow IT — staff using unapproved tools — is one problem. A newer and less-understood risk is staff <em>building</em> ungoverned AI applications. Both are covered in this diagnostic. This section covers tool use; the next covers AI-built applications.
         </div>
 
         <div class="field">
@@ -567,81 +556,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
             <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="chatgpt-enterprise"/><div class="opt-label"><span class="opt-title">ChatGPT Enterprise</span></div></label>
             <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="github-copilot-biz"/><div class="opt-label"><span class="opt-title">GitHub Copilot Business/Enterprise</span></div></label>
             <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="other-approved"/><div class="opt-label"><span class="opt-title">Other enterprise AI tools</span></div></label>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Does the organisation have engineering / development teams?</label>
-          <div class="radio-group" id="q-has-dev">
-            <label class="radio-opt" onclick="selectRadio('q-has-dev','yes',this);showDevBlock(true)"><input type="radio" name="hasdev" value="yes"/><div class="opt-label"><span class="opt-title">Yes</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-has-dev','no',this);showDevBlock(false)"><input type="radio" name="hasdev" value="no"/><div class="opt-label"><span class="opt-title">No</span></div></label>
-          </div>
-        </div>
-
-        <!-- Dev block — shown when hasDev=yes -->
-        <div id="dev-block" style="display:none">
-          <div style="height:1px;background:var(--border);margin:4px 0 20px;"></div>
-          <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:700;margin-bottom:16px;">Developer & Integration Tools</div>
-
-          <div class="field">
-            <label>AI code assistants in use (approved or personal)</label>
-            <div class="check-group" id="q-ai-code">
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="copilot-personal"/><div class="opt-label"><span class="opt-title">GitHub Copilot (personal account)</span><span class="opt-desc">High risk — code may be used for model training, no DPA</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="cursor"/><div class="opt-label"><span class="opt-title">Cursor</span><span class="opt-desc">Sends full codebase context to external AI — significant IP exposure</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="tabnine"/><div class="opt-label"><span class="opt-title">Tabnine</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="codewhisperer"/><div class="opt-label"><span class="opt-title">Amazon CodeWhisperer</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="none-code"/><div class="opt-label"><span class="opt-title">None known</span></div></label>
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Are AI APIs called directly in application code?</label>
-            <div class="check-group" id="q-ai-apis">
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="openai-api"/><div class="opt-label"><span class="opt-title">OpenAI API</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="anthropic-api"/><div class="opt-label"><span class="opt-title">Anthropic / Claude API</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="google-ai-api"/><div class="opt-label"><span class="opt-title">Google AI / Gemini API</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="azure-openai"/><div class="opt-label"><span class="opt-title">Azure OpenAI Service</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="other-api"/><div class="opt-label"><span class="opt-title">Other AI APIs</span></div></label>
-              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="no-api"/><div class="opt-label"><span class="opt-title">No direct API usage</span></div></label>
-            </div>
-          </div>
-
-          <div class="field">
-            <label>Have any internal AI applications or tools been built or are in development using this stack?</label>
-            <div class="radio-group" id="q-internal-ai-built">
-              <label class="radio-opt" onclick="selectRadio('q-internal-ai-built','yes-governed',this)"><input type="radio" name="internalaibuilt" value="yes-governed"/><div class="opt-label"><span class="opt-title">Yes — formally reviewed and governed by IT</span><span class="opt-desc">Security review completed, data flows documented, risks assessed</span></div></label>
-              <label class="radio-opt" onclick="selectRadio('q-internal-ai-built','yes-ungoverned',this)"><input type="radio" name="internalaibuilt" value="yes-ungoverned"/><div class="opt-label"><span class="opt-title">Yes — built or in progress without formal IT review</span><span class="opt-desc">Shadow development — AI applications in production or development outside governance processes</span></div></label>
-              <label class="radio-opt" onclick="selectRadio('q-internal-ai-built','in-progress',this)"><input type="radio" name="internalaibuilt" value="in-progress"/><div class="opt-label"><span class="opt-title">In progress / planned — not yet reviewed</span><span class="opt-desc">Development underway or imminent without governance framework in place</span></div></label>
-              <label class="radio-opt" onclick="selectRadio('q-internal-ai-built','unknown',this)"><input type="radio" name="internalaibuilt" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown — not assessed</span><span class="opt-desc">If developers have access to AI APIs and frameworks, assume development is occurring</span></div></label>
-              <label class="radio-opt" onclick="selectRadio('q-internal-ai-built','no',this)"><input type="radio" name="internalaibuilt" value="no"/><div class="opt-label"><span class="opt-title">No — confirmed no internal AI development</span></div></label>
-            </div>
-          </div>
-        </div>
-
-        <!-- MCP / Plugins / Skills — shown for all orgs -->
-        <div style="height:1px;background:var(--border);margin:4px 0 20px;"></div>
-        <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:700;margin-bottom:16px;">AI Extensions & System Access</div>
-        <p style="font-size:.82rem;color:var(--muted);margin-bottom:16px;">MCPs, plugins, and skills give AI models direct access to internal systems — a fundamentally higher risk than passive tool use.</p>
-
-        <div class="field">
-          <label>Are MCP servers (Model Context Protocol) in use?</label>
-          <div class="radio-group" id="q-mcp">
-            <label class="radio-opt" onclick="selectRadio('q-mcp','yes-internal',this)"><input type="radio" name="mcp" value="yes-internal"/><div class="opt-label"><span class="opt-title">Yes — connecting AI to internal systems</span><span class="opt-desc">Databases, file systems, internal APIs, code repositories</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-mcp','yes-external',this)"><input type="radio" name="mcp" value="yes-external"/><div class="opt-label"><span class="opt-title">Yes — connecting to external services only</span><span class="opt-desc">Web search, public APIs, SaaS tools</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-mcp','no',this)"><input type="radio" name="mcp" value="no"/><div class="opt-label"><span class="opt-title">No</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-mcp','unknown',this)"><input type="radio" name="mcp" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown / not assessed</span><span class="opt-desc">High risk — if developers are using AI tools, MCP usage may be occurring without IT knowledge</span></div></label>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Has any AI-powered tool, chatbot, or automated workflow been built or deployed — inside or outside IT governance?</label>
-          <p class="hint" style="margin-bottom:8px">Includes no-code builds: custom GPTs, Copilot Studio agents, Power Automate AI flows, Zapier/Make AI workflows, or anything built with an AI API by any team member.</p>
-          <div class="radio-group" id="q-ai-deployed">
-            <label class="radio-opt" onclick="selectRadio('q-ai-deployed','yes-governed',this)"><input type="radio" name="aideployed" value="yes-governed"/><div class="opt-label"><span class="opt-title">Yes — formally reviewed, documented, and governed</span><span class="opt-desc">Security review completed, data flows documented, ongoing oversight in place</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-ai-deployed','yes-ungoverned',this)"><input type="radio" name="aideployed" value="yes-ungoverned"/><div class="opt-label"><span class="opt-title">Yes — deployed without formal IT review or documentation</span><span class="opt-desc">Live AI applications or automations outside governance — critical risk</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-ai-deployed','in-progress',this)"><input type="radio" name="aideployed" value="in-progress"/><div class="opt-label"><span class="opt-title">In progress or planned — no governance framework yet in place</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-ai-deployed','unknown',this)"><input type="radio" name="aideployed" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown — not been assessed</span><span class="opt-desc">Treat as high risk — shadow AI development is common and hard to detect</span></div></label>
-            <label class="radio-opt" onclick="selectRadio('q-ai-deployed','no',this)"><input type="radio" name="aideployed" value="no"/><div class="opt-label"><span class="opt-title">No — confirmed none in use or development</span></div></label>
           </div>
         </div>
 
@@ -738,9 +652,125 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         </div>
       </div>
 
-      <!-- Section 3: People -->
+      <!-- Section 3: AI-Built Tools & Automations -->
       <div class="q-section" id="qs-3">
-        <div class="section-num">Section 3 of 6</div>
+        <div class="section-num">Section 3 of 7</div>
+        <div class="section-header">
+          <h2>AI-Built Tools &amp; Automations</h2>
+          <p>Staff across all departments are building tools, automations, and applications using AI — often without IT's knowledge. This is the fastest-growing and least-visible shadow AI risk.</p>
+        </div>
+
+        <div style="background:#fef3c7;border:1px solid #fcd34d;border-radius:10px;padding:16px 20px;margin-bottom:28px;font-size:.88rem;color:#92400e;line-height:1.65;">
+          <strong>Consider this:</strong> Can your IT team say with confidence whether any staff member has built, or is currently running, an internal tool, automation, or dashboard using AI — regardless of which platform they used?<br/><br/>
+          A single employee with access to AI tools can build and deploy a data processing application in an afternoon, with no IT review, no security assessment, and no data processing agreement in place.
+        </div>
+
+        <div class="field">
+          <label>Are non-technical staff building or deploying tools, automations, or dashboards using AI?</label>
+          <p class="hint">This includes anything built with no-code or AI tools — not just traditional software development.</p>
+          <div class="radio-group" id="q-vibe-lead">
+            <label class="radio-opt" onclick="selectRadio('q-vibe-lead','yes',this);showVibePlatforms(true)"><input type="radio" name="vibelead" value="yes"/><div class="opt-label"><span class="opt-title">Yes — this is happening</span><span class="opt-desc">Staff are building tools or automations using AI platforms</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-vibe-lead','unknown',this);showVibePlatforms(true)"><input type="radio" name="vibelead" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown — not been assessed</span><span class="opt-desc">High risk — if staff have access to AI tools, assume this is occurring</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-vibe-lead','governed',this);showVibePlatforms(true)"><input type="radio" name="vibelead" value="governed"/><div class="opt-label"><span class="opt-title">Yes — and it is governed, IT reviews all internally-built tools</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-vibe-lead','no',this);showVibePlatforms(false)"><input type="radio" name="vibelead" value="no"/><div class="opt-label"><span class="opt-title">No — confirmed this is not happening</span></div></label>
+          </div>
+        </div>
+
+        <div id="vibe-platforms" style="display:none">
+          <div class="field">
+            <label>Which platforms are in use, if known?</label>
+            <div class="check-group" id="q-vibe-coding">
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="claude-code"/><div class="opt-label"><span class="opt-title">Claude Code / Cursor Agent / Devin</span><span class="opt-desc">Agentic AI tools that autonomously write and run code — often used by non-developers to build internal tools</span></div></label>
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="replit"/><div class="opt-label"><span class="opt-title">Replit</span><span class="opt-desc">Browser-based AI coding — code and data sent to Replit servers</span></div></label>
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="bubble-glide"/><div class="opt-label"><span class="opt-title">Bubble / Glide / Softr / Retool</span><span class="opt-desc">No-code app builders often connected to live company data</span></div></label>
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="vercel-v0"/><div class="opt-label"><span class="opt-title">Vercel v0 / Lovable / Bolt</span><span class="opt-desc">AI UI builders that generate and deploy web applications</span></div></label>
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="zapier-make"/><div class="opt-label"><span class="opt-title">Zapier / Make with AI steps</span><span class="opt-desc">Automation platforms routing business data through AI — often built by non-IT staff</span></div></label>
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="staff-built-tools"/><div class="opt-label"><span class="opt-title">Staff-built internal tools (any method)</span><span class="opt-desc">Internal tools or automations built by non-IT staff, regardless of platform</span></div></label>
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="not-known"/><div class="opt-label"><span class="opt-title">Not known which platforms are in use</span></div></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Does the organisation have engineering / development teams?</label>
+          <div class="radio-group" id="q-has-dev">
+            <label class="radio-opt" onclick="selectRadio('q-has-dev','yes',this);showDevBlock(true)"><input type="radio" name="hasdev" value="yes"/><div class="opt-label"><span class="opt-title">Yes</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-has-dev','no',this);showDevBlock(false)"><input type="radio" name="hasdev" value="no"/><div class="opt-label"><span class="opt-title">No</span></div></label>
+          </div>
+        </div>
+
+        <div id="dev-block" style="display:none">
+          <div style="height:1px;background:var(--border);margin:4px 0 20px;"></div>
+          <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);font-weight:700;margin-bottom:16px;">Developer Tools</div>
+
+          <div class="field">
+            <label>AI code assistants in use (approved or personal)</label>
+            <div class="check-group" id="q-ai-code">
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="copilot-personal"/><div class="opt-label"><span class="opt-title">GitHub Copilot (personal account)</span><span class="opt-desc">High risk — code may be used for model training, no DPA</span></div></label>
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="cursor"/><div class="opt-label"><span class="opt-title">Cursor</span><span class="opt-desc">Sends full codebase context to external AI — significant IP exposure</span></div></label>
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="tabnine"/><div class="opt-label"><span class="opt-title">Tabnine</span></div></label>
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="codewhisperer"/><div class="opt-label"><span class="opt-title">Amazon CodeWhisperer</span></div></label>
+              <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="none-code"/><div class="opt-label"><span class="opt-title">None known</span></div></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Has your development team integrated AI services into any applications or internal tools?</label>
+            <div class="radio-group" id="q-internal-ai-built">
+              <label class="radio-opt" onclick="selectRadio('q-internal-ai-built','yes-governed',this)"><input type="radio" name="internalaibuilt" value="yes-governed"/><div class="opt-label"><span class="opt-title">Yes — formally reviewed and governed by IT</span><span class="opt-desc">Security review completed, data flows documented, risks assessed</span></div></label>
+              <label class="radio-opt" onclick="selectRadio('q-internal-ai-built','yes-ungoverned',this)"><input type="radio" name="internalaibuilt" value="yes-ungoverned"/><div class="opt-label"><span class="opt-title">Yes — built or in progress without formal IT review</span><span class="opt-desc">Shadow development — AI applications in production or development outside governance processes</span></div></label>
+              <label class="radio-opt" onclick="selectRadio('q-internal-ai-built','in-progress',this)"><input type="radio" name="internalaibuilt" value="in-progress"/><div class="opt-label"><span class="opt-title">In progress / planned — not yet reviewed</span><span class="opt-desc">Development underway or imminent without governance framework in place</span></div></label>
+              <label class="radio-opt" onclick="selectRadio('q-internal-ai-built','unknown',this)"><input type="radio" name="internalaibuilt" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown — not assessed</span><span class="opt-desc">If developers have access to AI tools, assume integration is occurring</span></div></label>
+              <label class="radio-opt" onclick="selectRadio('q-internal-ai-built','no',this)"><input type="radio" name="internalaibuilt" value="no"/><div class="opt-label"><span class="opt-title">No — confirmed no internal AI development</span></div></label>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:1px;background:var(--border);margin:4px 0 20px;"></div>
+
+        <div class="field">
+          <label>Has any AI tool been given direct access to internal systems — such as databases, file systems, internal APIs, or code repositories?</label>
+          <p class="hint">This includes AI integrations that can read or write to internal data sources. (Sometimes referred to as MCP or tool-use integrations.)</p>
+          <div class="radio-group" id="q-mcp">
+            <label class="radio-opt" onclick="selectRadio('q-mcp','yes-internal',this)"><input type="radio" name="mcp" value="yes-internal"/><div class="opt-label"><span class="opt-title">Yes — AI has access to internal systems</span><span class="opt-desc">Databases, file systems, internal APIs, code repositories</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-mcp','yes-external',this)"><input type="radio" name="mcp" value="yes-external"/><div class="opt-label"><span class="opt-title">Yes — external services only</span><span class="opt-desc">Web search, public APIs, SaaS tools</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-mcp','no',this)"><input type="radio" name="mcp" value="no"/><div class="opt-label"><span class="opt-title">No</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-mcp','unknown',this)"><input type="radio" name="mcp" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown / not assessed</span><span class="opt-desc">High risk — if developers are using AI tools, this type of integration may be occurring without IT knowledge</span></div></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Has any AI-powered tool, chatbot, or automated workflow been built or deployed — inside or outside IT governance?</label>
+          <p class="hint" style="margin-bottom:8px">Includes no-code builds: custom GPTs, Copilot Studio agents, Power Automate AI flows, Zapier/Make AI workflows, or anything built with an AI API by any team member.</p>
+          <div class="radio-group" id="q-ai-deployed">
+            <label class="radio-opt" onclick="selectRadio('q-ai-deployed','yes-governed',this)"><input type="radio" name="aideployed" value="yes-governed"/><div class="opt-label"><span class="opt-title">Yes — formally reviewed, documented, and governed</span><span class="opt-desc">Security review completed, data flows documented, ongoing oversight in place</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-ai-deployed','yes-ungoverned',this)"><input type="radio" name="aideployed" value="yes-ungoverned"/><div class="opt-label"><span class="opt-title">Yes — deployed without formal IT review or documentation</span><span class="opt-desc">Live AI applications or automations outside governance — critical risk</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-ai-deployed','in-progress',this)"><input type="radio" name="aideployed" value="in-progress"/><div class="opt-label"><span class="opt-title">In progress or planned — no governance framework yet in place</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-ai-deployed','unknown',this)"><input type="radio" name="aideployed" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown — not been assessed</span><span class="opt-desc">Treat as high risk — shadow AI development is common and hard to detect</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-ai-deployed','no',this)"><input type="radio" name="aideployed" value="no"/><div class="opt-label"><span class="opt-title">No — confirmed none in use or development</span></div></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Has your organisation assessed whether AI-generated outputs — code, content, or automated decisions — carry GDPR or data protection obligations?</label>
+          <p class="hint" style="margin-bottom:8px">AI-generated outputs that process or act on personal data may create compliance obligations regardless of how or by whom they were built.</p>
+          <div class="radio-group" id="q-ai-output-governance">
+            <label class="radio-opt" onclick="selectRadio('q-ai-output-governance','yes',this)"><input type="radio" name="aioutputgov" value="yes"/><div class="opt-label"><span class="opt-title">Yes — data protection obligations of AI outputs have been assessed</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-ai-output-governance','partial',this)"><input type="radio" name="aioutputgov" value="partial"/><div class="opt-label"><span class="opt-title">Partially — assessed for some tools but not comprehensively</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-ai-output-governance','no',this)"><input type="radio" name="aioutputgov" value="no"/><div class="opt-label"><span class="opt-title">No — this has not been assessed</span><span class="opt-desc">High risk — ungoverned AI outputs processing personal data may breach GDPR Article 22 and ICO guidance</span></div></label>
+            <label class="radio-opt" onclick="selectRadio('q-ai-output-governance','unknown',this)"><input type="radio" name="aioutputgov" value="unknown"/><div class="opt-label"><span class="opt-title">Unknown</span></div></label>
+          </div>
+        </div>
+
+        <div class="q-nav">
+          <button class="btn" onclick="prevSection(3)">← Back</button>
+          <button class="btn-primary" onclick="nextSection(3)">Next →</button>
+        </div>
+      </div>
+
+      <!-- Section 4: People -->
+      <div class="q-section" id="qs-4">
+        <div class="section-num">Section 4 of 7</div>
         <div class="section-header">
           <h2>People & Departments</h2>
           <p>Understanding which teams exist and their technical literacy helps identify where shadow AI is most likely to emerge.</p>
@@ -812,14 +842,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         </div>
 
         <div class="q-nav">
-          <button class="btn" onclick="prevSection(3)">← Back</button>
-          <button class="btn-primary" onclick="nextSection(3)">Next →</button>
+          <button class="btn" onclick="prevSection(4)">← Back</button>
+          <button class="btn-primary" onclick="nextSection(4)">Next →</button>
         </div>
       </div>
 
       <!-- Section 4: Data -->
-      <div class="q-section" id="qs-4">
-        <div class="section-num">Section 4 of 6</div>
+      <div class="q-section" id="qs-5">
+        <div class="section-num">Section 5 of 7</div>
         <div class="section-header">
           <h2>Data & Sensitivity</h2>
           <p>The risk of shadow AI is determined largely by what data employees have access to and might input into AI tools.</p>
@@ -862,14 +892,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         </div>
 
         <div class="q-nav">
-          <button class="btn" onclick="prevSection(4)">← Back</button>
-          <button class="btn-primary" onclick="nextSection(4)">Next →</button>
+          <button class="btn" onclick="prevSection(5)">← Back</button>
+          <button class="btn-primary" onclick="nextSection(5)">Next →</button>
         </div>
       </div>
 
       <!-- Section 5: AI Posture -->
-      <div class="q-section" id="qs-5">
-        <div class="section-num">Section 5 of 6</div>
+      <div class="q-section" id="qs-6">
+        <div class="section-num">Section 6 of 7</div>
         <div class="section-header">
           <h2>Current AI Posture</h2>
           <p>Understanding what the organisation has already done — or not done — on AI governance.</p>
@@ -918,13 +948,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         </div>
 
         <div class="q-nav">
-          <button class="btn" onclick="prevSection(5)">← Back</button>
-          <button class="btn-primary" onclick="nextSection(5)">Next →</button>
+          <button class="btn" onclick="prevSection(6)">← Back</button>
+          <button class="btn-primary" onclick="nextSection(6)">Next →</button>
         </div>
       </div>
-      <!-- Section 6: Accountability & Controls -->
-      <div class="q-section" id="qs-6">
-        <div class="section-num">Section 6 of 6</div>
+      <!-- Section 7: Accountability & Controls -->
+      <div class="q-section" id="qs-7">
+        <div class="section-num">Section 7 of 7</div>
         <div class="section-header">
           <h2>Accountability & Controls</h2>
           <p>How the organisation governs AI outputs, responds to incidents, and manages risk across its supply chain and customer base.</p>
@@ -1025,7 +1055,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         </div>
 
         <div class="q-nav">
-          <button class="btn" onclick="prevSection(6)">← Back</button>
+          <button class="btn" onclick="prevSection(7)">← Back</button>
           <div class="q-nav-right">
             <button class="btn" onclick="saveAndExit()">Save & Exit</button>
             <button class="btn-primary" onclick="runDiagnostic()">Generate Report →</button>
@@ -1184,7 +1214,7 @@ let aiConfig = { apiKey: '', mode: 'cloud', ollamaUrl: 'http://localhost:11434',
 let sessions = [];
 let currentSession = null;
 
-const SECTIONS = ['Organisation Profile','Tool Stack','People & Departments','Data & Sensitivity','Current AI Posture','Accountability & Controls'];
+const SECTIONS = ['Organisation Profile','Tool Stack','AI-Built Tools & Automations','People & Departments','Data & Sensitivity','Current AI Posture','Accountability & Controls'];
 
 /* ═══════════════════════════════════════════════════════════
    INIT
@@ -1324,6 +1354,10 @@ function getCheckedValues(groupId) {
 
 function showDevBlock(show) {
   document.getElementById('dev-block').style.display = show ? '' : 'none';
+}
+
+function showVibePlatforms(show) {
+  document.getElementById('vibe-platforms').style.display = show ? '' : 'none';
 }
 
 function selectRadio(groupId, value, el) {
