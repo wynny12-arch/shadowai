@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Vibe Code Lab — Tactica</title>
+<style>
+:root {
+  --navy:             #0f2040;
+  --accent:           #2563eb;
+  --accent-light:     #eff6ff;
+  --accent-border:    #bfdbfe;
+  --text:             #111827;
+  --muted:            #6b7280;
+  --border:           #e5e7eb;
+  --bg:               #f8fafc;
+  --surface:          #ffffff;
+  --radius:           12px;
+  --shadow:           0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:        0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Topbar ── */
+.topbar {
+  background: var(--navy);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-inner { display: flex; align-items: center; gap: 12px; }
+.brand-mark {
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  color: #fff;
+  background: rgba(255,255,255,.12);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.brand-sep { color: rgba(255,255,255,.25); font-weight: 300; }
+.brand-title { font-size: .88rem; font-weight: 500; color: rgba(255,255,255,.75); }
+
+/* ── Shared layout ── */
+.section { padding: 80px 20px; }
+.section-inner { max-width: 880px; margin: 0 auto; }
+.section-inner.narrow { max-width: 680px; }
+.eyebrow {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.section-heading {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1.22;
+  margin-bottom: 20px;
+}
+.section-body {
+  font-size: .975rem;
+  color: var(--muted);
+  line-height: 1.85;
+}
+
+/* ── Scroll reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+
+/* ── Hero ── */
+.hero {
+  background: var(--navy);
+  padding: 96px 20px 100px;
+}
+.hero-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.hero .eyebrow { color: rgba(255,255,255,.45); }
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.18;
+  margin-bottom: 22px;
+}
+.hero-sub {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,.7);
+  line-height: 1.8;
+  max-width: 640px;
+  margin-bottom: 40px;
+}
+.btn-primary {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 13px 30px;
+  border-radius: 8px;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s, box-shadow .15s;
+  box-shadow: 0 2px 4px rgba(37,99,235,.35);
+  letter-spacing: .01em;
+}
+.btn-primary:hover { background: #1d4ed8; box-shadow: 0 4px 12px rgba(37,99,235,.4); }
+
+/* ── Problem ── */
+.problem { background: var(--surface); border-bottom: 1px solid var(--border); }
+
+/* ── Cards ── */
+.cards-section { background: var(--bg); }
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  box-shadow: var(--shadow);
+}
+.card-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--accent-light);
+  border: 1px solid var(--accent-border);
+  border-radius: 8px;
+  font-size: .72rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: .04em;
+  margin-bottom: 16px;
+}
+.card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.card p {
+  font-size: .875rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ── How it works ── */
+.how-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.steps-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.step {
+  padding: 32px 28px;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+}
+.step:last-child { border-right: none; }
+.step-num {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.step h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.step p {
+  font-size: .875rem;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ── Who it's for ── */
+.who-section { background: var(--bg); }
+.who-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 44px;
+  box-shadow: var(--shadow-md);
+  margin-top: 0;
+}
+.who-block p {
+  font-size: .975rem;
+  color: var(--muted);
+  line-height: 1.85;
+  margin-bottom: 20px;
+}
+.who-block p:last-of-type { margin-bottom: 0; }
+.who-attribution {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: .82rem;
+  color: var(--muted);
+}
+
+/* ── Contact ── */
+.contact-section { background: var(--navy); }
+.contact-section .section-heading { color: #fff; }
+.contact-section .section-body { color: rgba(255,255,255,.65); margin-bottom: 36px; }
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 32px;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-field label {
+  font-size: .78rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.55);
+  letter-spacing: .04em;
+}
+.form-field input,
+.form-field textarea {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-size: .9rem;
+  color: #fff;
+  font-family: inherit;
+  outline: none;
+  transition: border-color .15s;
+  resize: vertical;
+}
+.form-field input::placeholder,
+.form-field textarea::placeholder { color: rgba(255,255,255,.3); }
+.form-field input:focus,
+.form-field textarea:focus { border-color: rgba(255,255,255,.4); background: rgba(255,255,255,.1); }
+.btn-submit {
+  align-self: flex-start;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, box-shadow .15s;
+  box-shadow: 0 2px 4px rgba(37,99,235,.3);
+  margin-top: 4px;
+}
+.btn-submit:hover { background: #1d4ed8; box-shadow: 0 4px 12px rgba(37,99,235,.4); }
+.contact-email-alt {
+  margin-top: 20px;
+  font-size: .8rem;
+  color: rgba(255,255,255,.4);
+}
+.contact-email-alt a { color: rgba(255,255,255,.55); }
+.form-confirm {
+  display: none;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: var(--radius);
+  padding: 32px 36px;
+  margin-top: 32px;
+  color: rgba(255,255,255,.85);
+  font-size: .95rem;
+  line-height: 1.7;
+}
+.form-confirm strong { color: #fff; }
+
+/* ── Footer ── */
+.footer {
+  background: var(--navy);
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 24px 28px;
+  text-align: center;
+  font-size: .78rem;
+  color: rgba(255,255,255,.3);
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .hero { padding: 64px 20px 72px; }
+  .hero h1 { font-size: 1.75rem; }
+  .hero-sub { font-size: .95rem; }
+  .section { padding: 56px 20px; }
+  .section-heading { font-size: 1.4rem; }
+  .cards-grid { grid-template-columns: 1fr; gap: 12px; }
+  .steps-row { grid-template-columns: 1fr; }
+  .step { border-right: none; border-bottom: 1px solid var(--border); }
+  .step:last-child { border-bottom: none; }
+  .who-block { padding: 28px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .topbar { padding: 0 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="brand-mark">TACTICA</span>
+    <span class="brand-sep">|</span>
+    <span class="brand-title">Vibe Code Lab</span>
+  </div>
+</header>
+
+<!-- 1. Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow reveal">Tactica Partners</div>
+    <h1 class="reveal reveal-delay-1">IT doesn't have to choose between control and progress.</h1>
+    <p class="hero-sub reveal reveal-delay-2">The Vibe Code Lab is an IT-led, governed environment that positions IT as the enabler — not the blocker. A repeatable delivery model that sits between the raw AI tools and the enterprise.</p>
+    <a href="#contact" class="btn-primary reveal reveal-delay-3">Talk to us about the Vibe Code Lab →</a>
+  </div>
+</section>
+
+<!-- 2. The problem -->
+<section class="section problem">
+  <div class="section-inner narrow">
+    <div class="eyebrow reveal">The context</div>
+    <h2 class="section-heading reveal">The governance gap is already open.</h2>
+    <p class="section-body reveal">Staff across every department are using AI to build tools, automations, and dashboards — often without IT's knowledge. The risk isn't that they're using AI. The risk is that nobody is governing what gets built, what data it touches, or what happens when something goes wrong. Most organisations are reacting. A few are getting ahead of it.</p>
+  </div>
+</section>
+
+<!-- 3. What it is -->
+<section class="section cards-section">
+  <div class="section-inner">
+    <div class="eyebrow reveal">What the Vibe Code Lab is</div>
+    <h2 class="section-heading reveal">A governed environment. Not a policy document.</h2>
+    <div class="cards-grid">
+      <div class="card reveal reveal-delay-1">
+        <div class="card-num">01</div>
+        <h3>IT-Led by Design</h3>
+        <p>The Vibe Code Lab puts IT at the centre of AI-assisted development — not as a gatekeeper, but as the team that makes it work properly. Staff get access to the tools they want. IT gets the visibility and control it needs.</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <div class="card-num">02</div>
+        <h3>Repeatable Delivery Model</h3>
+        <p>Not a one-off project. A structured approach that can be applied across teams, departments, and use cases — with consistent security standards, data governance, and pre-production review built in from the start.</p>
+      </div>
+      <div class="card reveal reveal-delay-3">
+        <div class="card-num">03</div>
+        <h3>From Risk to Capability</h3>
+        <p>When IT governs AI-assisted development properly, the conversation with leadership changes. It stops being about what to block and starts being about what's now possible. That shift has commercial value.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. How it works -->
+<section class="section how-section">
+  <div class="section-inner">
+    <div class="eyebrow reveal">How it works</div>
+    <h2 class="section-heading reveal">Three phases. One coherent framework.</h2>
+    <div class="steps-row">
+      <div class="step reveal reveal-delay-1">
+        <div class="step-num">Phase 01 — Discover</div>
+        <h3>Discover</h3>
+        <p>Map what's already in use across the organisation. Identify ungoverned tools, AI-built applications, and data connections that have been created without IT oversight.</p>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step-num">Phase 02 — Govern</div>
+        <h3>Govern</h3>
+        <p>Establish the policies, review gates, and accountability structures that make AI-assisted development safe. Define what's approved, what requires review, and what's off limits.</p>
+      </div>
+      <div class="step reveal reveal-delay-3">
+        <div class="step-num">Phase 03 — Enable</div>
+        <h3>Enable</h3>
+        <p>Stand up the Vibe Code Lab environment. Give teams a governed space to build with AI — with IT in control of what goes into production and what data it can touch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Who it's for -->
+<section class="section who-section">
+  <div class="section-inner narrow">
+    <div class="eyebrow reveal">Who this is for</div>
+    <h2 class="section-heading reveal">Built for IT leaders who want to get ahead of this.</h2>
+    <div class="who-block reveal">
+      <p>The Vibe Code Lab is designed for heads of IT, IT directors, and CISOs at organisations where AI-assisted development is already happening — or where it's about to. If you've just completed the Vibe Coding Risk Check and found gaps, this is the conversation to have next.</p>
+      <p>[PLACEHOLDER: client sector references to be added]</p>
+      <div class="who-attribution">Developed by John Wynn, Client Services Director at Tactica Partners.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Contact -->
+<section class="section contact-section" id="contact">
+  <div class="section-inner narrow">
+    <div class="eyebrow reveal" style="color:rgba(255,255,255,.4);">Get in touch</div>
+    <h2 class="section-heading reveal">Start the conversation.</h2>
+    <p class="section-body reveal">We're not selling a platform. We're offering a structured engagement that leaves your organisation with a governed approach to AI-assisted development and IT back in the driving seat.</p>
+
+    <form class="contact-form reveal" id="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="f-name">Name</label>
+          <input type="text" id="f-name" name="name" placeholder="Your name" required/>
+        </div>
+        <div class="form-field">
+          <label for="f-email">Email</label>
+          <input type="email" id="f-email" name="email" placeholder="you@organisation.com" required/>
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="f-message">Message</label>
+        <textarea id="f-message" name="message" rows="5" placeholder="Tell us a bit about where your organisation is with AI-assisted development — even a few lines is enough to get started."></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Send →</button>
+    </form>
+
+    <div class="form-confirm" id="form-confirm">
+      <strong>Thanks — we'll be in touch shortly.</strong><br/>
+      We'll review your message and come back to you within one business day.
+    </div>
+
+    <p class="contact-email-alt reveal">Or email us directly at <a href="mailto:[PLACEHOLDER EMAIL]">[PLACEHOLDER EMAIL]</a></p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  © 2026 Tactica Partners. All rights reserved.
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Form submit
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('contact-form').style.display = 'none';
+  const confirm = document.getElementById('form-confirm');
+  confirm.style.display = 'block';
+}
+</script>
+</body>
+</html>
