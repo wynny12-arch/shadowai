@@ -416,6 +416,12 @@ body {
   color: var(--muted);
   font-weight: 400;
 }
+.score-note {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+  margin-top: -16px;
+}
 .gauge-wrap { position: relative; }
 .gauge-track {
   height: 10px;
@@ -478,7 +484,10 @@ body {
 .breakdown-fill.low  { background: var(--controlled); }
 .breakdown-fill.mid  { background: var(--exposed); }
 .breakdown-fill.high { background: var(--blindspot); }
-.breakdown-score { font-size: .78rem; color: var(--muted); text-align: right; white-space: nowrap; }
+.breakdown-score { font-size: .75rem; font-weight: 600; text-align: right; white-space: nowrap; }
+.breakdown-score.low  { color: var(--controlled); }
+.breakdown-score.mid  { color: var(--exposed); }
+.breakdown-score.high { color: var(--blindspot); }
 
 /* ── Responsive ── */
 @media (max-width: 600px) {
@@ -956,16 +965,20 @@ function sectionRiskClass(val, max) {
   return 'high';
 }
 
+function sectionRiskLabel(cls) {
+  return { low: 'Low risk', mid: 'Medium risk', high: 'High risk' }[cls];
+}
+
 function breakdownRow(label, val, max) {
-  const cls  = sectionRiskClass(val, max);
-  const pct  = Math.round((val / max) * 100);
+  const cls = sectionRiskClass(val, max);
+  const pct = Math.round((val / max) * 100);
   return `
     <div class="breakdown-row">
       <span class="breakdown-label">${label}</span>
       <div class="breakdown-track">
         <div class="breakdown-fill ${cls}" data-target="${pct}%" style="width:0%"></div>
       </div>
-      <span class="breakdown-score">${val} / ${max}</span>
+      <span class="breakdown-score ${cls}">${sectionRiskLabel(cls)}</span>
     </div>`;
 }
 
@@ -992,6 +1005,7 @@ function showResults() {
         <span class="score-num">${s.total}</span>
         <span class="score-denom">/ 27</span>
       </div>
+      <p class="score-note">This is a risk score — lower is better. 0 = fully controlled, 27 = maximum exposure.</p>
       <div class="gauge-wrap">
         <div class="gauge-track">
           <div class="gauge-marker" id="gauge-marker" style="left:0%"></div>
@@ -1033,6 +1047,8 @@ function showResults() {
     </div>
 
     <div class="retake-wrap">
+      <button class="btn-retake" onclick="reviewAnswers()">← Review my answers</button>
+      <span style="color:var(--border);margin:0 10px;">|</span>
       <button class="btn-retake" onclick="retake()">Start over</button>
     </div>`;
 
@@ -1065,6 +1081,12 @@ function retake() {
   currentQ = 0;
   answers  = {};
   showScreen('intro');
+}
+
+function reviewAnswers() {
+  currentQ = QUESTIONS.length - 1;
+  showScreen('questions');
+  renderQuestion(currentQ, 'back');
 }
 </script>
 </body>
