@@ -461,33 +461,40 @@ body {
 .gbl-b { color: var(--blindspot);  flex: 0 0 37%;   text-align: right; }
 
 /* ── Section breakdown ── */
-.breakdown-grid { display: flex; flex-direction: column; gap: 14px; }
-.breakdown-row {
+.breakdown-grid {
   display: grid;
-  grid-template-columns: 100px 1fr 40px;
-  align-items: center;
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+  margin-top: 4px;
 }
-.breakdown-label { font-size: .85rem; font-weight: 600; color: var(--text); }
-.breakdown-track {
-  height: 8px;
-  background: var(--border);
-  border-radius: 4px;
-  overflow: hidden;
+@media (max-width: 560px) {
+  .breakdown-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 }
-.breakdown-fill {
-  height: 100%;
-  border-radius: 4px;
-  width: 0%;
-  transition: width 1s cubic-bezier(.4,0,.2,1);
+.breakdown-circle-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 }
-.breakdown-fill.low  { background: var(--controlled); }
-.breakdown-fill.mid  { background: var(--exposed); }
-.breakdown-fill.high { background: var(--blindspot); }
-.breakdown-score { font-size: .75rem; font-weight: 600; text-align: right; white-space: nowrap; }
-.breakdown-score.low  { color: var(--controlled); }
-.breakdown-score.mid  { color: var(--exposed); }
-.breakdown-score.high { color: var(--blindspot); }
+.breakdown-circle-wrap svg { overflow: visible; }
+.ring-track { fill: none; stroke: var(--border); stroke-width: 8; }
+.ring-fill {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 0 188.5;
+  transition: stroke-dasharray 1s cubic-bezier(.4,0,.2,1);
+  transform: rotate(-90deg);
+  transform-origin: 40px 40px;
+}
+.ring-fill.low  { stroke: var(--controlled); }
+.ring-fill.mid  { stroke: var(--exposed); }
+.ring-fill.high { stroke: var(--blindspot); }
+.breakdown-circle-label { font-size: .8rem; font-weight: 700; color: var(--text); text-align: center; }
+.breakdown-circle-risk { font-size: .72rem; font-weight: 600; text-align: center; }
+.breakdown-circle-risk.low  { color: var(--controlled); }
+.breakdown-circle-risk.mid  { color: var(--exposed); }
+.breakdown-circle-risk.high { color: var(--blindspot); }
 
 /* ── Responsive ── */
 @media (max-width: 600px) {
@@ -1034,16 +1041,18 @@ function sectionRiskLabel(cls) {
   return { low: 'Low risk', mid: 'Medium risk', high: 'High risk' }[cls];
 }
 
-function breakdownRow(label, val, max) {
+function breakdownCircle(label, val, max) {
   const cls = sectionRiskClass(val, max);
-  const pct = Math.round((val / max) * 100);
+  const circ = 188.5;
+  const target = Math.round((val / max) * circ * 10) / 10;
   return `
-    <div class="breakdown-row">
-      <span class="breakdown-label">${label}</span>
-      <div class="breakdown-track">
-        <div class="breakdown-fill ${cls}" data-target="${pct}%" style="width:0%"></div>
-      </div>
-      <span class="breakdown-score ${cls}">${sectionRiskLabel(cls)}</span>
+    <div class="breakdown-circle-wrap">
+      <svg viewBox="0 0 80 80" width="80" height="80">
+        <circle class="ring-track" cx="40" cy="40" r="30"/>
+        <circle class="ring-fill ${cls}" cx="40" cy="40" r="30" data-target="${target}"/>
+      </svg>
+      <span class="breakdown-circle-label">${label}</span>
+      <span class="breakdown-circle-risk ${cls}">${sectionRiskLabel(cls)}</span>
     </div>`;
 }
 
@@ -1092,10 +1101,10 @@ function showResults() {
     <div class="result-block">
       <h3>Score by section</h3>
       <div class="breakdown-grid">
-        ${breakdownRow('Awareness',  s.awareness,  6)}
-        ${breakdownRow('Exposure',   s.exposure,   14)}
-        ${breakdownRow('Governance', s.governance, 7)}
-        ${breakdownRow('Stance',     s.stance,     2)}
+        ${breakdownCircle('Awareness',  s.awareness,  6)}
+        ${breakdownCircle('Exposure',   s.exposure,   14)}
+        ${breakdownCircle('Governance', s.governance, 7)}
+        ${breakdownCircle('Stance',     s.stance,     2)}
       </div>
     </div>
 
@@ -1133,10 +1142,10 @@ function showResults() {
       if (marker) marker.style.left = markerPct + '%';
     }, 200);
 
-    // Animate section bars
+    // Animate section rings
     setTimeout(() => {
-      document.querySelectorAll('.breakdown-fill').forEach(el => {
-        el.style.width = el.dataset.target;
+      document.querySelectorAll('.ring-fill').forEach(el => {
+        el.style.strokeDasharray = el.dataset.target + ' 188.5';
       });
     }, 300);
   }));
