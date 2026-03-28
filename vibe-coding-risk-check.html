@@ -667,13 +667,21 @@ const QUESTIONS = [
     id: 'q8',
     section: 'Governance',
     text: 'Is there a formal review gate before AI-built tools or automations go live in your organisation?',
+    textAlt: 'If you discovered that staff had been building and deploying AI-powered tools internally, would you have a process to review them before they reached production?',
     hint: null,
+    hintAlt: 'Given that you haven\'t yet assessed whether this is happening, this question asks whether a governance process is in place if it were.',
     type: 'single',
     options: [
       { value: 'yes',      label: 'Yes — all AI-built tools go through an IT review before going live', score: 0 },
       { value: 'informal', label: 'Informally — some review happens but it\'s inconsistent', score: 1 },
       { value: 'no',       label: 'No — there is no formal gate', score: 2 },
       { value: 'unknown',  label: 'Unknown — it hasn\'t been assessed', score: 3 },
+    ],
+    optionsAlt: [
+      { value: 'yes',      label: 'Yes — our existing IT review processes would cover this', score: 0 },
+      { value: 'informal', label: 'Partially — we\'d apply standard change management but have no AI-specific process', score: 1 },
+      { value: 'no',       label: 'No — we don\'t have a process that would cover this', score: 2 },
+      { value: 'unknown',  label: 'We haven\'t considered this scenario', score: 3 },
     ]
   },
   {
@@ -749,6 +757,28 @@ const BANDS = {
 ═══════════════════════════════════════ */
 let currentQ = 0;
 let answers  = {};
+let skipped  = new Set();
+
+// No questions are skipped — Q8 adapts its text based on awareness answers.
+function shouldSkip(idx) {
+  return false;
+}
+
+// Q8 uses an alternate version when IT doesn't know if vibe coding is happening.
+function useAltVariant(q) {
+  return q.id === 'q8' && (answers.q1 === 'unknown' || answers.q2 === 'unknown');
+}
+
+function displayedNum(idx) {
+  // Count non-skipped questions up to and including idx
+  let n = 0;
+  for (let i = 0; i <= idx; i++) if (!skipped.has(i)) n++;
+  return n;
+}
+
+function displayedTotal() {
+  return QUESTIONS.length - skipped.size;
+}
 
 /* ═══════════════════════════════════════
    NAVIGATION
@@ -756,6 +786,7 @@ let answers  = {};
 function startSurvey() {
   currentQ = 0;
   answers  = {};
+  skipped.clear();
   showScreen('questions');
   renderQuestion(0, 'none');
 }
@@ -767,20 +798,32 @@ function showScreen(id) {
 }
 
 function goNext() {
-  if (currentQ < QUESTIONS.length - 1) {
-    animateCard('forward', () => {
-      currentQ++;
+  animateCard('forward', () => {
+    let next = currentQ + 1;
+    while (next < QUESTIONS.length && shouldSkip(next)) {
+      skipped.add(next);
+      answers[QUESTIONS[next].id] = 'unknown'; // auto-score as unknown
+      next++;
+    }
+    if (next < QUESTIONS.length) {
+      currentQ = next;
       renderQuestion(currentQ, 'forward');
-    });
-  } else {
-    showResults();
-  }
+    } else {
+      showResults();
+    }
+  });
 }
 
 function goBack() {
   if (currentQ > 0) {
     animateCard('back', () => {
-      currentQ--;
+      let prev = currentQ - 1;
+      while (prev > 0 && skipped.has(prev)) {
+        skipped.delete(prev);
+        delete answers[QUESTIONS[prev].id];
+        prev--;
+      }
+      currentQ = prev;
       renderQuestion(currentQ, 'back');
     });
   }
@@ -798,12 +841,19 @@ function animateCard(dir, cb) {
    RENDER QUESTION
 ═══════════════════════════════════════ */
 function renderQuestion(idx, dir) {
-  const q = QUESTIONS[idx];
+  const qBase = QUESTIONS[idx];
+  const alt = useAltVariant(qBase);
+  const q = {
+    ...qBase,
+    text:    alt && qBase.textAlt    ? qBase.textAlt    : qBase.text,
+    hint:    alt && qBase.hintAlt    ? qBase.hintAlt    : qBase.hint,
+    options: alt && qBase.optionsAlt ? qBase.optionsAlt : qBase.options,
+  };
 
   // Progress
-  const pct = (idx / QUESTIONS.length) * 100;
+  const pct = (displayedNum(idx) / displayedTotal()) * 100;
   document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-counter').textContent = `Question ${idx + 1} of ${QUESTIONS.length}`;
+  document.getElementById('progress-counter').textContent = `Question ${displayedNum(idx)} of ${displayedTotal()}`;
   document.getElementById('progress-section').textContent = q.section;
 
   // Options HTML
@@ -1080,6 +1130,7 @@ function showResults() {
 function retake() {
   currentQ = 0;
   answers  = {};
+  skipped.clear();
   showScreen('intro');
 }
 
