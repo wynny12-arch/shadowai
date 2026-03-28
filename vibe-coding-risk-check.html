@@ -382,6 +382,104 @@ body {
 }
 .btn-retake:hover { color: var(--text); }
 
+/* ── Score card & gauge ── */
+.score-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 36px 24px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.score-card-label {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.score-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+.score-num {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1;
+}
+.score-denom {
+  font-size: 1.15rem;
+  color: var(--muted);
+  font-weight: 400;
+}
+.gauge-wrap { position: relative; }
+.gauge-track {
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(to right,
+    var(--controlled) 0%, var(--controlled) 29.5%,
+    #d1d5db 29.5%, #d1d5db 30.2%,
+    var(--exposed)    30.2%, var(--exposed)    63%,
+    #d1d5db 63%,    #d1d5db 63.7%,
+    var(--blindspot)  63.7%, var(--blindspot)  100%
+  );
+  position: relative;
+}
+.gauge-marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: var(--navy);
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 5px rgba(0,0,0,.25);
+  transition: left 1s cubic-bezier(.4,0,.2,1);
+  z-index: 2;
+  left: 0%;
+}
+.gauge-band-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: .72rem;
+  font-weight: 600;
+}
+.gbl-c { color: var(--controlled); flex: 0 0 29.5%; }
+.gbl-e { color: var(--exposed);    flex: 0 0 33.5%; text-align: center; }
+.gbl-b { color: var(--blindspot);  flex: 0 0 37%;   text-align: right; }
+
+/* ── Section breakdown ── */
+.breakdown-grid { display: flex; flex-direction: column; gap: 14px; }
+.breakdown-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 40px;
+  align-items: center;
+  gap: 12px;
+}
+.breakdown-label { font-size: .85rem; font-weight: 600; color: var(--text); }
+.breakdown-track {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.breakdown-fill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0%;
+  transition: width 1s cubic-bezier(.4,0,.2,1);
+}
+.breakdown-fill.low  { background: var(--controlled); }
+.breakdown-fill.mid  { background: var(--exposed); }
+.breakdown-fill.high { background: var(--blindspot); }
+.breakdown-score { font-size: .78rem; color: var(--muted); text-align: right; white-space: nowrap; }
+
 /* ── Responsive ── */
 @media (max-width: 600px) {
   .intro-card { padding: 36px 24px 30px; }
@@ -817,44 +915,32 @@ function toggleMulti(qId, value, el) {
    SCORING
 ═══════════════════════════════════════ */
 function score() {
-  let s = 0;
+  let awareness = 0, exposure = 0, governance = 0, stance = 0;
 
-  // Q1 — monitoring
-  s += { yes: 0, partial: 1, no: 2, unknown: 3 }[answers.q1] ?? 0;
+  // Awareness
+  awareness += { yes: 0, partial: 1, no: 2, unknown: 3 }[answers.q1] ?? 0;
+  awareness += { confirmed_aware: 0, confirmed_unaware: 2, suspected: 2, no: 0, unknown: 3 }[answers.q2] ?? 0;
 
-  // Q2 — observed usage
-  s += { confirmed_aware: 0, confirmed_unaware: 2, suspected: 2, no: 0, unknown: 3 }[answers.q2] ?? 0;
-
-  // Q3 — tools (multi-select)
+  // Exposure
   const tools = answers.q3 || [];
   if (tools.includes('not-assessed')) {
-    s += 2;
+    exposure += 2;
   } else if (!tools.includes('none')) {
-    s += Math.min(3, tools.filter(v => v !== 'none' && v !== 'not-assessed').length);
+    exposure += Math.min(3, tools.filter(v => v !== 'none' && v !== 'not-assessed').length);
   }
+  exposure += { 'yes-reviewed': 0, 'yes-unreviewed': 3, unknown: 3, no: 0 }[answers.q4] ?? 0;
+  exposure += { no: 0, yes: 3, unknown: 3, 'no-process': 2 }[answers.q5] ?? 0;
+  exposure += { confirmed: 3, suspected: 2, no: 0, unknown: 2 }[answers.q6] ?? 0;
 
-  // Q4 — connected to data
-  s += { 'yes-reviewed': 0, 'yes-unreviewed': 3, unknown: 3, no: 0 }[answers.q4] ?? 0;
+  // Governance
+  governance += { yes: 0, partial: 1, no: 2, 'in-progress': 1 }[answers.q7] ?? 0;
+  governance += { yes: 0, informal: 1, no: 2, unknown: 3 }[answers.q8] ?? 0;
+  governance += { named: 0, shared: 1, 'it-general': 1, no: 2 }[answers.q9] ?? 0;
 
-  // Q5 — reached production
-  s += { no: 0, yes: 3, unknown: 3, 'no-process': 2 }[answers.q5] ?? 0;
+  // Stance
+  stance += { governed: 0, acknowledged: 1, blocking: 1, permissive: 2, 'want-to': 2 }[answers.q10] ?? 0;
 
-  // Q6 — incident
-  s += { confirmed: 3, suspected: 2, no: 0, unknown: 2 }[answers.q6] ?? 0;
-
-  // Q7 — policy
-  s += { yes: 0, partial: 1, no: 2, 'in-progress': 1 }[answers.q7] ?? 0;
-
-  // Q8 — review gate
-  s += { yes: 0, informal: 1, no: 2, unknown: 3 }[answers.q8] ?? 0;
-
-  // Q9 — accountability
-  s += { named: 0, shared: 1, 'it-general': 1, no: 2 }[answers.q9] ?? 0;
-
-  // Q10 — stance
-  s += { governed: 0, acknowledged: 1, blocking: 1, permissive: 2, 'want-to': 2 }[answers.q10] ?? 0;
-
-  return s;
+  return { total: awareness + exposure + governance + stance, awareness, exposure, governance, stance };
 }
 
 function band(s) {
@@ -863,12 +949,35 @@ function band(s) {
   return 'blindspot';
 }
 
+function sectionRiskClass(val, max) {
+  const r = val / max;
+  if (r <= 0.33) return 'low';
+  if (r <= 0.66) return 'mid';
+  return 'high';
+}
+
+function breakdownRow(label, val, max) {
+  const cls  = sectionRiskClass(val, max);
+  const pct  = Math.round((val / max) * 100);
+  return `
+    <div class="breakdown-row">
+      <span class="breakdown-label">${label}</span>
+      <div class="breakdown-track">
+        <div class="breakdown-fill ${cls}" data-target="${pct}%" style="width:0%"></div>
+      </div>
+      <span class="breakdown-score">${val} / ${max}</span>
+    </div>`;
+}
+
 /* ═══════════════════════════════════════
    RESULTS
 ═══════════════════════════════════════ */
 function showResults() {
-  const b = band(score());
+  const s = score();
+  const b = band(s.total);
   const r = BANDS[b];
+
+  const markerPct = Math.round((s.total / 27) * 100);
 
   const stepsHtml = r.steps.map((t, i) => `
     <div class="step-item">
@@ -877,10 +986,38 @@ function showResults() {
     </div>`).join('');
 
   document.getElementById('results-content').innerHTML = `
+    <div class="score-card">
+      <div class="score-card-label">Risk Score</div>
+      <div class="score-row">
+        <span class="score-num">${s.total}</span>
+        <span class="score-denom">/ 27</span>
+      </div>
+      <div class="gauge-wrap">
+        <div class="gauge-track">
+          <div class="gauge-marker" id="gauge-marker" style="left:0%"></div>
+        </div>
+        <div class="gauge-band-labels">
+          <span class="gbl-c">Controlled</span>
+          <span class="gbl-e">Exposed</span>
+          <span class="gbl-b">Blind Spot</span>
+        </div>
+      </div>
+    </div>
+
     <div class="band-block ${r.cls}">
       <div class="band-tag">${r.tag}</div>
       <div class="band-title">${r.title}</div>
       <div class="band-summary">${r.summary}</div>
+    </div>
+
+    <div class="result-block">
+      <h3>Score by section</h3>
+      <div class="breakdown-grid">
+        ${breakdownRow('Awareness',  s.awareness,  6)}
+        ${breakdownRow('Exposure',   s.exposure,   12)}
+        ${breakdownRow('Governance', s.governance, 7)}
+        ${breakdownRow('Stance',     s.stance,     2)}
+      </div>
     </div>
 
     <div class="result-block">
@@ -901,13 +1038,26 @@ function showResults() {
 
   showScreen('results');
 
-  // Animate
+  // Animate wrap in
   const wrap = document.getElementById('results-wrap');
   wrap.style.opacity   = '0';
   wrap.style.transform = 'translateY(16px)';
   requestAnimationFrame(() => requestAnimationFrame(() => {
     wrap.style.opacity   = '1';
     wrap.style.transform = 'translateY(0)';
+
+    // Animate gauge marker
+    setTimeout(() => {
+      const marker = document.getElementById('gauge-marker');
+      if (marker) marker.style.left = markerPct + '%';
+    }, 200);
+
+    // Animate section bars
+    setTimeout(() => {
+      document.querySelectorAll('.breakdown-fill').forEach(el => {
+        el.style.width = el.dataset.target;
+      });
+    }, 300);
   }));
 }
 
