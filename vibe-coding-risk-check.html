@@ -427,9 +427,9 @@ body {
   height: 10px;
   border-radius: 5px;
   background: linear-gradient(to right,
-    var(--controlled) 0%, var(--controlled) 31%,
-    #d1d5db 31%, #d1d5db 31.7%,
-    var(--exposed)    31.7%, var(--exposed)    65.5%,
+    var(--controlled) 0%, var(--controlled) 24.1%,
+    #d1d5db 24.1%, #d1d5db 24.8%,
+    var(--exposed)    24.8%, var(--exposed)    65.5%,
     #d1d5db 65.5%,  #d1d5db 66.2%,
     var(--blindspot)  66.2%, var(--blindspot)  100%
   );
@@ -456,7 +456,7 @@ body {
   font-size: .72rem;
   font-weight: 600;
 }
-.gbl-c { color: var(--controlled); flex: 0 0 31%; }
+.gbl-c { color: var(--controlled); flex: 0 0 24.1%; }
 .gbl-e { color: var(--exposed);    flex: 0 0 33.5%; text-align: center; }
 .gbl-b { color: var(--blindspot);  flex: 0 0 37%;   text-align: right; }
 
@@ -1025,7 +1025,7 @@ function score() {
 }
 
 function band(s) {
-  if (s <= 9)  return 'controlled';
+  if (s <= 7)  return 'controlled';
   if (s <= 19) return 'exposed';
   return 'blindspot';
 }
@@ -1079,7 +1079,7 @@ function showResults() {
         <span class="score-num">${s.total}</span>
         <span class="score-denom">/ 29</span>
       </div>
-      <p class="score-note">This is a risk score — lower is better. 0 = fully controlled, 27 = maximum exposure.</p>
+      <p class="score-note">This is a risk score — lower is better. 0 = fully controlled, 29 = maximum exposure.</p>
       <div class="gauge-wrap">
         <div class="gauge-track">
           <div class="gauge-marker" id="gauge-marker" style="left:0%"></div>
