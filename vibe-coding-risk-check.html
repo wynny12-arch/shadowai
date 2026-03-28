@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Vibe Coding Risk Check — Tactica</title>
+<style>
+:root {
+  --navy:             #0f2040;
+  --accent:           #2563eb;
+  --accent-light:     #eff6ff;
+  --accent-border:    #bfdbfe;
+  --text:             #111827;
+  --muted:            #6b7280;
+  --border:           #e5e7eb;
+  --bg:               #f8fafc;
+  --surface:          #ffffff;
+  --controlled:       #059669;
+  --controlled-bg:    #ecfdf5;
+  --controlled-bdr:   #6ee7b7;
+  --exposed:          #d97706;
+  --exposed-bg:       #fffbeb;
+  --exposed-bdr:      #fcd34d;
+  --blindspot:        #dc2626;
+  --blindspot-bg:     #fef2f2;
+  --blindspot-bdr:    #fca5a5;
+  --radius:           12px;
+  --shadow:           0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:        0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ── Topbar ── */
+.topbar {
+  background: var(--navy);
+  height: 52px;
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  flex-shrink: 0;
+}
+.topbar-inner { display: flex; align-items: center; gap: 12px; }
+.brand-mark {
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  color: #fff;
+  background: rgba(255,255,255,.12);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.brand-sep { color: rgba(255,255,255,.25); font-weight: 300; }
+.brand-title { font-size: .88rem; font-weight: 500; color: rgba(255,255,255,.75); }
+
+/* ── Screens ── */
+.screen { display: none; flex: 1; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* ── Intro ── */
+.intro-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 20px 72px;
+}
+.intro-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 52px 52px 44px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: var(--shadow-md);
+}
+.eyebrow {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+.intro-card h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--navy);
+  margin-bottom: 18px;
+}
+.intro-lead {
+  color: var(--muted);
+  font-size: .95rem;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+.intro-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .8rem;
+  color: var(--muted);
+  margin-bottom: 36px;
+}
+.intro-meta .dot { color: var(--border); }
+.btn-start {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 13px 30px;
+  border-radius: 8px;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, box-shadow .15s;
+  box-shadow: 0 2px 4px rgba(37,99,235,.25);
+  letter-spacing: .01em;
+}
+.btn-start:hover { background: #1d4ed8; box-shadow: 0 4px 12px rgba(37,99,235,.3); }
+
+/* ── Questions ── */
+.progress-wrap {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.progress-track { height: 2px; background: var(--border); }
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width .4s cubic-bezier(.4,0,.2,1);
+}
+.progress-meta {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 10px 20px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: .78rem;
+  color: var(--muted);
+}
+.progress-section { font-weight: 600; color: var(--accent); font-size: .75rem; letter-spacing: .04em; }
+
+.q-main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px 72px;
+}
+.q-outer { width: 100%; max-width: 640px; }
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 44px 44px 36px;
+  box-shadow: var(--shadow-md);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.q-card h2 {
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.38;
+  margin-bottom: 6px;
+}
+.q-hint {
+  font-size: .82rem;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 26px;
+  margin-top: 4px;
+}
+.q-multi-note {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 14px;
+  margin-top: 20px;
+}
+.q-options { display: flex; flex-direction: column; gap: 7px; margin-bottom: 28px; margin-top: 20px; }
+.q-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  cursor: pointer;
+  transition: border-color .12s, background .12s;
+  background: var(--surface);
+  user-select: none;
+}
+.q-opt:hover { border-color: var(--accent); background: var(--accent-light); }
+.q-opt.selected { border-color: var(--accent); background: var(--accent-light); }
+.q-opt input { flex-shrink: 0; margin-top: 2px; accent-color: var(--accent); }
+.q-opt-body { display: flex; flex-direction: column; gap: 2px; }
+.q-opt-title { font-size: .92rem; font-weight: 500; color: var(--text); line-height: 1.45; }
+.q-opt-desc { font-size: .78rem; color: var(--muted); line-height: 1.5; margin-top: 2px; }
+
+.q-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+.btn-back {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: .875rem;
+  cursor: pointer;
+  transition: border-color .12s, color .12s;
+}
+.btn-back:hover { border-color: var(--text); color: var(--text); }
+.btn-next {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: .875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .12s, box-shadow .12s, opacity .15s;
+  box-shadow: 0 1px 3px rgba(37,99,235,.2);
+  margin-left: auto;
+}
+.btn-next:hover:not(:disabled) { background: #1d4ed8; box-shadow: 0 3px 8px rgba(37,99,235,.3); }
+.btn-next:disabled { opacity: .3; cursor: default; box-shadow: none; }
+
+/* ── Results ── */
+.results-main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 20px 80px;
+}
+.results-wrap {
+  width: 100%;
+  max-width: 640px;
+  transition: opacity .35s ease, transform .35s ease;
+}
+
+.band-block {
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  margin-bottom: 16px;
+}
+.band-block.controlled { background: var(--controlled-bg); border: 1px solid var(--controlled-bdr); }
+.band-block.exposed    { background: var(--exposed-bg);    border: 1px solid var(--exposed-bdr); }
+.band-block.blindspot  { background: var(--blindspot-bg);  border: 1px solid var(--blindspot-bdr); }
+
+.band-tag {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.controlled .band-tag { color: var(--controlled); }
+.exposed    .band-tag { color: var(--exposed); }
+.blindspot  .band-tag { color: var(--blindspot); }
+
+.band-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+.band-summary {
+  font-size: .92rem;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.result-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 36px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.result-block h3 {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.steps-list { display: flex; flex-direction: column; gap: 14px; }
+.step-item { display: flex; align-items: flex-start; gap: 14px; }
+.step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: .72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-text { font-size: .9rem; line-height: 1.7; color: var(--text); }
+
+.wgl-block {
+  background: var(--navy);
+  border-radius: var(--radius);
+  padding: 36px 40px;
+  margin-bottom: 12px;
+}
+.wgl-block h3 {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+  margin-bottom: 16px;
+}
+.wgl-block p {
+  font-size: .92rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,.82);
+  margin-bottom: 10px;
+}
+.wgl-block p.standalone { margin-bottom: 28px; }
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  color: var(--navy);
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .12s;
+  letter-spacing: .01em;
+}
+.btn-cta:hover { background: #f1f5f9; }
+
+.retake-wrap {
+  text-align: center;
+  margin-top: 20px;
+}
+.btn-retake {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: .8rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.btn-retake:hover { color: var(--text); }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .intro-card { padding: 36px 24px 30px; }
+  .intro-card h1 { font-size: 1.55rem; }
+  .q-card { padding: 28px 22px 24px; }
+  .q-card h2 { font-size: 1.08rem; }
+  .band-block, .wgl-block { padding: 28px 22px; }
+  .result-block { padding: 22px 20px; }
+  .band-title { font-size: 1.25rem; }
+  .topbar { padding: 0 18px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand-mark">TACTICA</span>
+      <span class="brand-sep">|</span>
+      <span class="brand-title">Vibe Coding Risk Check</span>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <div id="screen-intro" class="screen active">
+    <div class="intro-main">
+      <div class="intro-card">
+        <div class="eyebrow">For IT Leadership</div>
+        <h1>How exposed is your organisation to ungoverned AI coding?</h1>
+        <p class="intro-lead">Staff across every department are using AI to build tools, automations, and scripts — often without IT's knowledge. This five-minute check gives you an honest picture of where your organisation stands, and what to do about it.</p>
+        <div class="intro-meta">
+          <span>10 questions</span>
+          <span class="dot">·</span>
+          <span>5 minutes</span>
+          <span class="dot">·</span>
+          <span>Instant result</span>
+        </div>
+        <button class="btn-start" onclick="startSurvey()">Start the check →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Questions -->
+  <div id="screen-questions" class="screen">
+    <div class="progress-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <div class="progress-meta">
+        <span id="progress-counter">Question 1 of 10</span>
+        <span class="progress-section" id="progress-section"></span>
+      </div>
+    </div>
+    <div class="q-main">
+      <div class="q-outer">
+        <div id="question-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="screen-results" class="screen">
+    <div class="results-main">
+      <div class="results-wrap" id="results-wrap">
+        <div id="results-content"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+/* ═══════════════════════════════════════
+   QUESTIONS
+═══════════════════════════════════════ */
+const QUESTIONS = [
+  {
+    id: 'q1',
+    section: 'Awareness',
+    text: 'Is your IT team actively monitoring for AI coding tool adoption across the business?',
+    hint: null,
+    type: 'single',
+    options: [
+      { value: 'yes',     label: 'Yes — we have active monitoring and reasonable visibility in place', score: 0 },
+      { value: 'partial', label: 'Partially — we monitor for some tools but not comprehensively', score: 1 },
+      { value: 'no',      label: 'No — we don\'t have active monitoring in place', score: 2 },
+      { value: 'unknown', label: 'Unknown — this hasn\'t been assessed', score: 3 },
+    ]
+  },
+  {
+    id: 'q2',
+    section: 'Awareness',
+    text: 'Have non-technical staff been observed or confirmed using AI to build anything — tools, automations, scripts, or dashboards?',
+    hint: 'This includes anything created with AI assistance, not just conventional software development.',
+    type: 'single',
+    options: [
+      { value: 'confirmed_aware',   label: 'Yes — confirmed, and IT has assessed the specific instances', score: 0 },
+      { value: 'confirmed_unaware', label: 'Yes — confirmed, but not formally assessed by IT', score: 2 },
+      { value: 'suspected',         label: 'Suspected — observed informally, not formally assessed', score: 2 },
+      { value: 'no',                label: 'No — confirmed this is not happening', score: 0 },
+      { value: 'unknown',           label: 'Unknown — we haven\'t looked', score: 3 },
+    ]
+  },
+  {
+    id: 'q3',
+    section: 'Exposure',
+    text: 'Which AI coding or building tools are present or suspected in your organisation?',
+    hint: 'Include both formally approved tools and tools staff may be using independently.',
+    type: 'multi',
+    options: [
+      { value: 'claude-code',   label: 'Claude Code / Cursor Agent / Devin',         desc: 'Agentic tools that write and run code — increasingly used by non-developers to build internal tools' },
+      { value: 'copilot-pers',  label: 'GitHub Copilot (personal accounts)',          desc: 'Personal-tier accounts have no enterprise DPA; code may be used for model training' },
+      { value: 'replit',        label: 'Replit',                                      desc: 'Browser-based AI coding environment; code and data sent to Replit servers' },
+      { value: 'lovable-bolt',  label: 'Lovable / Bolt / Vercel v0',                  desc: 'AI app builders that generate and deploy web applications from plain-language prompts' },
+      { value: 'bubble-retool', label: 'Bubble / Retool / Glide / Softr',             desc: 'No-code app builders often connected to live business data' },
+      { value: 'make-zapier',   label: 'Make or Zapier with AI steps',                desc: 'Automation platforms routing business data through external AI models' },
+      { value: 'paste-run',     label: 'ChatGPT or Claude used to generate code (copied and run)', desc: 'AI-assisted code that bypasses any tool-level controls' },
+      { value: 'none',          label: 'None known — confirmed' },
+      { value: 'not-assessed',  label: 'Not been assessed — unknown' },
+    ]
+  },
+  {
+    id: 'q4',
+    section: 'Exposure',
+    text: 'Has any AI system been connected to internal data sources — databases, internal APIs, file systems, or business applications?',
+    hint: null,
+    type: 'single',
+    options: [
+      { value: 'yes-reviewed',   label: 'Yes — the connection has been formally reviewed and documented', score: 0 },
+      { value: 'yes-unreviewed', label: 'Yes — but not formally reviewed or documented', score: 3 },
+      { value: 'unknown',        label: 'Unknown — we haven\'t assessed this', score: 3 },
+      { value: 'no',             label: 'No — confirmed this hasn\'t occurred', score: 0 },
+    ]
+  },
+  {
+    id: 'q5',
+    section: 'Exposure',
+    text: 'Has anything AI-generated reached production — live internal tools, customer-facing systems, or automated processes — without a formal IT review?',
+    hint: null,
+    type: 'single',
+    options: [
+      { value: 'no',         label: 'No — AI-generated code goes through standard review before going live', score: 0 },
+      { value: 'yes',        label: 'Yes — some AI-generated code or tools have gone live without formal review', score: 3 },
+      { value: 'unknown',    label: 'Unknown — we don\'t have visibility into this', score: 3 },
+      { value: 'no-process', label: 'Our review process doesn\'t specifically cover AI-generated code', score: 2 },
+    ]
+  },
+  {
+    id: 'q6',
+    section: 'Exposure',
+    text: 'Has your organisation experienced any security, compliance, or operational issue that may have involved an ungoverned AI-built tool or automation?',
+    hint: null,
+    type: 'single',
+    options: [
+      { value: 'confirmed', label: 'Yes — a confirmed incident linked to an ungoverned AI tool', score: 3 },
+      { value: 'suspected', label: 'Possibly — something occurred that may be linked, not fully investigated', score: 2 },
+      { value: 'no',        label: 'No — nothing to our knowledge', score: 0 },
+      { value: 'unknown',   label: 'Unknown — we wouldn\'t necessarily know', score: 2 },
+    ]
+  },
+  {
+    id: 'q7',
+    section: 'Governance',
+    text: 'Does a written policy exist covering employee use of AI coding tools?',
+    hint: null,
+    type: 'single',
+    options: [
+      { value: 'yes',         label: 'Yes — a specific, actively communicated policy is in place', score: 0 },
+      { value: 'partial',     label: 'Partial — referenced in acceptable use policy but not specific to AI tools', score: 1 },
+      { value: 'no',          label: 'No — this isn\'t covered in current policy', score: 2 },
+      { value: 'in-progress', label: 'In progress — being drafted', score: 1 },
+    ]
+  },
+  {
+    id: 'q8',
+    section: 'Governance',
+    text: 'Is there a formal review gate before AI-built tools or automations go live in your organisation?',
+    hint: null,
+    type: 'single',
+    options: [
+      { value: 'yes',      label: 'Yes — all AI-built tools go through an IT review before going live', score: 0 },
+      { value: 'informal', label: 'Informally — some review happens but it\'s inconsistent', score: 1 },
+      { value: 'no',       label: 'No — there is no formal gate', score: 2 },
+      { value: 'unknown',  label: 'Unknown — it hasn\'t been assessed', score: 3 },
+    ]
+  },
+  {
+    id: 'q9',
+    section: 'Governance',
+    text: 'Is someone in your organisation specifically accountable for AI coding governance?',
+    hint: null,
+    type: 'single',
+    options: [
+      { value: 'named',      label: 'Yes — a named individual owns this area', score: 0 },
+      { value: 'shared',     label: 'Shared — clear responsibility across IT and legal or compliance', score: 1 },
+      { value: 'it-general', label: 'It sits with IT generally but no specific owner', score: 1 },
+      { value: 'no',         label: 'No named owner', score: 2 },
+    ]
+  },
+  {
+    id: 'q10',
+    section: 'Stance',
+    text: 'Which best describes your organisation\'s current stance on employee use of AI coding tools?',
+    hint: null,
+    type: 'single',
+    options: [
+      { value: 'governed',    label: 'IT-led governance — we have a framework in place', score: 0 },
+      { value: 'acknowledged',label: 'Acknowledged gap — we know this is happening and are working on a response', score: 1 },
+      { value: 'blocking',    label: 'Active blocking — employees are prevented from using these tools', score: 1 },
+      { value: 'permissive',  label: 'Permissive — staff can use them, no formal governance', score: 2 },
+      { value: 'want-to',     label: 'We want to lead this but don\'t have a framework yet', score: 2 },
+    ]
+  },
+];
+
+/* ═══════════════════════════════════════
+   RESULT BANDS
+═══════════════════════════════════════ */
+const BANDS = {
+  controlled: {
+    cls:     'controlled',
+    tag:     'Controlled',
+    title:   'Your governance position is reasonably sound.',
+    summary: 'Your IT function has meaningful visibility of AI coding tool adoption and a governance foundation in place. The risk is contained — but the pace of change in this area means staying controlled requires active maintenance rather than periodic review. The tools available to staff are evolving faster than most policy cycles.',
+    steps: [
+      'Schedule quarterly reviews of your AI coding tool inventory. New tools emerge continuously, and staff migration between platforms is rapid — what is covered today may not reflect what is in use in six months.',
+      'Formalise your review gate into a documented process. Informal governance tends not to survive staff changes; a lightweight written process makes it transferable and auditable.',
+      'Brief senior leadership on the current position and what it takes to maintain it. Board-level awareness reduces the risk of business decisions that inadvertently create new exposure.',
+    ]
+  },
+  exposed: {
+    cls:     'exposed',
+    tag:     'Exposed',
+    title:   'There are gaps that need closing.',
+    summary: 'There are real gaps in either visibility, policy, or enforcement — and in some areas, AI-built tools may already be in production without a formal review. The risk is manageable, but only if acted on. Knowing where the gaps are is the first step; the next is closing them before an incident forces the issue.',
+    steps: [
+      'Conduct a targeted audit of tools in active use. Start with the departments most likely to experiment — operations, marketing, finance, and any team under consistent delivery pressure.',
+      'Put a review gate in place for anything AI-generated before it touches live systems or data, even if it starts as an informal process. Imperfect governance now is better than a complete framework that arrives too late.',
+      'Assign a named owner for this area. Governance without clear accountability tends not to get done — shared responsibility in this context usually means no responsibility in practice.',
+    ]
+  },
+  blindspot: {
+    cls:     'blindspot',
+    tag:     'Blind Spot',
+    title:   'You don\'t have the visibility you need.',
+    summary: 'The picture your IT team has of AI coding tool adoption is incomplete — and incomplete visibility is the highest-risk position. It is not that nothing is happening. It is that you don\'t know what is happening. In regulated industries, this distinction matters to auditors and to regulators, and the gap tends to surface at the worst possible moment.',
+    steps: [
+      'Treat this as an active risk, not a future policy project. The first action should be discovery — identifying what is already in use — rather than drafting policy you cannot yet enforce.',
+      'Identify two or three departments most likely to be building with AI and have direct conversations. Staff will generally surface things if asked without consequences attached, and you will find more than you expect.',
+      'Establish a voluntary disclosure route before implementing enforcement. Staff who have already built tools should have a way to surface them without penalty — amnesty before policy creates better intelligence than enforcement from day one.',
+    ]
+  }
+};
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let currentQ = 0;
+let answers  = {};
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
+function startSurvey() {
+  currentQ = 0;
+  answers  = {};
+  showScreen('questions');
+  renderQuestion(0, 'none');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goNext() {
+  if (currentQ < QUESTIONS.length - 1) {
+    animateCard('forward', () => {
+      currentQ++;
+      renderQuestion(currentQ, 'forward');
+    });
+  } else {
+    showResults();
+  }
+}
+
+function goBack() {
+  if (currentQ > 0) {
+    animateCard('back', () => {
+      currentQ--;
+      renderQuestion(currentQ, 'back');
+    });
+  }
+}
+
+function animateCard(dir, cb) {
+  const card = document.querySelector('.q-card');
+  if (!card) { cb(); return; }
+  card.style.opacity   = '0';
+  card.style.transform = dir === 'forward' ? 'translateY(-10px)' : 'translateY(10px)';
+  setTimeout(cb, 200);
+}
+
+/* ═══════════════════════════════════════
+   RENDER QUESTION
+═══════════════════════════════════════ */
+function renderQuestion(idx, dir) {
+  const q = QUESTIONS[idx];
+
+  // Progress
+  const pct = (idx / QUESTIONS.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-counter').textContent = `Question ${idx + 1} of ${QUESTIONS.length}`;
+  document.getElementById('progress-section').textContent = q.section;
+
+  // Options HTML
+  let optsHtml = '';
+  if (q.type === 'single') {
+    q.options.forEach(opt => {
+      const sel = answers[q.id] === opt.value ? ' selected' : '';
+      optsHtml += `
+        <div class="q-opt${sel}" onclick="selectAnswer('${q.id}','${opt.value}',this)">
+          <input type="radio" name="${q.id}" value="${opt.value}" ${sel ? 'checked' : ''}/>
+          <div class="q-opt-body">
+            <span class="q-opt-title">${opt.label}</span>
+            ${opt.desc ? `<span class="q-opt-desc">${opt.desc}</span>` : ''}
+          </div>
+        </div>`;
+    });
+  } else {
+    const sel = answers[q.id] || [];
+    q.options.forEach(opt => {
+      const isSel = sel.includes(opt.value) ? ' selected' : '';
+      optsHtml += `
+        <div class="q-opt${isSel}" onclick="toggleMulti('${q.id}','${opt.value}',this)">
+          <input type="checkbox" value="${opt.value}" ${isSel ? 'checked' : ''}/>
+          <div class="q-opt-body">
+            <span class="q-opt-title">${opt.label}</span>
+            ${opt.desc ? `<span class="q-opt-desc">${opt.desc}</span>` : ''}
+          </div>
+        </div>`;
+    });
+  }
+
+  const hasAnswer = q.type === 'single'
+    ? !!answers[q.id]
+    : (answers[q.id] || []).length > 0;
+
+  const isLast  = idx === QUESTIONS.length - 1;
+  const isFirst = idx === 0;
+
+  document.getElementById('question-container').innerHTML = `
+    <div class="q-card">
+      <h2>${q.text}</h2>
+      ${q.hint ? `<p class="q-hint">${q.hint}</p>` : ''}
+      ${q.type === 'multi' ? '<p class="q-multi-note">Select all that apply</p>' : ''}
+      <div class="q-options">${optsHtml}</div>
+      <div class="q-nav">
+        ${!isFirst
+          ? `<button class="btn-back" onclick="goBack()">← Back</button>`
+          : '<span></span>'}
+        <button class="btn-next" id="btn-next" onclick="goNext()" ${hasAnswer ? '' : 'disabled'}>
+          ${isLast ? 'See my result →' : 'Next →'}
+        </button>
+      </div>
+    </div>`;
+
+  // Animate in
+  const card = document.querySelector('.q-card');
+  card.style.opacity   = '0';
+  card.style.transform = dir === 'back' ? 'translateY(-10px)' : 'translateY(12px)';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    card.style.opacity   = '1';
+    card.style.transform = 'translateY(0)';
+  }));
+}
+
+/* ═══════════════════════════════════════
+   ANSWER HANDLERS
+═══════════════════════════════════════ */
+function selectAnswer(qId, value, el) {
+  answers[qId] = value;
+  document.querySelectorAll('.q-options .q-opt').forEach(o => {
+    o.classList.remove('selected');
+    o.querySelector('input').checked = false;
+  });
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+  document.getElementById('btn-next').removeAttribute('disabled');
+}
+
+function toggleMulti(qId, value, el) {
+  if (!answers[qId]) answers[qId] = [];
+
+  if (value === 'none' || value === 'not-assessed') {
+    // Exclusive options
+    answers[qId] = [value];
+    document.querySelectorAll('.q-options .q-opt').forEach(o => {
+      o.classList.remove('selected');
+      o.querySelector('input').checked = false;
+    });
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+  } else {
+    // Clear exclusive options if a real tool selected
+    answers[qId] = answers[qId].filter(v => v !== 'none' && v !== 'not-assessed');
+    document.querySelectorAll('.q-options .q-opt').forEach(o => {
+      const v = o.querySelector('input').value;
+      if (v === 'none' || v === 'not-assessed') {
+        o.classList.remove('selected');
+        o.querySelector('input').checked = false;
+      }
+    });
+
+    const idx = answers[qId].indexOf(value);
+    if (idx === -1) {
+      answers[qId].push(value);
+      el.classList.add('selected');
+      el.querySelector('input').checked = true;
+    } else {
+      answers[qId].splice(idx, 1);
+      el.classList.remove('selected');
+      el.querySelector('input').checked = false;
+    }
+  }
+
+  document.getElementById('btn-next').disabled = answers[qId].length === 0;
+}
+
+/* ═══════════════════════════════════════
+   SCORING
+═══════════════════════════════════════ */
+function score() {
+  let s = 0;
+
+  // Q1 — monitoring
+  s += { yes: 0, partial: 1, no: 2, unknown: 3 }[answers.q1] ?? 0;
+
+  // Q2 — observed usage
+  s += { confirmed_aware: 0, confirmed_unaware: 2, suspected: 2, no: 0, unknown: 3 }[answers.q2] ?? 0;
+
+  // Q3 — tools (multi-select)
+  const tools = answers.q3 || [];
+  if (tools.includes('not-assessed')) {
+    s += 2;
+  } else if (!tools.includes('none')) {
+    s += Math.min(3, tools.filter(v => v !== 'none' && v !== 'not-assessed').length);
+  }
+
+  // Q4 — connected to data
+  s += { 'yes-reviewed': 0, 'yes-unreviewed': 3, unknown: 3, no: 0 }[answers.q4] ?? 0;
+
+  // Q5 — reached production
+  s += { no: 0, yes: 3, unknown: 3, 'no-process': 2 }[answers.q5] ?? 0;
+
+  // Q6 — incident
+  s += { confirmed: 3, suspected: 2, no: 0, unknown: 2 }[answers.q6] ?? 0;
+
+  // Q7 — policy
+  s += { yes: 0, partial: 1, no: 2, 'in-progress': 1 }[answers.q7] ?? 0;
+
+  // Q8 — review gate
+  s += { yes: 0, informal: 1, no: 2, unknown: 3 }[answers.q8] ?? 0;
+
+  // Q9 — accountability
+  s += { named: 0, shared: 1, 'it-general': 1, no: 2 }[answers.q9] ?? 0;
+
+  // Q10 — stance
+  s += { governed: 0, acknowledged: 1, blocking: 1, permissive: 2, 'want-to': 2 }[answers.q10] ?? 0;
+
+  return s;
+}
+
+function band(s) {
+  if (s <= 8)  return 'controlled';
+  if (s <= 17) return 'exposed';
+  return 'blindspot';
+}
+
+/* ═══════════════════════════════════════
+   RESULTS
+═══════════════════════════════════════ */
+function showResults() {
+  const b = band(score());
+  const r = BANDS[b];
+
+  const stepsHtml = r.steps.map((t, i) => `
+    <div class="step-item">
+      <div class="step-num">${i + 1}</div>
+      <div class="step-text">${t}</div>
+    </div>`).join('');
+
+  document.getElementById('results-content').innerHTML = `
+    <div class="band-block ${r.cls}">
+      <div class="band-tag">${r.tag}</div>
+      <div class="band-title">${r.title}</div>
+      <div class="band-summary">${r.summary}</div>
+    </div>
+
+    <div class="result-block">
+      <h3>Prioritised next steps</h3>
+      <div class="steps-list">${stepsHtml}</div>
+    </div>
+
+    <div class="wgl-block">
+      <h3>What good looks like</h3>
+      <p>The Vibe Code Lab is an IT-governed environment where AI-assisted development is enabled rather than blocked — with the access controls, data governance, and pre-production review that accountability requires. It gives staff across the business the tools they want to use, while IT retains the visibility it needs to stay in control of what happens with them.</p>
+      <p class="standalone">When IT leads this rather than reacts to it, the conversation with senior leadership shifts from risk exposure to competitive capability.</p>
+      <a href="#contact" class="btn-cta">Want to see how this works in practice? →</a>
+    </div>
+
+    <div class="retake-wrap">
+      <button class="btn-retake" onclick="retake()">Start over</button>
+    </div>`;
+
+  showScreen('results');
+
+  // Animate
+  const wrap = document.getElementById('results-wrap');
+  wrap.style.opacity   = '0';
+  wrap.style.transform = 'translateY(16px)';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    wrap.style.opacity   = '1';
+    wrap.style.transform = 'translateY(0)';
+  }));
+}
+
+function retake() {
+  currentQ = 0;
+  answers  = {};
+  showScreen('intro');
+}
+</script>
+</body>
+</html>
