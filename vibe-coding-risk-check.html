@@ -427,11 +427,11 @@ body {
   height: 10px;
   border-radius: 5px;
   background: linear-gradient(to right,
-    var(--controlled) 0%, var(--controlled) 29.5%,
-    #d1d5db 29.5%, #d1d5db 30.2%,
-    var(--exposed)    30.2%, var(--exposed)    63%,
-    #d1d5db 63%,    #d1d5db 63.7%,
-    var(--blindspot)  63.7%, var(--blindspot)  100%
+    var(--controlled) 0%, var(--controlled) 31%,
+    #d1d5db 31%, #d1d5db 31.7%,
+    var(--exposed)    31.7%, var(--exposed)    65.5%,
+    #d1d5db 65.5%,  #d1d5db 66.2%,
+    var(--blindspot)  66.2%, var(--blindspot)  100%
   );
   position: relative;
 }
@@ -456,7 +456,7 @@ body {
   font-size: .72rem;
   font-weight: 600;
 }
-.gbl-c { color: var(--controlled); flex: 0 0 29.5%; }
+.gbl-c { color: var(--controlled); flex: 0 0 31%; }
 .gbl-e { color: var(--exposed);    flex: 0 0 33.5%; text-align: center; }
 .gbl-b { color: var(--blindspot);  flex: 0 0 37%;   text-align: right; }
 
@@ -594,6 +594,20 @@ const QUESTIONS = [
     ]
   },
   {
+    id: 'q_it_vibe',
+    section: 'Exposure',
+    text: 'Is your IT team itself using AI to build internal tools or systems — such as service desk workflows, demand management processes, operational dashboards, or reporting tools?',
+    hint: 'IT-built tools can carry the same governance risks as those built by other departments — and may receive less scrutiny precisely because IT built them.',
+    type: 'single',
+    options: [
+      { value: 'yes-reviewed',   label: 'Yes — and IT-built tools go through the same formal review as anyone else\'s', score: 0 },
+      { value: 'yes-unreviewed', label: 'Yes — but they typically go straight into use without formal review', score: 2 },
+      { value: 'adhoc',          label: 'Occasionally — on an ad-hoc basis, no consistent approach', score: 1 },
+      { value: 'no',             label: 'No — IT doesn\'t use AI to build internal systems', score: 0 },
+      { value: 'unknown',        label: 'Unknown — this hasn\'t been assessed', score: 2 },
+    ]
+  },
+  {
     id: 'q3',
     section: 'Exposure',
     text: 'Which AI coding or building tools are present or suspected in your organisation?',
@@ -653,7 +667,7 @@ const QUESTIONS = [
   {
     id: 'q7',
     section: 'Governance',
-    text: 'Does a written policy exist covering employee use of AI coding tools?',
+    text: 'Does a written policy exist covering employee use of AI coding tools, or AI in general?',
     hint: null,
     type: 'single',
     options: [
@@ -987,6 +1001,7 @@ function score() {
   } else if (!tools.includes('none')) {
     exposure += Math.min(3, tools.filter(v => v !== 'none' && v !== 'not-assessed').length);
   }
+  exposure += { 'yes-reviewed': 0, 'yes-unreviewed': 2, adhoc: 1, no: 0, unknown: 2 }[answers.q_it_vibe] ?? 0;
   exposure += { 'yes-reviewed': 0, 'yes-unreviewed': 3, unknown: 3, no: 0 }[answers.q4] ?? 0;
   exposure += { no: 0, yes: 3, unknown: 3, 'no-process': 2 }[answers.q5] ?? 0;
   exposure += { confirmed: 3, suspected: 2, no: 0, unknown: 2 }[answers.q6] ?? 0;
@@ -1003,8 +1018,8 @@ function score() {
 }
 
 function band(s) {
-  if (s <= 8)  return 'controlled';
-  if (s <= 17) return 'exposed';
+  if (s <= 9)  return 'controlled';
+  if (s <= 19) return 'exposed';
   return 'blindspot';
 }
 
@@ -1040,7 +1055,7 @@ function showResults() {
   const b = band(s.total);
   const r = BANDS[b];
 
-  const markerPct = Math.round((s.total / 27) * 100);
+  const markerPct = Math.round((s.total / 29) * 100);
 
   const stepsHtml = r.steps.map((t, i) => `
     <div class="step-item">
@@ -1053,7 +1068,7 @@ function showResults() {
       <div class="score-card-label">Risk Score</div>
       <div class="score-row">
         <span class="score-num">${s.total}</span>
-        <span class="score-denom">/ 27</span>
+        <span class="score-denom">/ 29</span>
       </div>
       <p class="score-note">This is a risk score — lower is better. 0 = fully controlled, 27 = maximum exposure.</p>
       <div class="gauge-wrap">
@@ -1078,7 +1093,7 @@ function showResults() {
       <h3>Score by section</h3>
       <div class="breakdown-grid">
         ${breakdownRow('Awareness',  s.awareness,  6)}
-        ${breakdownRow('Exposure',   s.exposure,   12)}
+        ${breakdownRow('Exposure',   s.exposure,   14)}
         ${breakdownRow('Governance', s.governance, 7)}
         ${breakdownRow('Stance',     s.stance,     2)}
       </div>
