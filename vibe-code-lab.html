@@ -185,7 +185,7 @@ body {
 .how-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .steps-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0;
   margin-top: 44px;
   border: 1px solid var(--border);
@@ -327,6 +327,12 @@ body {
 }
 
 /* ── Responsive ── */
+@media (max-width: 900px) {
+  .steps-row { grid-template-columns: repeat(2, 1fr); }
+  .step:nth-child(2) { border-right: none; }
+  .step:nth-child(1),
+  .step:nth-child(2) { border-bottom: 1px solid var(--border); }
+}
 @media (max-width: 700px) {
   .hero { padding: 64px 20px 72px; }
   .hero h1 { font-size: 1.75rem; }
@@ -402,20 +408,25 @@ body {
 <section class="section how-section">
   <div class="section-inner">
     <div class="eyebrow reveal">How it works</div>
-    <h2 class="section-heading reveal">Three phases. One coherent framework.</h2>
+    <h2 class="section-heading reveal">Four phases. One coherent framework.</h2>
     <div class="steps-row">
       <div class="step reveal reveal-delay-1">
         <div class="step-num">Phase 01 — Discover</div>
         <h3>Discover</h3>
-        <p>Using Tactica's AS-IS TO-BE methodology, we engage stakeholders to understand AI strategy at the business level and surface the frustrations driving demand for AI coding tools. The goal isn't to find fault — it's to build an honest picture of what's in use, what's working, and where the gaps are, so the governed TO-BE environment we design actually reflects how your organisation wants to work.</p>
+        <p>Using Tactica's AS-IS TO-BE methodology, we engage stakeholders to understand AI strategy at the business level, surface the frustrations driving demand for AI coding tools, and build an honest map of what's currently in use — what's working, what's ungoverned, and where the gaps are. The goal isn't to find fault. It's to understand how your organisation actually works, so what we design reflects that reality.</p>
       </div>
       <div class="step reveal reveal-delay-2">
-        <div class="step-num">Phase 02 — Govern</div>
+        <div class="step-num">Phase 02 — Design</div>
+        <h3>Design</h3>
+        <p>From there we move to TO-BE: agreeing architectural principles for AI-assisted development, defining an approved toolstack with enterprise-grade security and governance built in, and designing a target architecture that gives IT control without killing the momentum that's driving adoption in the first place.</p>
+      </div>
+      <div class="step reveal reveal-delay-3">
+        <div class="step-num">Phase 03 — Govern</div>
         <h3>Govern</h3>
         <p>Establish the policies, review gates, and accountability structures that make AI-assisted development safe. Define what's approved, what requires review, and what's off limits. This isn't about creating bureaucracy — it's about giving IT and the business a shared language for how AI tools get used responsibly, so decisions are consistent and defensible.</p>
       </div>
       <div class="step reveal reveal-delay-3">
-        <div class="step-num">Phase 03 — Enable</div>
+        <div class="step-num">Phase 04 — Enable</div>
         <h3>Enable</h3>
         <p>Stand up the Vibe Code Lab environment. Give teams a governed space to build with AI — with IT in control of what goes into production and what data it can touch. Done well, this shifts the conversation with the business from restriction to capability. IT becomes the team that made it possible, not the team that said no.</p>
       </div>
