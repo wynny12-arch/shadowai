@@ -755,9 +755,9 @@ const BANDS = {
     title:   'There are gaps that need closing.',
     summary: 'There are real gaps across visibility, policy, and enforcement — and in some areas, AI-built tools may already be in production without a formal review. The risk is manageable, but only if acted on. Knowing where the gaps are is the first step; the next is closing them before an incident forces the issue.',
     steps: [
-      'Conduct a review of the current as-is situation across IT and business units including a targeted audit of tools in active potential use. Include stakeholders from departments most likely to experiment — operations, marketing, finance, and any other teams under consistent delivery pressure — and work out to other units from there.',
-      'Put a review gate in place for anything AI-generated before it touches live systems or data, even if it starts as an informal process. Imperfect governance now is better than a complete framework that arrives too late.',
-      'Assign a named owner for this area. Governance without clear accountability tends not to get done — shared responsibility in this context usually means no responsibility in practice.',
+      'Start with a structured discovery. Engage stakeholders across IT and the business to build an honest AS-IS picture of what AI tools are in use, what is working, and where the gaps are. Include departments most likely to be experimenting — operations, marketing, finance, and any team under consistent delivery pressure — and work out from there. You likely know more than you think; a structured process will surface the rest.',
+      'Use what you find to design a governed TO-BE. Agree the architectural principles for AI-assisted development, define an approved toolstack with security and data governance built in, and set out a target architecture that gives IT meaningful control without removing the capability the business is already depending on.',
+      'Assign a named owner for this area and put a lightweight review gate in place while the wider framework is being built. Imperfect governance with clear accountability is better than a complete framework that arrives too late.',
     ]
   },
   blindspot: {
@@ -766,8 +766,8 @@ const BANDS = {
     title:   'You don\'t have the visibility you need.',
     summary: 'The picture your IT team has of AI coding tool adoption is incomplete — and incomplete visibility is the highest-risk position. It is not that nothing is happening. It is that you don\'t know what is happening. In regulated industries, this distinction matters to auditors and to regulators, and the gap tends to surface at the worst possible moment.',
     steps: [
-      'Treat this as an active risk, not a future policy project. The first action should be discovery — identifying what is already in use — rather than drafting policy you cannot yet enforce.',
-      'Identify two or three departments most likely to be building with AI and have direct conversations. Staff will generally surface things if asked without consequences attached, and you will find more than you expect.',
+      'Start with discovery, not policy. Engage stakeholders across IT and the business to understand what AI tools are in use, what problems they are solving, and what frustrations are driving adoption. The goal is an honest AS-IS picture — what is working, what is ungoverned, and where the gaps are. You cannot design a governed environment without it.',
+      'Move from AS-IS to TO-BE. Once you have a clear picture, agree the architectural principles for AI-assisted development in your organisation — an approved toolstack, security and governance standards, and a target architecture that gives IT control without removing the capability that staff are already relying on.',
       'Establish a voluntary disclosure route before implementing enforcement. Staff who have already built tools should have a way to surface them without penalty — amnesty before policy creates better intelligence than enforcement from day one.',
     ]
   }
