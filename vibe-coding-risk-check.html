@@ -1354,8 +1354,8 @@ function renderResults(){
       <div class="boardroom-card">
         <div class="section-title">Immediate priority</div>
         <div class="priority-callout">
-          <h4>${{controlled:'Formalise the current operating model', exposed:'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage and the constraints within the current operating model, and map what is currently in use or development — what\'s working, what\'s ungoverned, where the gaps are, and the risks already present or emerging', blindspot:'Establish a fact-based position — quickly'}[result.key]}</h4>
-          <p>${nextSteps[0][1]}</p>
+          <h4>${{controlled:'Formalise the current operating model', exposed:'Establish a clear AS-IS picture', blindspot:'Establish a fact-based position — quickly'}[result.key]}</h4>
+          <p>${result.key === 'exposed' ? 'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage and the constraints within the current operating model, and map what is currently in use or development — what\'s working, what\'s ungoverned, where the gaps are, and the risks already present or emerging.' : nextSteps[0][1]}</p>
         </div>
       </div>
 
