@@ -137,6 +137,7 @@ body {
 
 /* ── Problem ── */
 .problem { background: var(--surface); border-bottom: 1px solid var(--border); }
+.problem .section-body + .section-body { margin-top: 16px; }
 
 /* ── Cards ── */
 .cards-section { background: var(--bg); }
@@ -181,13 +182,43 @@ body {
   line-height: 1.75;
 }
 
+/* ── Why Tactica ── */
+.why-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
 /* ── How it works ── */
-.how-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.steps-row {
+.how-section { background: var(--bg); border-bottom: 1px solid var(--border); }
+.phase-group { margin-top: 36px; }
+.phase-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.phase-tag {
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.phase-tag.asis {
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+}
+.phase-tag.tobe {
+  background: var(--navy);
+  color: #fff;
+}
+.phase-label-desc {
+  font-size: .85rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.steps-row-2 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  margin-top: 44px;
+  grid-template-columns: repeat(2, 1fr);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
@@ -226,7 +257,7 @@ body {
   border-radius: var(--radius);
   padding: 40px 44px;
   box-shadow: var(--shadow-md);
-  margin-top: 0;
+  margin-top: 32px;
 }
 .who-block p {
   font-size: .975rem;
@@ -242,6 +273,7 @@ body {
   font-size: .82rem;
   color: var(--muted);
 }
+.who-attribution a { color: var(--muted); }
 
 /* ── Contact ── */
 .contact-section { background: var(--navy); }
@@ -328,10 +360,7 @@ body {
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
-  .steps-row { grid-template-columns: repeat(2, 1fr); }
-  .step:nth-child(2) { border-right: none; }
-  .step:nth-child(1),
-  .step:nth-child(2) { border-bottom: 1px solid var(--border); }
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 700px) {
   .hero { padding: 64px 20px 72px; }
@@ -340,9 +369,9 @@ body {
   .section { padding: 56px 20px; }
   .section-heading { font-size: 1.4rem; }
   .cards-grid { grid-template-columns: 1fr; gap: 12px; }
-  .steps-row { grid-template-columns: 1fr; }
-  .step { border-right: none; border-bottom: 1px solid var(--border); }
-  .step:last-child { border-bottom: none; }
+  .steps-row-2 { grid-template-columns: 1fr; }
+  .steps-row-2 .step { border-right: none; border-bottom: 1px solid var(--border); }
+  .steps-row-2 .step:last-child { border-bottom: none; }
   .who-block { padding: 28px 24px; }
   .form-row { grid-template-columns: 1fr; }
   .topbar { padding: 0 18px; }
@@ -364,18 +393,19 @@ body {
 <section class="hero">
   <div class="hero-inner">
     <div class="eyebrow reveal">Tactica Partners</div>
-    <h1 class="reveal reveal-delay-1">IT doesn't have to choose between control and progress.</h1>
-    <p class="hero-sub reveal reveal-delay-2">The Vibe Code Lab is an IT-led, governed environment that positions IT as the enabler — not the blocker. A repeatable delivery model that sits between the raw AI tools and the enterprise.</p>
+    <h1 class="reveal reveal-delay-1">Where enterprise experience meets AI-enabled development.</h1>
+    <p class="hero-sub reveal reveal-delay-2">AI-assisted development is moving faster than enterprise governance can absorb. Tactica bridges that gap — bringing over a decade of enterprise IT experience to bear on a problem most organisations haven't started solving yet. The Vibe Code Lab is the result.</p>
     <a href="#contact" class="btn-primary reveal reveal-delay-3">Talk to us about the Vibe Code Lab →</a>
   </div>
 </section>
 
-<!-- 2. The problem -->
+<!-- 2. The challenge -->
 <section class="section problem">
   <div class="section-inner narrow">
-    <div class="eyebrow reveal">The context</div>
-    <h2 class="section-heading reveal">The governance gap is already open.</h2>
-    <p class="section-body reveal">Staff across every department are using AI to build tools, automations, and dashboards — often without IT's knowledge. The risk isn't that they're using AI. The risk is that nobody is governing what gets built, what data it touches, or what happens when something goes wrong. Most organisations are reacting. A few are getting ahead of it.</p>
+    <div class="eyebrow reveal">The challenge</div>
+    <h2 class="section-heading reveal">The tools are moving faster than the governance.</h2>
+    <p class="section-body reveal">Staff across every department are using AI to build tools, automations, and workflows — often without IT's knowledge. The risk isn't the technology. It's that the expectations, controls, and accountability structures of enterprise IT haven't been applied to it yet.</p>
+    <p class="section-body reveal" style="margin-top:16px;">AI-assisted development is powerful. But it is not yet enterprise-ready. The governance model, the ownership structures, the assurance controls — none of that comes built in. Most organisations are somewhere between reactive and exposed. The question isn't whether to act. It's whether IT gets to shape what happens next, or finds out after the fact.</p>
   </div>
 </section>
 
@@ -392,62 +422,105 @@ body {
       </div>
       <div class="card reveal reveal-delay-2">
         <div class="card-num">02</div>
-        <h3>Repeatable Delivery Model</h3>
-        <p>Not a one-off project. A structured approach that can be applied across teams, departments, and use cases — with consistent security standards, data governance, and pre-production review built in from the start.</p>
+        <h3>Built on AS-IS Reality</h3>
+        <p>Every engagement starts with an honest picture of where the organisation actually is — not where it thinks it is. The TO-BE is designed around that reality, not a generic framework that looks good on paper but doesn't reflect how your organisation operates.</p>
       </div>
       <div class="card reveal reveal-delay-3">
         <div class="card-num">03</div>
         <h3>From Risk to Capability</h3>
-        <p>When IT governs AI-assisted development properly, the conversation with leadership changes. It stops being about what to block and starts being about what's now possible. That shift has commercial value.</p>
+        <p>When IT governs AI-assisted development properly, the conversation with leadership changes. It stops being about what to block and starts being about what's now possible. That shift has real commercial value.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 4. How it works -->
+<!-- 4. Why Tactica -->
+<section class="section why-section">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Why Tactica</div>
+    <h2 class="section-heading reveal">The right experience on both sides of the problem.</h2>
+    <p class="section-body reveal" style="margin-bottom:36px;">Most advisors in this space have deep expertise in either enterprise IT or AI-enabled development — rarely both. Tactica's position is different, and that difference matters.</p>
+    <div class="cards-grid">
+      <div class="card reveal reveal-delay-1">
+        <div class="card-num">→</div>
+        <h3>Enterprise foundations</h3>
+        <p>Since 2012, Tactica has delivered IT transformation for global blue-chip organisations across every industry sector — saving tens of millions of dollars and delivering change that sticks. We understand what enterprise-grade delivery actually requires: governance, accountability, assurance, and stakeholder alignment.</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <div class="card-num">→</div>
+        <h3>AI-enabled delivery expertise</h3>
+        <p>The Vibe Code Lab is the product of applying that enterprise rigour to AI-assisted development. We understand how these tools work in practice, where the risks concentrate, and what a governed operating model for AI-enabled delivery actually looks like — not in theory, but in your organisation.</p>
+      </div>
+      <div class="card reveal reveal-delay-3">
+        <div class="card-num">→</div>
+        <h3>Independent and pragmatic</h3>
+        <p>We are a boutique firm with no vendor relationships to protect and no packaged product to sell. Our approach is independent and sleeves-rolled-up — designed to reflect your organisation's reality and deliver outcomes, not to produce a report that sits on a shelf.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. How it works -->
 <section class="section how-section">
   <div class="section-inner">
     <div class="eyebrow reveal">How it works</div>
-    <h2 class="section-heading reveal">Four phases. One coherent framework.</h2>
-    <div class="steps-row">
-      <div class="step reveal reveal-delay-1">
-        <div class="step-num">Phase 01 — Discover</div>
-        <h3>Discover</h3>
-        <p>Using Tactica's AS-IS TO-BE methodology, we engage stakeholders to understand AI strategy at the business level, surface the frustrations driving demand for AI coding tools, and build an honest map of what's currently in use — what's working, what's ungoverned, and where the gaps are. The goal isn't to find fault. It's to understand how your organisation actually works, so what we design reflects that reality.</p>
+    <h2 class="section-heading reveal">AS-IS to TO-BE. A methodology built for this moment.</h2>
+    <p class="section-body reveal" style="margin-bottom:8px;">Every Vibe Code Lab engagement follows a two-stage structure. First, we establish an honest picture of where you are. Then, we design and deliver the governed capability you need.</p>
+
+    <div class="phase-group reveal">
+      <div class="phase-label">
+        <span class="phase-tag asis">AS-IS</span>
+        <span class="phase-label-desc">Understand the current position</span>
       </div>
-      <div class="step reveal reveal-delay-2">
-        <div class="step-num">Phase 02 — Design</div>
-        <h3>Design</h3>
-        <p>From there we move to TO-BE: agreeing architectural principles for AI-assisted development, defining an approved toolstack with enterprise-grade security and governance built in, and designing a target architecture that gives IT control without killing the momentum that's driving adoption in the first place.</p>
+      <div class="steps-row-2">
+        <div class="step">
+          <div class="step-num">Phase 01 — Discover</div>
+          <h3>Discover</h3>
+          <p>We engage stakeholders to understand AI strategy at the business level, surface the frustrations driving demand for AI coding tools, and build an honest map of what is currently in use — what is working, what is ungoverned, and where the gaps are. The goal is not to find fault. It is to understand how your organisation actually operates, so what we design reflects that reality.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">Phase 02 — Design</div>
+          <h3>Design</h3>
+          <p>We validate the AS-IS position with leadership and agree the path forward. Structured stakeholder workshops align IT and business around a shared understanding of the current risk, the appetite for change, and the first governance moves that will make the biggest practical difference.</p>
+        </div>
       </div>
-      <div class="step reveal reveal-delay-3">
-        <div class="step-num">Phase 03 — Govern</div>
-        <h3>Govern</h3>
-        <p>Establish the policies, review gates, and accountability structures that make AI-assisted development safe. Define what's approved, what requires review, and what's off limits. This isn't about creating bureaucracy — it's about giving IT and the business a shared language for how AI tools get used responsibly, so decisions are consistent and defensible.</p>
+    </div>
+
+    <div class="phase-group reveal" style="margin-top:28px;">
+      <div class="phase-label">
+        <span class="phase-tag tobe">TO-BE</span>
+        <span class="phase-label-desc">Build the governed capability</span>
       </div>
-      <div class="step reveal reveal-delay-3">
-        <div class="step-num">Phase 04 — Enable</div>
-        <h3>Enable</h3>
-        <p>Stand up the Vibe Code Lab environment. Give teams a governed space to build with AI — with IT in control of what goes into production and what data it can touch. Done well, this shifts the conversation with the business from restriction to capability. IT becomes the team that made it possible, not the team that said no.</p>
+      <div class="steps-row-2">
+        <div class="step">
+          <div class="step-num">Phase 03 — Govern</div>
+          <h3>Govern</h3>
+          <p>Establish the policies, guardrails, and accountability structures that make AI-assisted development safe at the enterprise level. Define what is approved, what requires review, and how ownership and assurance are maintained once tools move into business use. This is not bureaucracy — it is the operating model that makes speed sustainable.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">Phase 04 — Enable</div>
+          <h3>Enable</h3>
+          <p>Stand up the Vibe Code Lab — a governed environment where business demand can move at pace through IT rather than around it. Done well, this shifts IT from the team that said no to the team that made it possible. That is a different conversation with leadership, and it has lasting value.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 5. Who it's for -->
+<!-- 6. Who it's for -->
 <section class="section who-section">
   <div class="section-inner narrow">
     <div class="eyebrow reveal">Who this is for</div>
     <h2 class="section-heading reveal">Built for IT leaders who want to get ahead of this.</h2>
     <div class="who-block reveal">
-      <p>The Vibe Code Lab is designed for heads of IT, IT directors, and CISOs at organisations where AI-assisted development is already happening — or where it's about to. If you've just completed the Vibe Coding Risk Check and found gaps, this is the conversation to have next.</p>
-      <p>[PLACEHOLDER: client sector references to be added]</p>
-      <div class="who-attribution">Developed by John Wynn, Client Services Director at Tactica Partners.</div>
+      <p>The Vibe Code Lab is designed for heads of IT, IT directors, and CISOs at organisations where AI-assisted development is already happening — or where it is about to. If leadership needs to understand the current exposure before anything else, the free diagnostic is the right place to start. If you already have a picture of the risk and are ready to act on it, the Vibe Code Lab engagement is the next conversation.</p>
+      <p>Tactica has delivered IT transformation for global organisations across financial services, retail, energy, and professional services since 2012. We have seen what enterprise-grade delivery requires and we apply that standard to AI-enabled development — which is why we are positioned to advise in a space where most organisations are still working out what the question is.</p>
+      <div class="who-attribution">Delivered by Tactica Partners · <a href="mailto:john@tacticapartners.com">john@tacticapartners.com</a></div>
     </div>
   </div>
 </section>
 
-<!-- 6. Contact -->
+<!-- 7. Contact -->
 <section class="section contact-section" id="contact">
   <div class="section-inner narrow">
     <div class="eyebrow reveal" style="color:rgba(255,255,255,.4);">Get in touch</div>
@@ -461,9 +534,13 @@ body {
           <input type="text" id="f-name" name="name" placeholder="Your name" required/>
         </div>
         <div class="form-field">
-          <label for="f-email">Email</label>
+          <label for="f-email">Work email</label>
           <input type="email" id="f-email" name="email" placeholder="you@organisation.com" required/>
         </div>
+      </div>
+      <div class="form-field">
+        <label for="f-org">Organisation</label>
+        <input type="text" id="f-org" name="organisation" placeholder="Your organisation"/>
       </div>
       <div class="form-field">
         <label for="f-message">Message</label>
@@ -477,7 +554,7 @@ body {
       We'll review your message and come back to you within one business day.
     </div>
 
-    <p class="contact-email-alt reveal">Or email us directly at <a href="mailto:[PLACEHOLDER EMAIL]">[PLACEHOLDER EMAIL]</a></p>
+    <p class="contact-email-alt reveal">Or email us directly at <a href="mailto:john@tacticapartners.com">john@tacticapartners.com</a></p>
   </div>
 </section>
 
@@ -487,7 +564,6 @@ body {
 </footer>
 
 <script>
-// Scroll reveal
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) {
@@ -499,12 +575,10 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Form submit
 function handleSubmit(e) {
   e.preventDefault();
   document.getElementById('contact-form').style.display = 'none';
-  const confirm = document.getElementById('form-confirm');
-  confirm.style.display = 'block';
+  document.getElementById('form-confirm').style.display = 'block';
 }
 </script>
 </body>
