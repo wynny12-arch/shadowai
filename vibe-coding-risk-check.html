@@ -1218,10 +1218,13 @@ function renderResults(){
   const ringTrackColor = result.key === 'controlled' ? '#d1fae5' : result.key === 'exposed' ? '#fef3c7' : '#fee2e2';
   const ringPillBg = result.key === 'controlled' ? '#ecfdf5' : result.key === 'exposed' ? '#fffbeb' : '#fef2f2';
 
-  // Main ring: more filled = better governance (score 0 = full, 30 = empty)
+  // Main ring: dual-fill — green from top (good governance), red from bottom (bad)
   const mainCirc = 502.65;   // 2π × 80
   const mainArcTotal = 376.99; // 270°
-  const mainArcFilled = Math.max(6, (score / 30) * mainArcTotal);
+  const greenFilled = ((30 - score) / 30) * mainArcTotal; // good answers fill from start
+  const redFilled   = (score / 30) * mainArcTotal;         // bad answers fill from end
+  const redDegrees  = (redFilled / mainArcTotal) * 270;
+  const redStartAngle = 405 - redDegrees;                  // red starts near bottom, fills up
 
   // Section status badges
   const sectionRingsHtml = sections.map(s => {
@@ -1253,15 +1256,23 @@ function renderResults(){
       <p class="boardroom-summary">${result.summary}</p>
       <div class="ring-top" style="margin-top:20px">
         <svg viewBox="0 0 200 200" width="200" height="200" style="display:block;flex-shrink:0">
-          <circle cx="100" cy="100" r="80" fill="none" stroke="${ringTrackColor}" stroke-width="15"
+          <!-- Track -->
+          <circle cx="100" cy="100" r="80" fill="none" stroke="#e5e7eb" stroke-width="15"
             stroke-dasharray="${mainArcTotal.toFixed(2)} ${mainCirc}" stroke-linecap="butt"
             transform="rotate(135 100 100)"/>
-          <circle cx="100" cy="100" r="80" fill="none" stroke="${ringColor}" stroke-width="15"
-            stroke-dasharray="${mainArcFilled.toFixed(2)} ${mainCirc}" stroke-linecap="butt"
+          <!-- Green: fills from top proportional to good governance -->
+          <circle cx="100" cy="100" r="80" fill="none" stroke="#059669" stroke-width="15"
+            stroke-dasharray="${greenFilled.toFixed(2)} ${mainCirc}" stroke-linecap="butt"
             transform="rotate(135 100 100)"/>
+          <!-- Red: fills from bottom proportional to bad governance -->
+          <circle cx="100" cy="100" r="80" fill="none" stroke="#dc2626" stroke-width="15"
+            stroke-dasharray="${redFilled.toFixed(2)} ${mainCirc}" stroke-linecap="butt"
+            transform="rotate(${redStartAngle.toFixed(2)} 100 100)"/>
+          <!-- Segment dividers -->
           <circle cx="100" cy="100" r="80" fill="none" stroke="white" stroke-width="16"
             stroke-dasharray="3 44.1" stroke-linecap="butt"
             transform="rotate(135 100 100)"/>
+          <!-- Band label pill -->
           <rect x="54" y="90" width="92" height="28" rx="14" fill="${ringPillBg}" stroke="${ringColor}" stroke-width="1.5"/>
           <text x="100" y="104" text-anchor="middle" dominant-baseline="middle"
             font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
