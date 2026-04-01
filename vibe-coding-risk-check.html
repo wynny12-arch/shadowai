@@ -506,7 +506,7 @@ button,input{font:inherit}
             <h1>In most organisations, a growing share of AI-built tools are invisible to IT.</h1>
             <p>This five-minute risk check shows how quickly shadow AI development could be outpacing your current controls — and where your biggest exposure is likely to be.</p>
             <div class="meta">
-              <span>10 questions</span>
+              <span>8 questions</span>
               <span>5 minutes</span>
               <span>Instant result</span>
               <span>Built for IT leadership</span>
@@ -539,11 +539,11 @@ button,input{font:inherit}
           </div>
           <div class="intro-mini">
             <h4>What this is not</h4>
-            <p>It is not a technical audit. It is a directional risk check designed to start the right conversation quickly.</p>
+            <p>This is not a survey in the traditional sense. It is a structured way to build a fact-based view of how AI-enabled delivery is currently operating across your organisation.</p>
           </div>
           <div class="intro-mini">
             <h4>How to answer</h4>
-            <p>Answer based on how the organisation works in practice today, not how policy says it should work.</p>
+            <p>In many organisations, this activity is already happening in ways that are only partially visible to IT. Answer based on how the organisation works in practice today, not how policy says it should work.</p>
           </div>
         </div>
 
@@ -756,44 +756,54 @@ const answers = {};
 
 const QUESTION_META = {
   q1: [
-    {title:'What this question is testing', body:'Whether IT has a current, evidence-based picture of AI-enabled development activity — not just an assumption that things are being surfaced.'},
-    {title:'What a strong answer means', body:'Strong visibility usually indicates active detection, disclosure routes, and a culture where AI-enabled build activity surfaces early rather than after the fact.'},
-    {title:'What a weak answer implies', body:'When visibility is weak, governance only begins after activity has already moved ahead — often when a risk has already materialised.'}
+    {title:'What we typically see', body:'Visibility is often assumed rather than evidenced, particularly where teams are experimenting locally.'},
+    {title:'What this usually indicates', body:'AI-enabled activity may already exist beyond the points where IT would normally expect to see it.'},
+    {title:'Why it matters', body:'Where visibility is partial, governance usually begins after activity is already underway.'}
   ],
   q2: [
-    {title:'What this question is testing', body:'Whether AI-enabled tools can move into real business use before IT has had a chance to apply the right level of control.'},
-    {title:'What a strong answer means', body:'A strong answer suggests the move from experimentation to business use is visible and deliberately managed.'},
-    {title:'What a weak answer implies', body:'If tools can enter real business use informally, operational exposure can grow quietly and quickly.'}
+    {title:'What we typically see', body:'Tools often move from experimentation into day-to-day use more quickly than governance processes anticipate.'},
+    {title:'What this usually indicates', body:'The organisation may not yet have a sufficiently clear route from idea to controlled business use.'},
+    {title:'Why it matters', body:'Once tools are relied upon in practice, they become more difficult to unwind or stabilise later.'}
   ],
   q3: [
-    {title:'What this question is testing', body:'Whether practical guardrails exist for what employees can build, where they can build it, and what they can use.'},
-    {title:'What a strong answer means', body:'Good guardrails remove ambiguity and make safe experimentation easier rather than slower.'},
-    {title:'What a weak answer implies', body:'Weak guardrails usually mean each team is interpreting risk differently — with no consistent baseline.'}
+    {title:'What we typically see', body:'Teams do not always surface AI-enabled activity consistently unless there is a clear expectation to do so.'},
+    {title:'What this usually indicates', body:'IT may be relying on local goodwill or informal awareness rather than a dependable disclosure route.'},
+    {title:'Why it matters', body:'If activity is not routinely surfaced, leadership often gains line of sight only after use has become embedded.'}
   ],
   q4: [
-    {title:'What this question is testing', body:'Whether ownership and governance remain clear and active once AI-enabled tools move into business use — not just at the point of build.'},
-    {title:'What a strong answer means', body:'Explicit ownership and lifecycle governance mean tools do not become orphaned assets. Accountability is clear before something goes wrong.'},
-    {title:'What a weak answer implies', body:'Weak post-adoption governance is one of the most common sources of hidden exposure — tools drift into unmanaged use over time.'}
+    {title:'What we typically see', body:'Organisations often have broad policy language, but less clarity on what employees can and cannot build in practice.'},
+    {title:'What this usually indicates', body:'Teams may be interpreting acceptable use differently across functions or use cases.'},
+    {title:'Why it matters', body:'Where rules are unclear, risk tends to be managed locally rather than consistently.'}
   ],
   q5: [
-    {title:'What this question is testing', body:'Whether IT can credibly state how data is being used, exposed, or protected in AI-enabled tools.'},
-    {title:'What a strong answer means', body:'A strong answer means data boundaries are understood, applied, and enforced in practice — not just stated in policy.'},
-    {title:'What a weak answer implies', body:'Weak answers here often create the fastest path from experimentation to board-level concern.'}
+    {title:'What we typically see', body:'Ownership is often clear at the point of creation, but less clear once a tool starts being relied upon.'},
+    {title:'What this usually indicates', body:'Support, maintenance, and accountability may not yet be fully defined.'},
+    {title:'Why it matters', body:'Where ownership is unclear, responsibility usually appears only when something needs fixing.'}
   ],
   q6: [
-    {title:'What this question is testing', body:'Whether AI-enabled tools are being validated before people trust them for real work or decisions.'},
-    {title:'What a strong answer means', body:'Strong validation suggests AI-built outputs are being treated like real delivery assets rather than casual experiments.'},
-    {title:'What a weak answer implies', body:'If validation is inconsistent, quality and risk depend too much on the individual creator rather than the organisation.'}
+    {title:'What we typically see', body:'Governance is often strongest at approval and weakest once tools are in ongoing use.'},
+    {title:'What this usually indicates', body:'Some AI-enabled assets may remain active without regular review or consistent oversight.'},
+    {title:'Why it matters', body:'Without ongoing governance, exposure tends to accumulate quietly over time.'}
   ],
   q7: [
-    {title:'What this question is testing', body:'Whether the business has a credible route to move quickly with AI-enabled solutions through IT rather than around it.'},
-    {title:'What a strong answer means', body:'A strong answer suggests IT is already positioned as the route to safe speed — not as an obstacle to avoid.'},
-    {title:'What a weak answer implies', body:'Without a credible route, business teams usually optimise for speed and create their own path.'}
+    {title:'What we typically see', body:'Data handling is usually where confidence drops fastest once AI-enabled tooling starts to spread.'},
+    {title:'What this usually indicates', body:'The organisation may not yet have a sufficiently reliable view of how data is accessed, processed, or exposed.'},
+    {title:'Why it matters', body:'Weak data discipline creates one of the fastest routes from experimentation to material risk.'}
   ],
   q8: [
-    {title:'What this question is testing', body:'Whether someone at a senior level owns the AI governance question — or whether it falls between functions without a clear decision-maker.'},
-    {title:'What a strong answer means', body:'Named accountability at a senior level means AI governance decisions do not stall, escalate inconsistently, or depend on informal influence.'},
-    {title:'What a weak answer implies', body:'Without clear senior ownership, governance gaps tend to persist — because nobody has the authority or mandate to close them.'}
+    {title:'What we typically see', body:'Validation is often informal, especially where tools are built quickly to solve local problems.'},
+    {title:'What this usually indicates', body:'Outputs may be relied upon before there is a consistent assurance model in place.'},
+    {title:'Why it matters', body:'Where testing is inconsistent, quality and confidence depend too heavily on the creator.'}
+  ],
+  q9: [
+    {title:'What we typically see', body:'Business demand for speed usually finds a route, whether or not IT has provided one.'},
+    {title:'What this usually indicates', body:'If the formal route is unclear or slow, teams may look for alternatives that feel more practical.'},
+    {title:'Why it matters', body:'A weak route through IT increases the likelihood of fragmented local adoption.'}
+  ],
+  q10: [
+    {title:'What we typically see', body:'Direction is often present in principle before it is fully translated into a working operating model.'},
+    {title:'What this usually indicates', body:'Leadership may recognise the issue, but the organisational response is still forming.'},
+    {title:'Why it matters', body:'Without a clear approach, demand continues while the model designed to govern it lags behind.'}
   ]
 };
 
