@@ -1218,28 +1218,40 @@ function renderResults(){
   const ringTrackColor = result.key === 'controlled' ? '#d1fae5' : result.key === 'exposed' ? '#fef3c7' : '#fee2e2';
   const ringPillBg = result.key === 'controlled' ? '#ecfdf5' : result.key === 'exposed' ? '#fffbeb' : '#fef2f2';
 
-  // Main ring: dual-fill — green from top (good governance), red from bottom (bad)
+  // Main ring: per-answer count — literally how many questions got best vs worst selection
   const mainCirc = 502.65;   // 2π × 80
   const mainArcTotal = 376.99; // 270°
-  const greenFilled = ((30 - score) / 30) * mainArcTotal; // good answers fill from start
-  const redFilled   = (score / 30) * mainArcTotal;         // bad answers fill from end
-  const redDegrees  = (redFilled / mainArcTotal) * 270;
-  const redStartAngle = 405 - redDegrees;                  // red starts near bottom, fills up
+  const mainTopCount    = QUESTIONS.filter(q => getQuestionScore(q) === 0).length;
+  const mainBottomCount = QUESTIONS.filter(q => getQuestionScore(q) === 4).length;
+  const greenFilled     = (mainTopCount    / QUESTIONS.length) * mainArcTotal;
+  const redFilled       = (mainBottomCount / QUESTIONS.length) * mainArcTotal;
+  const redDegrees      = (redFilled / mainArcTotal) * 270;
+  const redStartAngle   = 405 - redDegrees;
 
-  // Section status badges
+  // Section rings: same per-answer count approach, small SVG rings
+  const sCirc = 188.50;     // 2π × 30
+  const sArcTotal = 141.37; // 270° of r=30 ring
   const sectionRingsHtml = sections.map(s => {
-    const pct = s.score / s.max;
-    const sc  = pct <= 0.33 ? '#059669' : pct <= 0.66 ? '#d97706' : '#dc2626';
-    const bg  = pct <= 0.33 ? '#ecfdf5' : pct <= 0.66 ? '#fffbeb' : '#fef2f2';
-    const bdr = pct <= 0.33 ? '#6ee7b7' : pct <= 0.66 ? '#fcd34d' : '#fecaca';
-    const label = pct <= 0.33 ? 'High' : pct <= 0.66 ? 'Medium' : 'Low';
-    const dot = pct <= 0.33 ? '●' : pct <= 0.66 ? '●' : '●';
+    const sQs = QUESTIONS.filter(q => q.section === s.name);
+    const sTop    = sQs.filter(q => getQuestionScore(q) === 0).length;
+    const sBottom = sQs.filter(q => getQuestionScore(q) === 4).length;
+    const sGreen  = (sTop    / sQs.length) * sArcTotal;
+    const sRed    = (sBottom / sQs.length) * sArcTotal;
+    const sRedDeg = (sRed / sArcTotal) * 270;
+    const sRedAngle = 405 - sRedDeg;
     return `
     <div class="section-ring-item">
-      <div style="display:flex;align-items:center;gap:6px;padding:10px 14px;border-radius:12px;background:${bg};border:1px solid ${bdr}">
-        <span style="color:${sc};font-size:9px;line-height:1">${dot}</span>
-        <span style="font-size:14px;font-weight:800;color:${sc}">${label}</span>
-      </div>
+      <svg viewBox="0 0 76 76" width="76" height="76" style="display:block">
+        <circle cx="38" cy="38" r="30" fill="none" stroke="#e5e7eb" stroke-width="8"
+          stroke-dasharray="${sArcTotal.toFixed(2)} ${sCirc}" stroke-linecap="butt"
+          transform="rotate(135 38 38)"/>
+        <circle cx="38" cy="38" r="30" fill="none" stroke="#059669" stroke-width="8"
+          stroke-dasharray="${sGreen.toFixed(2)} ${sCirc}" stroke-linecap="butt"
+          transform="rotate(135 38 38)"/>
+        <circle cx="38" cy="38" r="30" fill="none" stroke="#dc2626" stroke-width="8"
+          stroke-dasharray="${sRed.toFixed(2)} ${sCirc}" stroke-linecap="butt"
+          transform="rotate(${sRedAngle.toFixed(2)} 38 38)"/>
+      </svg>
       <div class="section-ring-name">${s.name === 'Risk' ? 'Risk Aware' : s.name}</div>
     </div>`;
   }).join('');
