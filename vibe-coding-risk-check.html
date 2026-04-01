@@ -203,6 +203,8 @@ button,input{font:inherit}
   .inline-profile,
   .actions-row,
   .cta-stack,
+  .detail-link,
+  #results-right,
   .no-print{
     display:none !important;
   }
@@ -267,17 +269,13 @@ button,input{font:inherit}
     page-break-inside:avoid !important;
   }
 
-  /* Right column starts on a fresh page */
-  #results-right{
-    break-before:page !important;
-    page-break-before:always !important;
-  }
-
-  /* Solution/lab card — no forced break, let flow decide */
-  .solution-card{
+  /* Avoid breaks inside boardroom cards */
+  .boardroom-card,
+  .boardroom-item,
+  .priority-callout,
+  .callout{
     break-inside:avoid !important;
     page-break-inside:avoid !important;
-    box-shadow:none !important;
   }
 
   .panel,
@@ -1198,7 +1196,6 @@ function renderResults(){
         <div class="priority-callout">
           <h4>${{controlled:'Formalise the current operating model', exposed:'Establish a clear AS-IS picture', blindspot:'Establish a fact-based position — quickly'}[result.key]}</h4>
           <p>${nextSteps[0][1]}</p>
-          ${pattern ? `<p style="margin-top:10px; font-size:14px; color:#475569;">${pattern.text}</p>` : ''}
         </div>
       </div>
 
@@ -1275,7 +1272,7 @@ function renderResults(){
           <h3>How this was assessed</h3>
           <button id="closeOverlay" aria-label="Close">✕</button>
         </div>
-        <p class="overlay-intro">Your position is based on responses across 10 governance indicators covering visibility, control, risk, and operating model maturity. The result is then translated into an executive summary designed to help leadership discuss the issue quickly.</p>
+        <p class="overlay-intro">Your position is based on responses across 8 governance indicators covering visibility, control, risk, and operating model maturity. The result is then translated into an executive summary designed to help leadership discuss the issue quickly.</p>
         <div class="detail-section">
           <h4>Your responses</h4>
           <div class="response-list">
