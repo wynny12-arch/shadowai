@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,580 +7,470 @@
 <title>Vibe Code Lab — Tactica</title>
 <style>
 :root {
-  --navy:             #0f2040;
-  --accent:           #2563eb;
-  --accent-light:     #eff6ff;
-  --accent-border:    #bfdbfe;
-  --text:             #111827;
-  --muted:            #6b7280;
-  --border:           #e5e7eb;
-  --bg:               #f8fafc;
-  --surface:          #ffffff;
-  --radius:           12px;
-  --shadow:           0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
-  --shadow-md:        0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+  --navy:#0f2040;
+  --navy-2:#142952;
+  --accent:#2563eb;
+  --accent-2:#1d4ed8;
+  --accent-light:#eff6ff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --bg:#f8fafc;
+  --surface:#ffffff;
+  --green:#059669;
+  --green-bg:#ecfdf5;
+  --amber:#d97706;
+  --amber-bg:#fffbeb;
+  --red:#dc2626;
+  --red-bg:#fef2f2;
+  --radius:16px;
+  --radius-sm:12px;
+  --shadow:0 8px 28px rgba(15,32,64,.08), 0 2px 8px rgba(15,32,64,.05);
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 15px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--text);
+  background:linear-gradient(180deg,#f8fafc 0%, #f4f7fb 100%);
+  line-height:1.55;
 }
-
-/* ── Topbar ── */
-.topbar {
-  background: var(--navy);
-  height: 52px;
-  display: flex;
-  align-items: center;
-  padding: 0 28px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+a,button,input,textarea{font:inherit}
+.topbar{
+  position:sticky; top:0; z-index:30;
+  height:56px; background:var(--navy); color:#fff;
+  display:flex; align-items:center; padding:0 28px;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
 }
-.topbar-inner { display: flex; align-items: center; gap: 12px; }
-.brand-mark {
-  font-size: .68rem;
-  font-weight: 800;
-  letter-spacing: .12em;
-  color: #fff;
-  background: rgba(255,255,255,.12);
-  padding: 3px 8px;
-  border-radius: 4px;
+.brand{display:flex; gap:12px; align-items:center; font-size:14px}
+.brand-mark{font-size:11px; letter-spacing:.14em; font-weight:800; background:rgba(255,255,255,.12); padding:4px 8px; border-radius:6px}
+.brand-title{color:rgba(255,255,255,.75)}
+.page{max-width:1180px; margin:0 auto; padding:28px 20px 60px}
+.frame{background:var(--surface); border:1px solid var(--border); border-radius:20px; box-shadow:var(--shadow); overflow:hidden}
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%, var(--navy-2) 70%, #18366a 100%);
+  color:#fff; padding:72px 34px;
 }
-.brand-sep { color: rgba(255,255,255,.25); font-weight: 300; }
-.brand-title { font-size: .88rem; font-weight: 500; color: rgba(255,255,255,.75); }
-
-/* ── Shared layout ── */
-.section { padding: 80px 20px; }
-.section-inner { max-width: 880px; margin: 0 auto; }
-.section-inner.narrow { max-width: 680px; }
-.eyebrow {
-  font-size: .68rem;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: var(--accent);
-  font-weight: 700;
-  margin-bottom: 14px;
+.hero-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:26px; align-items:center; max-width:1080px; margin:0 auto}
+.eyebrow{font-size:11px; text-transform:uppercase; letter-spacing:.14em; font-weight:800; color:#7fb0ff; margin-bottom:14px}
+.hero h1{font-size:46px; line-height:1.08; margin:0 0 16px}
+.hero p{font-size:18px; color:rgba(255,255,255,.78); margin:0 0 28px; max-width:720px}
+.meta{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:26px}
+.meta span{font-size:13px; padding:7px 10px; border-radius:999px; background:rgba(255,255,255,.09); color:rgba(255,255,255,.86); border:1px solid rgba(255,255,255,.1)}
+.btn-row{display:flex; gap:12px; flex-wrap:wrap}
+.btn{display:inline-flex; align-items:center; justify-content:center; min-height:46px; padding:10px 20px; border-radius:10px; text-decoration:none; font-weight:700; font-size:14px; border:none; cursor:pointer; transition:.15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:#fff; color:var(--navy)}
+.btn-secondary{background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.16)}
+.hero-card{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); backdrop-filter: blur(8px); border-radius:18px; padding:22px}
+.hero-card h3{margin:0 0 14px; font-size:16px}
+.stat-list{display:grid; gap:12px}
+.stat{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding:14px 0; border-top:1px solid rgba(255,255,255,.12)}
+.stat:first-child{border-top:none; padding-top:0}
+.stat-num{font-size:11px; font-weight:800; letter-spacing:.14em; color:#9dc0ff; white-space:nowrap}
+.stat-copy{font-size:14px; color:rgba(255,255,255,.85)}
+.section{padding:28px 34px; border-top:1px solid var(--border)}
+.section-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:22px; align-items:start}
+.kicker{font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); font-weight:800; margin-bottom:10px}
+.section h2{margin:0 0 12px; font-size:28px; line-height:1.15; color:var(--navy)}
+.section p.lead{margin:0; font-size:16px; line-height:1.8; color:var(--muted)}
+.callout{background:#f8fbff; border:1px solid #dbe7ff; border-radius:18px; padding:22px}
+.callout h3{margin:0 0 10px; font-size:16px; color:var(--navy)}
+.callout p{margin:0; color:var(--muted); font-size:14px; line-height:1.75}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:22px}
+.card{background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:22px; box-shadow:0 3px 10px rgba(15,32,64,.03)}
+.card-num{display:inline-flex; align-items:center; justify-content:center; min-width:34px; height:34px; padding:0 10px; border-radius:10px; background:var(--accent-light); color:var(--accent); font-weight:800; font-size:12px; margin-bottom:14px}
+.card h3{margin:0 0 10px; font-size:18px; color:var(--navy)}
+.card p{margin:0; color:var(--muted); font-size:14px; line-height:1.75}
+.phase-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--border); border-radius:18px; overflow:hidden; margin-top:22px}
+.phase{padding:22px; background:#fff; border-right:1px solid var(--border)}
+.phase:last-child{border-right:none}
+.phase-kicker{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.14em; color:var(--accent); margin-bottom:10px}
+.phase h3{margin:0 0 10px; font-size:18px; color:var(--navy)}
+.phase p{margin:0; color:var(--muted); font-size:14px; line-height:1.75}
+.summary-strip{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:22px}
+.summary-chip{border:1px solid var(--border); border-radius:14px; padding:16px; background:#fff}
+.summary-chip strong{display:block; font-size:13px; color:var(--navy); margin-bottom:6px}
+.summary-chip span{display:block; font-size:13px; color:var(--muted); line-height:1.6}
+.panel-dark{background:linear-gradient(135deg,var(--navy) 0%, var(--navy-2) 100%); color:#fff; border-radius:18px; padding:26px}
+.panel-dark .kicker{color:#9dc0ff}
+.panel-dark h2{color:#fff}
+.panel-dark p.lead{color:rgba(255,255,255,.78)}
+.form-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.field{display:flex; flex-direction:column; gap:6px}
+.field label{font-size:12px; font-weight:700; color:rgba(255,255,255,.68); text-transform:uppercase; letter-spacing:.08em}
+.field input,.field textarea{
+  width:100%; background:rgba(255,255,255,.07); color:#fff;
+  border:1px solid rgba(255,255,255,.14); border-radius:10px; padding:12px 14px;
+  outline:none;
 }
-.section-heading {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: var(--navy);
-  line-height: 1.22;
-  margin-bottom: 20px;
+.field textarea{min-height:120px; resize:vertical}
+.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.35)}
+.contact-note{margin-top:14px; font-size:13px; color:rgba(255,255,255,.6)}
+.footer{padding:20px 34px; border-top:1px solid var(--border); color:var(--muted); font-size:12px; background:#fff}
+@media (max-width: 980px){
+  .hero-grid,.section-grid,.grid-3{grid-template-columns:1fr}
+  .phase-grid{grid-template-columns:repeat(2,1fr)}
+  .phase:nth-child(2){border-right:none}
+  .phase:nth-child(1), .phase:nth-child(2){border-bottom:1px solid var(--border)}
+  .summary-strip{grid-template-columns:repeat(2,1fr)}
 }
-.section-body {
-  font-size: .975rem;
-  color: var(--muted);
-  line-height: 1.85;
-}
-
-/* ── Scroll reveal ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity .55s ease, transform .55s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal-delay-1 { transition-delay: .1s; }
-.reveal-delay-2 { transition-delay: .2s; }
-.reveal-delay-3 { transition-delay: .3s; }
-
-/* ── Hero ── */
-.hero {
-  background: var(--navy);
-  padding: 96px 20px 100px;
-}
-.hero-inner {
-  max-width: 760px;
-  margin: 0 auto;
-}
-.hero .eyebrow { color: rgba(255,255,255,.45); }
-.hero h1 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1.18;
-  margin-bottom: 22px;
-}
-.hero-sub {
-  font-size: 1.05rem;
-  color: rgba(255,255,255,.7);
-  line-height: 1.8;
-  max-width: 640px;
-  margin-bottom: 40px;
-}
-.btn-primary {
-  display: inline-block;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  padding: 13px 30px;
-  border-radius: 8px;
-  font-size: .95rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background .15s, box-shadow .15s;
-  box-shadow: 0 2px 4px rgba(37,99,235,.35);
-  letter-spacing: .01em;
-}
-.btn-primary:hover { background: #1d4ed8; box-shadow: 0 4px 12px rgba(37,99,235,.4); }
-
-/* ── Problem ── */
-.problem { background: var(--surface); border-bottom: 1px solid var(--border); }
-.problem .section-body + .section-body { margin-top: 16px; }
-
-/* ── Cards ── */
-.cards-section { background: var(--bg); }
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 40px;
-}
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 32px 28px;
-  box-shadow: var(--shadow);
-}
-.card-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: var(--accent-light);
-  border: 1px solid var(--accent-border);
-  border-radius: 8px;
-  font-size: .72rem;
-  font-weight: 800;
-  color: var(--accent);
-  letter-spacing: .04em;
-  margin-bottom: 16px;
-}
-.card h3 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 10px;
-  line-height: 1.3;
-}
-.card p {
-  font-size: .875rem;
-  color: var(--muted);
-  line-height: 1.75;
-}
-
-/* ── Why Tactica ── */
-.why-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-
-/* ── How it works ── */
-.how-section { background: var(--bg); border-bottom: 1px solid var(--border); }
-.phase-group { margin-top: 36px; }
-.phase-label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-.phase-tag {
-  font-size: .65rem;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 4px;
-}
-.phase-tag.asis {
-  background: var(--accent-light);
-  color: var(--accent);
-  border: 1px solid var(--accent-border);
-}
-.phase-tag.tobe {
-  background: var(--navy);
-  color: #fff;
-}
-.phase-label-desc {
-  font-size: .85rem;
-  color: var(--muted);
-  font-weight: 500;
-}
-.steps-row-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.step {
-  padding: 32px 28px;
-  border-right: 1px solid var(--border);
-  background: var(--surface);
-}
-.step:last-child { border-right: none; }
-.step-num {
-  font-size: .68rem;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-weight: 700;
-  color: var(--accent);
-  margin-bottom: 12px;
-}
-.step h3 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 10px;
-}
-.step p {
-  font-size: .875rem;
-  color: var(--muted);
-  line-height: 1.75;
-}
-
-/* ── Who it's for ── */
-.who-section { background: var(--bg); }
-.who-block {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 40px 44px;
-  box-shadow: var(--shadow-md);
-  margin-top: 32px;
-}
-.who-block p {
-  font-size: .975rem;
-  color: var(--muted);
-  line-height: 1.85;
-  margin-bottom: 20px;
-}
-.who-block p:last-of-type { margin-bottom: 0; }
-.who-attribution {
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-  font-size: .82rem;
-  color: var(--muted);
-}
-.who-attribution a { color: var(--muted); }
-
-/* ── Contact ── */
-.contact-section { background: var(--navy); }
-.contact-section .section-heading { color: #fff; }
-.contact-section .section-body { color: rgba(255,255,255,.65); margin-bottom: 36px; }
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: 32px;
-}
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.form-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.form-field label {
-  font-size: .78rem;
-  font-weight: 600;
-  color: rgba(255,255,255,.55);
-  letter-spacing: .04em;
-}
-.form-field input,
-.form-field textarea {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 8px;
-  padding: 11px 14px;
-  font-size: .9rem;
-  color: #fff;
-  font-family: inherit;
-  outline: none;
-  transition: border-color .15s;
-  resize: vertical;
-}
-.form-field input::placeholder,
-.form-field textarea::placeholder { color: rgba(255,255,255,.3); }
-.form-field input:focus,
-.form-field textarea:focus { border-color: rgba(255,255,255,.4); background: rgba(255,255,255,.1); }
-.btn-submit {
-  align-self: flex-start;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  padding: 12px 28px;
-  border-radius: 8px;
-  font-size: .9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background .15s, box-shadow .15s;
-  box-shadow: 0 2px 4px rgba(37,99,235,.3);
-  margin-top: 4px;
-}
-.btn-submit:hover { background: #1d4ed8; box-shadow: 0 4px 12px rgba(37,99,235,.4); }
-.contact-email-alt {
-  margin-top: 20px;
-  font-size: .8rem;
-  color: rgba(255,255,255,.4);
-}
-.contact-email-alt a { color: rgba(255,255,255,.55); }
-.form-confirm {
-  display: none;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: var(--radius);
-  padding: 32px 36px;
-  margin-top: 32px;
-  color: rgba(255,255,255,.85);
-  font-size: .95rem;
-  line-height: 1.7;
-}
-.form-confirm strong { color: #fff; }
-
-/* ── Footer ── */
-.footer {
-  background: var(--navy);
-  border-top: 1px solid rgba(255,255,255,.08);
-  padding: 24px 28px;
-  text-align: center;
-  font-size: .78rem;
-  color: rgba(255,255,255,.3);
-}
-
-/* ── Responsive ── */
-@media (max-width: 900px) {
-  .cards-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 700px) {
-  .hero { padding: 64px 20px 72px; }
-  .hero h1 { font-size: 1.75rem; }
-  .hero-sub { font-size: .95rem; }
-  .section { padding: 56px 20px; }
-  .section-heading { font-size: 1.4rem; }
-  .cards-grid { grid-template-columns: 1fr; gap: 12px; }
-  .steps-row-2 { grid-template-columns: 1fr; }
-  .steps-row-2 .step { border-right: none; border-bottom: 1px solid var(--border); }
-  .steps-row-2 .step:last-child { border-bottom: none; }
-  .who-block { padding: 28px 24px; }
-  .form-row { grid-template-columns: 1fr; }
-  .topbar { padding: 0 18px; }
+@media (max-width: 700px){
+  .topbar{padding:0 18px}
+  .page{padding:18px 14px 40px}
+  .hero,.section,.footer{padding-left:20px; padding-right:20px}
+  .hero{padding-top:46px; padding-bottom:46px}
+  .hero h1{font-size:32px}
+  .hero p{font-size:16px}
+  .phase-grid,.summary-strip,.form-grid{grid-template-columns:1fr}
+  .phase{border-right:none; border-bottom:1px solid var(--border)}
+  .phase:last-child{border-bottom:none}
 }
 </style>
 </head>
 <body>
-
-<!-- Topbar -->
 <header class="topbar">
-  <div class="topbar-inner">
+  <div class="brand">
     <span class="brand-mark">TACTICA</span>
-    <span class="brand-sep">|</span>
     <span class="brand-title">Vibe Code Lab</span>
   </div>
 </header>
 
-<!-- 1. Hero -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="eyebrow reveal">Tactica Partners</div>
-    <h1 class="reveal reveal-delay-1">Where enterprise experience meets AI-enabled development.</h1>
-    <p class="hero-sub reveal reveal-delay-2">AI-assisted development is moving faster than enterprise governance can absorb. Tactica bridges that gap — bringing over a decade of enterprise IT experience to bear on a problem most organisations haven't started solving yet. The Vibe Code Lab is the result.</p>
-    <a href="#contact" class="btn-primary reveal reveal-delay-3">Talk to us about the Vibe Code Lab →</a>
-  </div>
-</section>
+<main class="page">
+  <div class="frame">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow" id="hero-eyebrow">Next step after the risk check</div>
+          <div id="result-badge" style="display:none;margin-bottom:12px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;display:inline-block;background:#eef2ff;color:#1d4ed8;">Result: </div>
+<h1 id="hero-title">See how the Vibe Code Lab turns survey insight into an IT-led operating model.</h1>
+          <p id="hero-sub">If the risk check surfaced gaps in visibility, control, data governance, or safe delivery, the Vibe Code Lab is the practical response. It gives the business a credible route to move quickly with AI-enabled development — while giving IT visibility, governance, and control from the start.</p>
+          <div class="meta">
+            <span>IT-led by design</span>
+            <span>Governed environment</span>
+            <span>Fast path to controlled MVP</span>
+          </div>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="#contact">Book a working session →</a>
+            <a class="btn btn-secondary" href="#how-it-works">See the delivery model</a>
+          </div>
+        </div>
+        <aside class="hero-card">
+          <h3 id="hero-card-title">What this page should answer</h3>
+          <div class="stat-list" id="hero-stat-list">
+            <div class="stat">
+              <div class="stat-num">01</div>
+              <div class="stat-copy">What the Vibe Code Lab actually is — beyond the label</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">02</div>
+              <div class="stat-copy">How it helps IT move from reactive governance to controlled enablement</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">03</div>
+              <div class="stat-copy">How it connects directly to the issues surfaced in the risk check</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
 
-<!-- 2. The challenge -->
-<section class="section problem">
-  <div class="section-inner narrow">
-    <div class="eyebrow reveal">The challenge</div>
-    <h2 class="section-heading reveal">The tools are moving faster than the governance.</h2>
-    <p class="section-body reveal">Staff across every department are using AI to build tools, automations, and workflows — often without IT's knowledge. The risk isn't the technology. It's that the expectations, controls, and accountability structures of enterprise IT haven't been applied to it yet.</p>
-    <p class="section-body reveal" style="margin-top:16px;">AI-assisted development is powerful. But it is not yet enterprise-ready. The governance model, the ownership structures, the assurance controls — none of that comes built in. Most organisations are somewhere between reactive and exposed. The question isn't whether to act. It's whether IT gets to shape what happens next, or finds out after the fact.</p>
-  </div>
-</section>
+    <section class="section">
+      <div class="section-grid">
+        <div>
+          <div class="kicker">The context</div>
+          <h2>The governance gap is already open.</h2>
+          <p class="lead">Staff across every department can now build apps, automations, scripts, and lightweight workflows with AI. The issue is not that this is happening. The issue is that most organisations do not yet have an operating model that makes it visible, governable, and safe at speed.</p>
+        </div>
+        <div class="callout">
+          <h3 id="context-title">Why this matters after the survey</h3>
+          <p id="context-body">The risk check diagnoses where exposure is likely to sit. The Vibe Code Lab is the response model: a structured, IT-led environment that closes the gap between uncontrolled demand and governed delivery.</p>
+        </div>
+      </div>
+      <div class="summary-strip">
+        <div class="summary-chip" id="chip-1">
+          <strong>If visibility is weak</strong>
+          <span>The Lab creates a known route and a known environment.</span>
+        </div>
+        <div class="summary-chip" id="chip-2">
+          <strong>If control is inconsistent</strong>
+          <span>The Lab introduces guardrails, review points, and ownership.</span>
+        </div>
+        <div class="summary-chip" id="chip-3">
+          <strong>If risk is rising</strong>
+          <span>The Lab brings data, testing, and governance into the build path.</span>
+        </div>
+        <div class="summary-chip" id="chip-4">
+          <strong>If strategy is lagging</strong>
+          <span>The Lab gives IT a practical operating model it can lead with.</span>
+        </div>
+      </div>
+    </section>
 
-<!-- 3. What it is -->
-<section class="section cards-section">
-  <div class="section-inner">
-    <div class="eyebrow reveal">What the Vibe Code Lab is</div>
-    <h2 class="section-heading reveal">A governed environment. Not a policy document.</h2>
-    <div class="cards-grid">
-      <div class="card reveal reveal-delay-1">
-        <div class="card-num">01</div>
-        <h3>IT-Led by Design</h3>
-        <p>The Vibe Code Lab puts IT at the centre of AI-assisted development — not as a gatekeeper, but as the team that makes it work properly. Staff get access to the tools they want. IT gets the visibility and control it needs.</p>
+    <section class="section">
+      <div class="kicker">What the Vibe Code Lab is</div>
+      <h2>A governed environment. Not a policy document.</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-num">01</div>
+          <h3>IT-led by design</h3>
+          <p>The Vibe Code Lab puts IT at the centre of AI-enabled development — not as a blocker, but as the team that makes safe speed possible. The business gets access to the tools and support it wants. IT gets the visibility and control it needs.</p>
+        </div>
+        <div class="card">
+          <div class="card-num">02</div>
+          <h3>Repeatable delivery model</h3>
+          <p>This is not a one-off intervention. It is a structured approach that can be applied across teams, use cases, and departments — with security, governance, testing, and pre-production review built in from the start.</p>
+        </div>
+        <div class="card">
+          <div class="card-num">03</div>
+          <h3>From risk to capability</h3>
+          <p>Done well, the conversation changes. IT stops being seen as the team that slows AI-enabled delivery down and becomes the team that made it safe, scalable, and commercially useful.</p>
+        </div>
       </div>
-      <div class="card reveal reveal-delay-2">
-        <div class="card-num">02</div>
-        <h3>Built on AS-IS Reality</h3>
-        <p>Every engagement starts with an honest picture of where the organisation actually is — not where it thinks it is. The TO-BE is designed around that reality, not a generic framework that looks good on paper but doesn't reflect how your organisation operates.</p>
-      </div>
-      <div class="card reveal reveal-delay-3">
-        <div class="card-num">03</div>
-        <h3>From Risk to Capability</h3>
-        <p>When IT governs AI-assisted development properly, the conversation with leadership changes. It stops being about what to block and starts being about what's now possible. That shift has real commercial value.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- 4. Why Tactica -->
-<section class="section why-section">
-  <div class="section-inner">
-    <div class="eyebrow reveal">Why Tactica</div>
-    <h2 class="section-heading reveal">The right experience on both sides of the problem.</h2>
-    <p class="section-body reveal" style="margin-bottom:36px;">Most advisors in this space have deep expertise in either enterprise IT or AI-enabled development — rarely both. Tactica's position is different, and that difference matters.</p>
-    <div class="cards-grid">
-      <div class="card reveal reveal-delay-1">
-        <div class="card-num">→</div>
-        <h3>Enterprise foundations</h3>
-        <p>Since 2012, Tactica has delivered IT transformation for global blue-chip organisations across every industry sector — saving tens of millions of dollars and delivering change that sticks. We understand what enterprise-grade delivery actually requires: governance, accountability, assurance, and stakeholder alignment.</p>
-      </div>
-      <div class="card reveal reveal-delay-2">
-        <div class="card-num">→</div>
-        <h3>AI-enabled delivery expertise</h3>
-        <p>The Vibe Code Lab is the product of applying that enterprise rigour to AI-assisted development. We understand how these tools work in practice, where the risks concentrate, and what a governed operating model for AI-enabled delivery actually looks like — not in theory, but in your organisation.</p>
-      </div>
-      <div class="card reveal reveal-delay-3">
-        <div class="card-num">→</div>
-        <h3>Independent and pragmatic</h3>
-        <p>We are a boutique firm with no vendor relationships to protect and no packaged product to sell. Our approach is independent and sleeves-rolled-up — designed to reflect your organisation's reality and deliver outcomes, not to produce a report that sits on a shelf.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 5. How it works -->
-<section class="section how-section">
-  <div class="section-inner">
-    <div class="eyebrow reveal">How it works</div>
-    <h2 class="section-heading reveal">AS-IS to TO-BE. A methodology built for this moment.</h2>
-    <p class="section-body reveal" style="margin-bottom:8px;">Every Vibe Code Lab engagement follows a two-stage structure. First, we establish an honest picture of where you are. Then, we design and deliver the governed capability you need.</p>
-
-    <div class="phase-group reveal">
-      <div class="phase-label">
-        <span class="phase-tag asis">AS-IS</span>
-        <span class="phase-label-desc">Understand the current position</span>
-      </div>
-      <div class="steps-row-2">
-        <div class="step">
-          <div class="step-num">Phase 01 — Discover</div>
+    <section class="section" id="how-it-works">
+      <div class="kicker">How it works</div>
+      <h2>Four phases. One coherent framework.</h2>
+      <div class="phase-grid">
+        <div class="phase">
+          <div class="phase-kicker">Phase 01 — Discover</div>
           <h3>Discover</h3>
-          <p>We engage stakeholders to understand AI strategy at the business level, surface the frustrations driving demand for AI coding tools, and build an honest map of what is currently in use — what is working, what is ungoverned, and where the gaps are. The goal is not to find fault. It is to understand how your organisation actually operates, so what we design reflects that reality.</p>
+          <p>Using Tactica’s AS-IS / TO-BE methodology, engage stakeholders to understand business AI strategy, surface the frustrations driving demand, and build a fact-based view of what is currently in use or development — what is working, what is ungoverned, where the gaps are, and where current or emerging risks sit.</p>
         </div>
-        <div class="step">
-          <div class="step-num">Phase 02 — Design</div>
+        <div class="phase">
+          <div class="phase-kicker">Phase 02 — Design</div>
           <h3>Design</h3>
-          <p>We validate the AS-IS position with leadership and agree the path forward. Structured stakeholder workshops align IT and business around a shared understanding of the current risk, the appetite for change, and the first governance moves that will make the biggest practical difference.</p>
+          <p>Define the target operating model for AI-enabled development: approved tool stack, architectural principles, review paths, control points, and the route by which ideas move from experimentation to controlled MVP and onward into real business use.</p>
         </div>
-      </div>
-    </div>
-
-    <div class="phase-group reveal" style="margin-top:28px;">
-      <div class="phase-label">
-        <span class="phase-tag tobe">TO-BE</span>
-        <span class="phase-label-desc">Build the governed capability</span>
-      </div>
-      <div class="steps-row-2">
-        <div class="step">
-          <div class="step-num">Phase 03 — Govern</div>
+        <div class="phase">
+          <div class="phase-kicker">Phase 03 — Govern</div>
           <h3>Govern</h3>
-          <p>Establish the policies, guardrails, and accountability structures that make AI-assisted development safe at the enterprise level. Define what is approved, what requires review, and how ownership and assurance are maintained once tools move into business use. This is not bureaucracy — it is the operating model that makes speed sustainable.</p>
+          <p>Establish the guardrails, review gates, decision rights, and accountability structures that make the model safe and repeatable. This is not about slowing the business down. It is about making decisions visible, consistent, and defensible.</p>
         </div>
-        <div class="step">
-          <div class="step-num">Phase 04 — Enable</div>
+        <div class="phase">
+          <div class="phase-kicker">Phase 04 — Enable</div>
           <h3>Enable</h3>
-          <p>Stand up the Vibe Code Lab — a governed environment where business demand can move at pace through IT rather than around it. Done well, this shifts IT from the team that said no to the team that made it possible. That is a different conversation with leadership, and it has lasting value.</p>
+          <p>Stand up the Vibe Code Lab environment and operating rhythm. Give teams a governed space to build with AI — with visibility, data control, testing, and progression into business use all built in from the start.</p>
         </div>
       </div>
+    </section>
+
+    <section class="section">
+      <div class="section-grid">
+        <div>
+          <div class="kicker">What changes when it is in place</div>
+          <h2>IT does not have to choose between control and progress.</h2>
+          <p class="lead">The Vibe Code Lab gives the business a practical route to move quickly without going around IT. At the same time, it gives IT a way to govern AI-enabled delivery before it turns into unsupported assets, unmanaged data exposure, or fragmented local tooling.</p>
+        </div>
+        <div class="callout">
+          <h3>What this enables in practice</h3>
+          <p>Discover the art of the possible with controlled AI-enabled development — without exposing the organisation to unmanaged risk. The Vibe Code Lab gives teams a safe environment to explore, build, and prove value quickly, while ensuring IT retains visibility, governance, and control.</p>
+          <p>Instead of fragmented experimentation, you get a structured path from idea to controlled outcome — accelerating delivery, reducing risk, and turning AI demand into a managed, scalable capability.</p>
+        </div>
+      </div>
+      <div class="grid-3" style="margin-top:22px">
+        <div class="card">
+          <div class="card-num">A</div>
+          <h3>Business teams get</h3>
+          <p>A credible low-friction route to experiment, build, and reach controlled MVP faster.</p>
+        </div>
+        <div class="card">
+          <div class="card-num">B</div>
+          <h3>IT gets</h3>
+          <p>Visibility, control, governance, and a structured way to prioritise where support and oversight matter most.</p>
+        </div>
+        <div class="card">
+          <div class="card-num">C</div>
+          <h3>Leadership gets</h3>
+          <p>A practical answer to the governance gap — and a clearer route from AI demand to useful, supportable outcomes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="kicker">Who this is for</div>
+      <h2>Built for IT leaders who want to get ahead of this.</h2>
+      <div class="callout" style="background:#fff;border-color:var(--border)">
+        <h3>Typical fit</h3>
+        <p>The Vibe Code Lab is designed for Heads of IT, IT Directors, Enterprise Architects, and CISOs in organisations where AI-enabled development is already happening — or where it is clearly about to. If the risk check surfaced gaps, this is the conversation to have next.</p>
+      </div>
+    </section>
+
+    
+<section class="section">
+  <div class="kicker">Typical engagement path</div>
+  <h2>From insight to controlled delivery in weeks, not months.</h2>
+  <div class="phase-grid">
+    <div class="phase">
+      <div class="phase-kicker">Weeks 1–2</div>
+      <h3>Discover</h3>
+      <p>Rapid stakeholder engagement, current-state mapping, and risk identification. Establish a fact-based view of AI activity across the business.</p>
+    </div>
+    <div class="phase">
+      <div class="phase-kicker">Weeks 3–4</div>
+      <h3>Design</h3>
+      <p>Define the target operating model, governance approach, and approved tool stack aligned to business needs and risk appetite.</p>
+    </div>
+    <div class="phase">
+      <div class="phase-kicker">Weeks 5–6</div>
+      <h3>Stand up the Lab</h3>
+      <p>Implement the Vibe Code Lab environment, guardrails, and delivery workflow. Enable first controlled use cases.</p>
+    </div>
+    <div class="phase">
+      <div class="phase-kicker">Ongoing</div>
+      <h3>Scale & Govern</h3>
+      <p>Expand adoption safely, embed governance, and continuously prioritise where AI-enabled delivery creates the most value.</p>
     </div>
   </div>
 </section>
 
-<!-- 6. Who it's for -->
-<section class="section who-section">
-  <div class="section-inner narrow">
-    <div class="eyebrow reveal">Who this is for</div>
-    <h2 class="section-heading reveal">Built for IT leaders who want to get ahead of this.</h2>
-    <div class="who-block reveal">
-      <p>The Vibe Code Lab is designed for heads of IT, IT directors, and CISOs at organisations where AI-assisted development is already happening — or where it is about to. If leadership needs to understand the current exposure before anything else, the free diagnostic is the right place to start. If you already have a picture of the risk and are ready to act on it, the Vibe Code Lab engagement is the next conversation.</p>
-      <p>Tactica has delivered IT transformation for global organisations across financial services, retail, energy, and professional services since 2012. We have seen what enterprise-grade delivery requires and we apply that standard to AI-enabled development — which is why we are positioned to advise in a space where most organisations are still working out what the question is.</p>
-      <div class="who-attribution">Delivered by Tactica Partners · <a href="mailto:john@tacticapartners.com">john@tacticapartners.com</a></div>
-    </div>
-  </div>
-</section>
 
-<!-- 7. Contact -->
-<section class="section contact-section" id="contact">
-  <div class="section-inner narrow">
-    <div class="eyebrow reveal" style="color:rgba(255,255,255,.4);">Get in touch</div>
-    <h2 class="section-heading reveal">Start the conversation.</h2>
-    <p class="section-body reveal">We're not selling a platform. We're offering a structured engagement that leaves your organisation with a governed approach to AI-assisted development and IT back in the driving seat.</p>
-
-    <form class="contact-form reveal" id="contact-form" onsubmit="handleSubmit(event)">
-      <div class="form-row">
-        <div class="form-field">
-          <label for="f-name">Name</label>
-          <input type="text" id="f-name" name="name" placeholder="Your name" required/>
+    <section class="section">
+      <div class="kicker">What a working session covers</div>
+      <h2>Pressure-test the current position and define the right next move.</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-num">01</div>
+          <h3>Interpret the survey result</h3>
+          <p>Translate the diagnostic into a practical view of where the organisation is exposed, where capability already exists, and what matters most to address first.</p>
         </div>
-        <div class="form-field">
-          <label for="f-email">Work email</label>
-          <input type="email" id="f-email" name="email" placeholder="you@organisation.com" required/>
+        <div class="card">
+          <div class="card-num">02</div>
+          <h3>Test fit for the operating model</h3>
+          <p>Assess whether the immediate need is discovery, control design, Lab stand-up, or a smaller intervention to stabilise the current position.</p>
+        </div>
+        <div class="card">
+          <div class="card-num">03</div>
+          <h3>Agree the first 30–60 days</h3>
+          <p>Leave with a clear view of the first actions, likely stakeholders, and how an IT-led route can be introduced without slowing the business down.</p>
         </div>
       </div>
-      <div class="form-field">
-        <label for="f-org">Organisation</label>
-        <input type="text" id="f-org" name="organisation" placeholder="Your organisation"/>
-      </div>
-      <div class="form-field">
-        <label for="f-message">Message</label>
-        <textarea id="f-message" name="message" rows="5" placeholder="Tell us a bit about where your organisation is with AI-assisted development — even a few lines is enough to get started."></textarea>
-      </div>
-      <button type="submit" class="btn-submit">Send →</button>
-    </form>
+    </section>
 
-    <div class="form-confirm" id="form-confirm">
-      <strong>Thanks — we'll be in touch shortly.</strong><br/>
-      We'll review your message and come back to you within one business day.
-    </div>
+    <section class="section">
+      <div class="section-grid">
+        <div>
+          <div class="kicker">Commercial outcomes</div>
+          <h2>What clients are really buying</h2>
+          <p class="lead">This is not just a governance response. It is a way to turn uncontrolled AI demand into a managed delivery capability that improves speed, reduces duplicated spend, lowers exposure, and strengthens IT’s position with the business.</p>
+        </div>
+        <div class="callout">
+          <h3>Typical outcomes</h3>
+          <p>Better visibility into what already exists. Faster movement from idea to controlled MVP. Fewer unsupported tools. Clearer ownership. Stronger data and testing discipline. A more strategic role for IT in shaping how AI-enabled delivery actually happens.</p>
+        </div>
+      </div>
+      <div class="summary-strip">
+        <div class="summary-chip"><strong>Reduce unmanaged risk</strong><span>Bring shadow experimentation into a visible operating model.</span></div>
+        <div class="summary-chip"><strong>Accelerate delivery</strong><span>Create a credible faster route than bypassing IT.</span></div>
+        <div class="summary-chip"><strong>Improve spend discipline</strong><span>Reduce fragmented tooling and duplicated local solutions.</span></div>
+        <div class="summary-chip"><strong>Reposition IT</strong><span>Move from reactive gatekeeper to enabler of safe speed.</span></div>
+      </div>
+    </section>
 
-    <p class="contact-email-alt reveal">Or email us directly at <a href="mailto:john@tacticapartners.com">john@tacticapartners.com</a></p>
+    <section class="section">
+      <div class="kicker">Ways to engage</div>
+      <h2>Flexible entry points depending on what the survey surfaced.</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-num">A</div>
+          <h3>Working session</h3>
+          <p>A focused 30-minute discussion to interpret the result, pressure-test the current position, and agree the most sensible next move.</p>
+        </div>
+        <div class="card">
+          <div class="card-num">B</div>
+          <h3>Discovery sprint</h3>
+          <p>A short engagement to establish the AS-IS position, align stakeholders, and define the target operating model and immediate control priorities.</p>
+        </div>
+        <div class="card">
+          <div class="card-num">C</div>
+          <h3>Vibe Code Lab stand-up</h3>
+          <p>A structured engagement to design, govern, and enable the Lab as a repeatable IT-led route for AI-enabled delivery.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="panel-dark">
+        <div class="kicker">Get in touch</div>
+        <h2>Book a working session.</h2>
+        <p class="lead">This is not a platform pitch. It is a focused working session designed to pressure-test your current position, interpret what the survey surfaced, and define the right next move — from discovery sprint through to Vibe Code Lab stand-up.</p>
+        <form onsubmit="handleSubmit(event)" id="contact-form">
+<input type="hidden" id="hidden-band" name="band">
+<input type="hidden" id="hidden-section" name="section">
+          <div class="form-grid">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@organisation.com" required>
+            </div>
+          </div>
+          <div class="field" style="margin-top:14px">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell us a little about what the survey surfaced, the issues you are seeing, or what you want to pressure-test in a working session."></textarea>
+          </div>
+          <div class="btn-row" style="margin-top:16px">
+            <button class="btn btn-primary" type="submit">Send →</button>
+          </div>
+        </form>
+        <div id="form-confirm" style="display:none; margin-top:18px; font-size:15px; color:rgba(255,255,255,.9)">
+          <strong>Thanks — we’ll be in touch shortly.</strong><br>
+          We’ll review your message and come back to you within one business day.
+        </div>
+        <div class="contact-note" id="contact">
+          Or email directly at <a href="mailto:john@tacticapartners.com" style="color:#fff">john@tacticapartners.com</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      © 2026 Tactica Partners. All rights reserved.
+    </footer>
   </div>
-</section>
+</main>
 
-<!-- Footer -->
-<footer class="footer">
-  © 2026 Tactica Partners. All rights reserved.
-</footer>
+
 
 <script>
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-function handleSubmit(e) {
+function handleSubmit(e){
   e.preventDefault();
-  document.getElementById('contact-form').style.display = 'none';
-  document.getElementById('form-confirm').style.display = 'block';
+  document.getElementById('contact-form').style.display='none';
+  document.getElementById('form-confirm').style.display='block';
 }
+
+(function applySurveyContext(){
+  const params = new URLSearchParams(window.location.search);
+  const band = (params.get('band') || '').toLowerCase();
+  const section = (params.get('section') || '').toLowerCase();
+
+  // Badge
+  if(band){
+    const badge = document.getElementById('result-badge');
+    badge.style.display = 'inline-block';
+    badge.textContent = 'Result: ' + band.charAt(0).toUpperCase() + band.slice(1);
+  }
+
+  // Hidden form fields
+  if(document.getElementById('hidden-band')){
+    document.getElementById('hidden-band').value = band;
+  }
+  if(document.getElementById('hidden-section')){
+    document.getElementById('hidden-section').value = section;
+  }
+
+  const message = document.getElementById('message');
+  if(message && band){
+    const bandLabel = band.charAt(0).toUpperCase() + band.slice(1);
+    const sectionLabel = section ? section.charAt(0).toUpperCase() + section.slice(1) : '';
+    message.value = `Completed risk check - result: ${bandLabel}${sectionLabel ? `, top pressure point: ${sectionLabel}` : ''}. I would like to pressure-test our current position and discuss the right next move.`;
+  }
+
+})();
 </script>
+
 </body>
 </html>
