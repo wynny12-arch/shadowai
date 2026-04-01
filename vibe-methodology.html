@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>The Methodology — Tactica Vibe Code Lab</title>
+<style>
+:root {
+  --navy:#0f2040;
+  --navy-2:#142952;
+  --accent:#2563eb;
+  --accent-light:#eff6ff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --surface:#ffffff;
+  --green:#059669;
+  --green-bg:#ecfdf5;
+  --amber:#d97706;
+  --amber-bg:#fffbeb;
+  --red:#dc2626;
+  --shadow:0 8px 28px rgba(15,32,64,.08), 0 2px 8px rgba(15,32,64,.05);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--text);
+  background:linear-gradient(180deg,#f8fafc 0%,#f4f7fb 100%);
+  line-height:1.55;
+}
+a,button{font:inherit}
+.topbar{
+  position:sticky;top:0;z-index:30;
+  height:56px;background:var(--navy);color:#fff;
+  display:flex;align-items:center;padding:0 28px;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+.brand{display:flex;gap:12px;align-items:center;font-size:14px}
+.brand-mark{font-size:11px;letter-spacing:.14em;font-weight:800;background:rgba(255,255,255,.12);padding:4px 8px;border-radius:6px}
+.brand-title{color:rgba(255,255,255,.75)}
+.page{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+.frame{background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+/* Hero */
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 70%,#18366a 100%);
+  color:#fff;padding:72px 34px;
+}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;align-items:center;max-width:1080px;margin:0 auto}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.14em;font-weight:800;color:#7fb0ff;margin-bottom:14px}
+.hero h1{font-size:44px;line-height:1.08;margin:0 0 16px}
+.hero p{font-size:18px;color:rgba(255,255,255,.78);margin:0 0 28px;max-width:680px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px}
+.meta span{font-size:13px;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.09);color:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.1)}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:.15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:#fff;color:var(--navy)}
+.btn-secondary{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.16)}
+/* Bridge card */
+.bridge-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);border-radius:18px;padding:24px}
+.bridge-card h3{margin:0 0 18px;font-size:15px;color:rgba(255,255,255,.9);letter-spacing:.02em}
+.bridge-row{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.bridge-side{padding:14px;border-radius:12px;text-align:center}
+.bridge-side.enterprise{background:rgba(37,99,235,.18);border:1px solid rgba(37,99,235,.3)}
+.bridge-side.frontier{background:rgba(5,150,105,.14);border:1px solid rgba(5,150,105,.3)}
+.bridge-icon{font-size:20px;display:block;margin-bottom:6px}
+.bridge-label{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.9)}
+.bridge-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:4px;line-height:1.5}
+.bridge-centre{text-align:center;padding:0 4px}
+.bridge-mark{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);font-size:13px;font-weight:800;letter-spacing:.06em;color:#fff;margin-bottom:6px}
+.bridge-arrow{font-size:16px;color:rgba(255,255,255,.4);letter-spacing:-2px}
+/* Diagnostic callout */
+.diag-callout{margin:0 34px 0;padding:20px 24px;border-radius:16px;background:linear-gradient(135deg,#eff6ff,#f0fdf4);border:1px solid #bfdbfe;display:none}
+.diag-callout.visible{display:block}
+.diag-callout-inner{display:flex;align-items:flex-start;gap:16px}
+.diag-badge{flex-shrink:0;padding:6px 14px;border-radius:8px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}
+.diag-badge.controlled{background:var(--green-bg);color:var(--green);border:1px solid #6ee7b7}
+.diag-badge.exposed{background:var(--amber-bg);color:var(--amber);border:1px solid #fcd34d}
+.diag-badge.blindspot{background:#fef2f2;color:var(--red);border:1px solid #fecaca}
+.diag-text strong{display:block;font-size:15px;color:var(--navy);margin-bottom:4px}
+.diag-text p{margin:0;font-size:14px;color:var(--muted);line-height:1.7}
+/* Section */
+.section{padding:34px 34px;border-top:1px solid var(--border)}
+.section-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:start}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);font-weight:800;margin-bottom:10px}
+.section h2{margin:0 0 14px;font-size:30px;line-height:1.12;color:var(--navy)}
+.section p.lead{margin:0;font-size:16px;line-height:1.8;color:var(--muted)}
+.callout{background:#f8fbff;border:1px solid #dbe7ff;border-radius:18px;padding:24px}
+.callout h3{margin:0 0 10px;font-size:16px;color:var(--navy)}
+.callout p{margin:0;color:var(--muted);font-size:14px;line-height:1.75}
+.callout p+p{margin-top:10px}
+/* Benefit cards */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:0 3px 10px rgba(15,32,64,.03)}
+.card-icon{width:40px;height:40px;border-radius:12px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.card-icon svg{display:block}
+.card h3{margin:0 0 8px;font-size:17px;color:var(--navy)}
+.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.75}
+/* Phase methodology */
+.phase-group{margin-top:26px}
+.phase-group+.phase-group{margin-top:20px}
+.phase-group-label{display:flex;align-items:center;gap:10px;margin-bottom:0}
+.phase-tag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:5px 12px;border-radius:4px}
+.phase-tag.asis{background:var(--accent-light);color:var(--accent);border:1px solid #bfdbfe}
+.phase-tag.tobe{background:var(--navy);color:#fff}
+.phase-group-desc{font-size:13px;color:var(--muted);font-weight:500}
+.phase-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-top:10px}
+.phase{padding:26px;background:#fff;border-right:1px solid var(--border)}
+.phase:last-child{border-right:none}
+.phase-kicker{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:10px}
+.phase h3{margin:0 0 10px;font-size:20px;color:var(--navy)}
+.phase p{margin:0 0 16px;color:var(--muted);font-size:14px;line-height:1.75}
+.phase-bullets{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.phase-bullets li{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#374151;line-height:1.6}
+.phase-bullets li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:7px}
+.phase-deliverable{margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.phase-deliverable-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px}
+.deliverable-chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;padding:4px 10px;border-radius:6px;background:var(--accent-light);color:var(--accent);font-weight:600;border:1px solid #bfdbfe}
+/* Summary strip */
+.summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+.summary-chip{border:1px solid var(--border);border-radius:14px;padding:18px;background:#fff}
+.summary-chip strong{display:block;font-size:13px;color:var(--navy);margin-bottom:6px}
+.summary-chip span{display:block;font-size:13px;color:var(--muted);line-height:1.6}
+/* Panel dark */
+.panel-dark{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;border-radius:18px;padding:28px}
+.panel-dark .kicker{color:#9dc0ff}
+.panel-dark h2{color:#fff;margin-bottom:10px}
+.panel-dark p.lead{color:rgba(255,255,255,.78)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12px;font-weight:700;color:rgba(255,255,255,.68);text-transform:uppercase;letter-spacing:.08em}
+.field input,.field textarea{width:100%;background:rgba(255,255,255,.07);color:#fff;border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:12px 14px;outline:none}
+.field textarea{min-height:110px;resize:vertical}
+.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.35)}
+.contact-note{margin-top:14px;font-size:13px;color:rgba(255,255,255,.6)}
+/* Quote */
+.blockquote{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;border-radius:20px;padding:32px;text-align:center;margin-top:24px}
+.blockquote p{font-size:22px;line-height:1.5;color:rgba(255,255,255,.92);font-style:italic;margin:0 0 12px}
+.blockquote small{font-size:13px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em}
+/* Benchmark section */
+.benchmark-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.benchmark-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px}
+.benchmark-num{font-size:38px;font-weight:800;color:var(--navy);line-height:1;margin-bottom:6px}
+.benchmark-label{font-size:14px;color:var(--muted);line-height:1.6}
+/* Footer */
+.footer{padding:20px 34px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;background:#fff}
+@media(max-width:980px){
+  .hero-grid,.section-grid,.grid-4,.benchmark-grid{grid-template-columns:1fr}
+  .phase-grid-2{grid-template-columns:1fr}
+  .phase{border-right:none;border-bottom:1px solid var(--border)}
+  .phase:last-child{border-bottom:none}
+  .summary-strip{grid-template-columns:repeat(2,1fr)}
+  .grid-2{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .topbar{padding:0 18px}
+  .page{padding:18px 14px 40px}
+  .hero,.section,.footer{padding-left:20px;padding-right:20px}
+  .hero{padding-top:46px;padding-bottom:46px}
+  .hero h1{font-size:30px}
+  .summary-strip,.form-grid{grid-template-columns:1fr}
+  .diag-callout{margin:0 20px 0}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">TACTICA</span>
+    <span class="brand-title">Vibe Code Lab — Methodology</span>
+  </div>
+</header>
+
+<main class="page">
+  <div class="frame">
+
+    <!-- 1. Hero -->
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Tactica Partners — Methodology</div>
+          <h1>The bridge between enterprise experience and the AI new frontier.</h1>
+          <p>AI-enabled development is the new frontier. Enterprise governance is the established ground. Most organisations are trying to cross that gap without a guide. Tactica is the bridge — and this is how we cross it.</p>
+          <div class="meta">
+            <span>AS-IS to TO-BE</span>
+            <span>Bespoke to your organisation</span>
+            <span>IT and business aligned</span>
+            <span>Outcome-focused</span>
+          </div>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="#contact">Start the conversation →</a>
+            <a class="btn btn-secondary" href="#methodology">See the full methodology</a>
+          </div>
+        </div>
+        <aside class="bridge-card">
+          <h3>Where Tactica sits</h3>
+          <div class="bridge-row">
+            <div class="bridge-side enterprise">
+              <span class="bridge-icon">🏛</span>
+              <div class="bridge-label">Enterprise IT</div>
+              <div class="bridge-sub">Governance<br>Accountability<br>Assurance<br>Since 2012</div>
+            </div>
+            <div class="bridge-centre">
+              <div class="bridge-mark">T</div>
+              <div class="bridge-arrow">↔</div>
+            </div>
+            <div class="bridge-side frontier">
+              <span class="bridge-icon">⚡</span>
+              <div class="bridge-label">AI Frontier</div>
+              <div class="bridge-sub">Speed<br>Innovation<br>Vibe coding<br>The new normal</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Diagnostic callout (shown if URL params present) -->
+    <div class="diag-callout" id="diag-callout" style="padding-top:24px;padding-bottom:4px;border-top:none;background:none;border:none;border-radius:0">
+      <div style="margin:0 0 24px;padding:20px 24px;border-radius:16px;background:linear-gradient(135deg,#eff6ff,#f8fafc);border:1px solid #bfdbfe" id="diag-inner">
+        <div class="diag-callout-inner">
+          <div class="diag-badge" id="diag-badge">Exposed</div>
+          <div class="diag-text">
+            <strong id="diag-heading">Based on your diagnostic result</strong>
+            <p id="diag-body">Your current position shapes where the methodology should start. Here is how Tactica would typically approach an engagement from your position.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. The challenge -->
+    <section class="section">
+      <div class="section-grid">
+        <div>
+          <div class="kicker">The challenge Tactica solves</div>
+          <h2>Enterprise governance has not caught up with AI-enabled development.</h2>
+          <p class="lead">AI tools are moving into business use faster than IT can govern them. The risk is not the technology — it is the absence of the structures, standards, and accountability that enterprise delivery has always required. Most organisations know the gap exists. Few have a structured way to close it.</p>
+        </div>
+        <div class="callout">
+          <h3>Why this is an operating model problem, not a technology problem</h3>
+          <p>The tools are not the issue. The issue is that the expectations of enterprise IT — governance, ownership, assurance, lifecycle management — have not been applied to what those tools are producing. Tactica has spent over a decade applying exactly those standards to complex IT change. This is the same work, in a new context.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. The Tactica difference -->
+    <section class="section">
+      <div class="kicker">The Tactica difference</div>
+      <h2>The right experience on both sides of the problem.</h2>
+      <p class="lead" style="max-width:720px">Our approach is built on four principles that consistently determine whether an engagement produces lasting change or a report that sits on a shelf.</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 2L3 7v11h4v-6h6v6h4V7L10 2z" stroke="#2563eb" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Extensive industry experience</h3>
+          <p>Since 2012, Tactica has delivered IT transformation for global blue-chip organisations across financial services, retail, energy, and professional services. We benchmark your position against peer-level organisations and KPIs — drawing on direct experience of what enterprise-grade delivery actually requires in practice.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="7" stroke="#2563eb" stroke-width="1.5"/>
+              <path d="M7 10l2 2 4-4" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>A pragmatic mindset</h3>
+          <p>We do not produce frameworks that look good on paper but do not survive contact with your organisation. Every recommendation is shaped around your actual operating model, your real constraints, and your genuine risk appetite. The goal is a plan you can execute — not a vision statement you can only aspire to.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="7" cy="8" r="3" stroke="#2563eb" stroke-width="1.5"/>
+              <circle cx="13" cy="8" r="3" stroke="#2563eb" stroke-width="1.5"/>
+              <path d="M2 17c0-3 2-5 5-5m6 0c3 0 5 2 5 5" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>An enabler for IT and business together</h3>
+          <p>The governance gap is not an IT problem or a business problem — it is a shared one. Tactica's methodology is designed to bring both sides into the same conversation: to surface the issues that have been missed or overlooked, align on a shared understanding of risk, and build a strategy that both sides will actually commit to.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 14l4-4 3 3 5-6" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="2" y="2" width="16" height="16" rx="3" stroke="#2563eb" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h3>Outcome-focused, not report-focused</h3>
+          <p>We are not here to produce a document. We are here to drive transformational IT change — to leave your organisation with a governed approach to AI-enabled development, a clear plan of action, and IT in a stronger position with the business. Every phase produces something tangible that moves the organisation forward.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. The methodology -->
+    <section class="section" id="methodology">
+      <div class="kicker">The methodology</div>
+      <h2>AS-IS to TO-BE. Structured, bespoke, and built for this moment.</h2>
+      <p class="lead" style="max-width:760px;margin-bottom:4px">Every Vibe Code Lab engagement follows a two-stage structure built on Tactica's core methodology. First, we establish an honest, evidence-based picture of where you are. Then we design and deliver the governed capability you need. What makes it work is that every stage is bespoke — shaped around your organisation's reality, not a generic template.</p>
+
+      <div class="phase-group">
+        <div class="phase-group-label">
+          <span class="phase-tag asis">AS-IS</span>
+          <span class="phase-group-desc">Understand the current position with honesty and precision</span>
+        </div>
+        <div class="phase-grid-2">
+          <div class="phase">
+            <div class="phase-kicker">Phase 01 — Discover · Weeks 1–2</div>
+            <h3>Discover</h3>
+            <p>Establish a fact-based picture of where your organisation actually is — not where it thinks it is. We identify your current AS-IS position, surface the key issues in play, and rapidly benchmark your organisation against peer-level companies and KPIs using Tactica's market and industry experience.</p>
+            <ul class="phase-bullets">
+              <li>Stakeholder interviews to capture AI strategy as it is emerging in practice</li>
+              <li>Map what is currently in use or development — what is working, what is ungoverned, where the gaps are</li>
+              <li>Identify risks already present or emerging across visibility, control, and data</li>
+              <li>Benchmark against peer organisations to contextualise the current position</li>
+            </ul>
+            <div class="phase-deliverable">
+              <div class="phase-deliverable-label">You receive</div>
+              <div class="deliverable-chips">
+                <span class="chip">AS-IS position report</span>
+                <span class="chip">Issue register</span>
+                <span class="chip">Peer benchmark</span>
+              </div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-kicker">Phase 02 — Design · Weeks 3–4</div>
+            <h3>Design</h3>
+            <p>Validate the AS-IS position with leadership and build alignment on the path forward. Bespoke, client-focused strategy workshop sessions ensure genuine consensus — not just sign-off — on the strategy and approach. We identify skill and resource gaps, clarify priorities, and agree the first governance moves.</p>
+            <ul class="phase-bullets">
+              <li>Structured workshops to review AS-IS findings and build shared understanding across IT and the business</li>
+              <li>Understand and agree the strategy, identifying skill and resource gaps alongside issues and priorities</li>
+              <li>Surface issues that may have been missed or overlooked before they become embedded</li>
+              <li>Validate objectives and take best practice advice on next steps from Tactica's enterprise experience</li>
+            </ul>
+            <div class="phase-deliverable">
+              <div class="phase-deliverable-label">You receive</div>
+              <div class="deliverable-chips">
+                <span class="chip">Agreed strategy</span>
+                <span class="chip">Gap analysis</span>
+                <span class="chip">Priority list</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-group">
+        <div class="phase-group-label">
+          <span class="phase-tag tobe">TO-BE</span>
+          <span class="phase-group-desc">Build the governed capability with clarity and accountability</span>
+        </div>
+        <div class="phase-grid-2">
+          <div class="phase">
+            <div class="phase-kicker">Phase 03 — Govern · Weeks 5–6</div>
+            <h3>Govern</h3>
+            <p>Develop a high-level plan and business case tailored to your organisation, supported by clear and comprehensive visualisation reports that bring the AS-IS and TO-BE into sharp focus for leadership. Establish the governance structures, policies, and accountability frameworks that make AI-enabled delivery safe at enterprise scale.</p>
+            <ul class="phase-bullets">
+              <li>Develop a high-level plan and business case built around your organisation's reality and priorities</li>
+              <li>Produce visualisation reports that communicate the AS-IS and TO-BE clearly to IT and business stakeholders</li>
+              <li>Define policies, guardrails, and ownership structures for AI-enabled tool delivery</li>
+              <li>Establish what is approved, what requires review, and how governance is maintained as usage scales</li>
+            </ul>
+            <div class="phase-deliverable">
+              <div class="phase-deliverable-label">You receive</div>
+              <div class="deliverable-chips">
+                <span class="chip">Business case</span>
+                <span class="chip">Governance framework</span>
+                <span class="chip">Visualisation reports</span>
+              </div>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="phase-kicker">Phase 04 — Enable · Ongoing</div>
+            <h3>Enable</h3>
+            <p>Stand up the Vibe Code Lab — a governed environment where business demand can move at pace through IT rather than around it. This phase drives the transformational IT change the business case describes: IT repositioned as the enabler of safe, fast AI-enabled delivery, with a clear route from idea to controlled outcome.</p>
+            <ul class="phase-bullets">
+              <li>Implement the Vibe Code Lab environment, guardrails, and delivery workflow</li>
+              <li>Bring IT and business teams together around a shared operating model for AI-enabled development</li>
+              <li>Enable first controlled use cases and build confidence through early, visible outcomes</li>
+              <li>Expand adoption safely — continuously prioritising where AI-enabled delivery creates the most value</li>
+            </ul>
+            <div class="phase-deliverable">
+              <div class="phase-deliverable-label">You receive</div>
+              <div class="deliverable-chips">
+                <span class="chip">Live Lab environment</span>
+                <span class="chip">Delivery workflow</span>
+                <span class="chip">Adoption roadmap</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. What changes -->
+    <section class="section">
+      <div class="kicker">What changes</div>
+      <h2>From reactive to governed. From bypassed to essential.</h2>
+      <div class="summary-strip">
+        <div class="summary-chip">
+          <strong>A clear AS-IS picture</strong>
+          <span>Leadership sees the current position clearly — not based on assumption but on evidence gathered and validated with your own teams.</span>
+        </div>
+        <div class="summary-chip">
+          <strong>A shared strategy</strong>
+          <span>IT and business aligned on the same plan, having worked through the same evidence — not a strategy handed down, but one built together.</span>
+        </div>
+        <div class="summary-chip">
+          <strong>A governed TO-BE</strong>
+          <span>Policies, guardrails, ownership, and a business case — the operating model that makes AI-enabled delivery safe and scalable at enterprise level.</span>
+        </div>
+        <div class="summary-chip">
+          <strong>IT repositioned</strong>
+          <span>From the team that said no to the team that made it possible. A different conversation with leadership — and lasting commercial value.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. The bridge -->
+    <section class="section">
+      <div class="section-grid">
+        <div>
+          <div class="kicker">Tactica as the bridge</div>
+          <h2>The enterprise does not have to choose between governance and the frontier.</h2>
+          <p class="lead">AI-enabled development is not going to slow down to wait for governance to catch up. But organisations that govern well will move faster and more safely than those that do not. Tactica's unique position — deep enterprise IT experience on one side, AI-enabled development expertise on the other — means we can hold both sides of that equation at once.</p>
+        </div>
+        <div class="callout">
+          <h3>What makes Tactica uniquely placed</h3>
+          <p>Most advisors come from one side or the other — either enterprise governance without AI delivery experience, or AI tooling without enterprise accountability. Tactica has operated at the intersection since before most organisations had identified the problem. That is not a positioning statement. It is a decade of delivery experience applied to a new frontier.</p>
+          <p style="margin-top:12px">Independent. No vendor relationships. No packaged product. Sleeves-rolled-up execution designed to leave your organisation stronger than we found it.</p>
+        </div>
+      </div>
+
+      <div class="blockquote">
+        <p>"The tools are moving faster than the governance. The organisations that close that gap first will not just reduce risk — they will move faster than everyone else."</p>
+        <small>Tactica Partners — Vibe Code Lab</small>
+      </div>
+    </section>
+
+    <!-- 7. Contact -->
+    <section class="section" id="contact">
+      <div class="panel-dark">
+        <div class="kicker">Start the conversation</div>
+        <h2>The first step is understanding where you are.</h2>
+        <p class="lead">If you have completed the diagnostic, you already have a starting point. If not, the conversation itself is enough. We will help you understand your current position and agree whether — and how — a Vibe Code Lab engagement makes sense for your organisation.</p>
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label for="email">Work email</label>
+            <input id="email" name="email" type="email" placeholder="you@organisation.com" required>
+          </div>
+        </div>
+        <div class="field" style="margin-top:14px">
+          <label for="org">Organisation</label>
+          <input id="org" name="organisation" placeholder="Your organisation">
+        </div>
+        <div class="field" style="margin-top:14px">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Tell us where your organisation is with AI-assisted development — even a few lines is enough to get started."></textarea>
+        </div>
+        <div class="btn-row" style="margin-top:18px">
+          <button class="btn btn-primary" onclick="handleSubmit()">Send →</button>
+        </div>
+        <div id="form-confirm" style="display:none;margin-top:18px;font-size:15px;color:rgba(255,255,255,.9)">
+          <strong>Thanks — we'll be in touch shortly.</strong><br>
+          We'll review your message and come back to you within one business day.
+        </div>
+        <div class="contact-note">Or email directly at <a href="mailto:john@tacticapartners.com" style="color:#fff">john@tacticapartners.com</a></div>
+      </div>
+    </section>
+
+    <footer class="footer">© 2026 Tactica Partners. All rights reserved.</footer>
+
+  </div>
+</main>
+
+<script>
+function handleSubmit(){
+  document.querySelector('form') && (document.querySelector('form').style.display='none');
+  document.getElementById('form-confirm').style.display='block';
+}
+
+(function applyDiagContext(){
+  const params = new URLSearchParams(window.location.search);
+  const band = (params.get('band') || '').toLowerCase();
+  const section = (params.get('section') || '').toLowerCase();
+  if(!band) return;
+
+  const callout = document.getElementById('diag-callout');
+  const badge = document.getElementById('diag-badge');
+  const heading = document.getElementById('diag-heading');
+  const body = document.getElementById('diag-body');
+  const msgBox = document.getElementById('message');
+
+  callout.style.display = 'block';
+  badge.className = 'diag-badge ' + band;
+  badge.textContent = band.charAt(0).toUpperCase() + band.slice(1);
+
+  const headings = {
+    controlled: 'Your diagnostic places you in a Controlled position.',
+    exposed:    'Your diagnostic places you in an Exposed position.',
+    blindspot:  'Your diagnostic places you in a Blindspot position.'
+  };
+
+  const bodies = {
+    controlled: 'Your governance position is more structured than most. A Vibe Code Lab engagement here focuses on formalising what already works, closing the remaining gaps, and building a credible IT-led route before fragmented demand creates new ones.',
+    exposed:    'AI-enabled activity is likely moving faster than IT can govern it. The methodology starts with a rapid AS-IS assessment — establishing a fact-based picture of what is in use, where the gaps are, and what the immediate control priorities should be.',
+    blindspot:  'The highest-risk position — not because of what is known, but because of what is not. The immediate priority is a structured discovery engagement to establish a reliable view of what exists before any further decisions are made.'
+  };
+
+  const sectionNote = {
+    visibility: ' The primary pressure point is visibility — activity is likely moving into business use before IT can see it.',
+    control:    ' The primary pressure point is control — guardrails and ownership are inconsistently applied.',
+    risk:       ' The primary pressure point is risk awareness — data controls and validation may not match the current scale of usage.',
+    strategy:   ' The primary pressure point is strategy — there is no credible IT-led route for AI-enabled delivery.'
+  };
+
+  heading.textContent = headings[band] || 'Based on your diagnostic result';
+  body.textContent = (bodies[band] || '') + (sectionNote[section] || '');
+
+  if(msgBox){
+    const bandLabel = band.charAt(0).toUpperCase() + band.slice(1);
+    const secLabel = section ? section.charAt(0).toUpperCase() + section.slice(1) : '';
+    msgBox.value = `Completed risk diagnostic — result: ${bandLabel}${secLabel ? `, top pressure point: ${secLabel}` : ''}. I would like to discuss the methodology and whether a Vibe Code Lab engagement makes sense for us.`;
+  }
+})();
+</script>
+</body>
+</html>
