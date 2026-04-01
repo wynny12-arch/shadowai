@@ -1,1167 +1,1338 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Vibe Coding Risk Check — Tactica</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vibe Coding Risk Check — Tactica (Classic Format v30)</title>
 <style>
 :root {
-  --navy:             #0f2040;
-  --accent:           #2563eb;
-  --accent-light:     #eff6ff;
-  --accent-border:    #bfdbfe;
-  --text:             #111827;
-  --muted:            #6b7280;
-  --border:           #e5e7eb;
-  --bg:               #f8fafc;
-  --surface:          #ffffff;
-  --controlled:       #059669;
-  --controlled-bg:    #ecfdf5;
-  --controlled-bdr:   #6ee7b7;
-  --exposed:          #d97706;
-  --exposed-bg:       #fffbeb;
-  --exposed-bdr:      #fcd34d;
-  --blindspot:        #dc2626;
-  --blindspot-bg:     #fef2f2;
-  --blindspot-bdr:    #fca5a5;
-  --radius:           12px;
-  --shadow:           0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
-  --shadow-md:        0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+  --navy:#0f2040;
+  --navy-2:#142952;
+  --accent:#2563eb;
+  --accent-2:#1d4ed8;
+  --accent-light:#eff6ff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --bg:#f8fafc;
+  --surface:#ffffff;
+  --green:#059669;
+  --green-bg:#ecfdf5;
+  --amber:#d97706;
+  --amber-bg:#fffbeb;
+  --red:#dc2626;
+  --red-bg:#fef2f2;
+  --radius:16px;
+  --radius-sm:12px;
+  --shadow:0 8px 28px rgba(15,32,64,.08), 0 2px 8px rgba(15,32,64,.05);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--text);
+  background:linear-gradient(180deg,#f8fafc 0%, #f4f7fb 100%);
+  line-height:1.55;
+}
+button,input{font:inherit}
+.topbar{
+  position:sticky; top:0; z-index:30;
+  height:56px; background:var(--navy); color:#fff;
+  display:flex; align-items:center; padding:0 28px;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+.brand{display:flex; gap:12px; align-items:center; font-size:14px}
+.brand-mark{font-size:11px; letter-spacing:.14em; font-weight:800; background:rgba(255,255,255,.12); padding:4px 8px; border-radius:6px}
+.brand-title{color:rgba(255,255,255,.75)}
+.page{max-width:1180px; margin:0 auto; padding:28px 20px 60px}
+.screen{display:none}
+.screen.active{display:block}
+.frame{background:var(--surface); border:1px solid var(--border); border-radius:20px; box-shadow:var(--shadow); overflow:clip}
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%, var(--navy-2) 70%, #18366a 100%);
+  color:#fff; padding:72px 34px;
+}
+.hero-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:26px; align-items:center; max-width:1080px; margin:0 auto}
+.eyebrow{font-size:11px; text-transform:uppercase; letter-spacing:.14em; font-weight:800; color:#7fb0ff; margin-bottom:14px}
+.hero h1{font-size:46px; line-height:1.08; margin:0 0 16px}
+.hero p{font-size:18px; color:rgba(255,255,255,.78); margin:0 0 28px; max-width:700px}
+.meta{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:26px}
+.meta span{font-size:13px; padding:7px 10px; border-radius:999px; background:rgba(255,255,255,.09); color:rgba(255,255,255,.86); border:1px solid rgba(255,255,255,.1)}
+.btn-row{display:flex; gap:12px; flex-wrap:wrap}
+.btn{display:inline-flex; align-items:center; justify-content:center; min-height:46px; padding:10px 20px; border-radius:10px; text-decoration:none; font-weight:700; font-size:14px; border:none; cursor:pointer; transition:.15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:#fff; color:var(--navy)}
+.btn-secondary{background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.16)}
+.hero-card{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); backdrop-filter: blur(8px); border-radius:18px; padding:22px}
+.hero-card h3{margin:0 0 14px; font-size:16px}
+.stat-list{display:grid; gap:12px}
+.stat{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding:14px 0; border-top:1px solid rgba(255,255,255,.1)}
+.stat:first-child{border-top:none; padding-top:0}
+.stat-num{font-size:28px; font-weight:800; line-height:1}
+.stat-copy{font-size:13px; color:rgba(255,255,255,.72); text-align:right}
+.intro-strip{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:22px}
+.intro-mini{padding:18px; border-radius:16px; background:#fff; border:1px solid var(--border); color:var(--text)}
+.intro-mini h4{margin:0 0 6px; font-size:15px; color:var(--navy)}
+.intro-mini p{margin:0; font-size:14px; color:var(--muted)}
+.progress-wrap{background:#fff; border-bottom:1px solid var(--border)}
+.progress-track{height:5px; background:#e9eef6}
+.progress-fill{height:100%; width:0%; background:linear-gradient(90deg,var(--accent),#4f8df8); border-radius:999px; transition:width .28s ease}
+.progress-meta{display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px 28px}
+.progress-meta .counter{font-size:13px; color:var(--muted)}
+.progress-meta .section{font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--accent)}
+.content{padding:28px 28px 34px}
+.question-layout{display:grid; grid-template-columns:1fr 300px; gap:22px; align-items:start}
+.q-card{border:1px solid var(--border); border-radius:18px; padding:28px; box-shadow:0 4px 16px rgba(15,32,64,.04); background:#fff}
+.q-kicker{font-size:12px; font-weight:800; letter-spacing:.08em; color:var(--accent); text-transform:uppercase; margin-bottom:10px}
+.q-title{font-size:32px; line-height:1.18; margin:0 0 12px; color:var(--navy)}
+.q-hint{color:var(--muted); font-size:15px; margin-bottom:22px}
+.options{display:grid; gap:12px; margin-top:16px}
+.option{border:1.5px solid var(--border); border-radius:14px; padding:16px 16px 16px 44px; position:relative; background:#fff; cursor:pointer; transition:.15s ease}
+.option:hover{border-color:#c7d2fe; background:#fafcff}
+.option.selected{border-color:var(--accent); background:var(--accent-light); box-shadow:0 0 0 3px rgba(37,99,235,.08)}
+.radio{width:18px; height:18px; border-radius:50%; border:2px solid #c1cad8; position:absolute; left:16px; top:18px; background:#fff}
+.option.selected .radio{border-color:var(--accent)}
+.option.selected .radio:after{content:""; width:8px; height:8px; background:var(--accent); border-radius:50%; position:absolute; left:3px; top:3px}
+.option strong{display:block; font-size:15px; margin-bottom:4px}
+.option span{display:block; font-size:13px; color:var(--muted)}
+.nav{display:flex; justify-content:space-between; align-items:center; margin-top:24px; gap:12px}
+.btn-ghost{border:1px solid var(--border); color:var(--muted); background:#fff}
+.btn-blue{background:var(--accent); color:#fff}
+.btn-blue:disabled{opacity:.35; cursor:not-allowed; transform:none}
+.side-panel{display:grid; gap:14px}
+.side-card{border:1px solid var(--border); border-radius:18px; padding:18px; background:#fbfcfe}
+.side-card h4{margin:0 0 10px; color:var(--navy); font-size:15px}
+.side-card p,.side-card li{font-size:13px; color:var(--muted)}
+.side-card ul{margin:0; padding-left:18px}
+.results-shell{background:#f7f9fc; padding:32px}
+.results-layout{display:grid; grid-template-columns:1.15fr .85fr; gap:18px; align-items:start;}
+#results-right{position:sticky; top:72px; align-self:start;}
+.panel{background:#fff; border:1px solid var(--border); border-radius:18px; padding:24px; box-shadow:0 4px 16px rgba(15,32,64,.04)}
+.result-hero{padding:26px; border-radius:20px; background:linear-gradient(180deg,var(--red-bg),#fff 70%); border:1px solid #fecaca}
+.result-hero.amber{background:linear-gradient(180deg,var(--amber-bg),#fff 70%); border-color:#fcd34d}
+.result-hero.green{background:linear-gradient(180deg,var(--green-bg),#fff 70%); border-color:#6ee7b7}
+.result-tag{display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.12em; color:var(--red); margin-bottom:10px}
+.result-hero.amber .result-tag{color:var(--amber)}
+.result-hero.green .result-tag{color:var(--green)}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.result-hero h2{margin:0 0 10px; font-size:36px; color:var(--navy)}
+.result-hero p{margin:0; color:#374151; font-size:16px}
+.score-strip{display:grid; grid-template-columns:140px 1fr; gap:18px; align-items:center; margin-top:18px}
+.score-box{background:#fff; border:1px solid var(--border); border-radius:16px; padding:18px; text-align:center}
+.score-box .num{font-size:54px; line-height:1; font-weight:800; color:var(--navy)}
+.score-box .den{font-size:18px; color:var(--muted)}
+.gauge h4{margin:0 0 10px; font-size:14px; color:var(--navy)}
+.gauge-track{position:relative; height:12px; border-radius:999px; background:linear-gradient(90deg,var(--green) 0 33%, #d1d5db 33% 34%, var(--amber) 34% 66%, #d1d5db 66% 67%, var(--red) 67% 100%)}
+.marker{position:absolute; left:0%; top:50%; width:22px; height:22px; border-radius:50%; background:var(--navy); border:3px solid #fff; transform:translate(-50%,-50%); box-shadow:0 2px 10px rgba(0,0,0,.15); transition:left .6s ease}
+.gauge-labels{display:flex; justify-content:space-between; margin-top:10px; font-size:12px; font-weight:700}
+.gauge-labels span:nth-child(1){color:var(--green)}
+.gauge-labels span:nth-child(2){color:var(--amber)}
+.gauge-labels span:nth-child(3){color:var(--red)}
+.kpi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:18px}
+.kpi{padding:16px; border-radius:16px; border:1px solid var(--border); background:#fff}
+.kpi .label{font-size:11px; text-transform:uppercase; letter-spacing:.08em; font-weight:800; color:var(--muted); margin-bottom:8px}
+.kpi .value{font-size:28px; font-weight:800; color:var(--navy); margin-bottom:6px}
+.kpi .sub{font-size:13px; color:var(--muted)}
+.section-title{font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:800; color:var(--muted); margin-bottom:12px}
+.breakdown{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+.mini{padding:16px; border-radius:16px; background:#fff; border:1px solid var(--border); text-align:center}
+.mini .ring{width:76px; height:76px; border-radius:50%; margin:0 auto 10px; display:grid; place-items:center; font-size:16px; font-weight:800; color:var(--navy); background:conic-gradient(var(--red) 0 300deg, #e5e7eb 300deg 360deg)}
+.mini.amber .ring{background:conic-gradient(var(--amber) 0 220deg, #e5e7eb 220deg 360deg)}
+.mini.green .ring{background:conic-gradient(var(--green) 0 120deg, #e5e7eb 120deg 360deg)}
+.mini .ring-inner{width:54px; height:54px; border-radius:50%; background:#fff; display:grid; place-items:center}
+.mini .name{font-size:13px; font-weight:700; color:var(--text)}
+.mini .risk{font-size:12px; color:var(--muted)}
+.callout{padding:18px; border-radius:18px; background:var(--accent-light); border:1px solid #bfdbfe}
+.callout h4{margin:0 0 8px; color:var(--navy); font-size:16px}
+.callout p{margin:0; color:#334155; font-size:14px}
+.steps{display:grid; gap:12px}
+.step{display:grid; grid-template-columns:28px 1fr; gap:14px; align-items:start}
+.step-num{width:28px; height:28px; border-radius:50%; background:#e8f0ff; color:var(--accent); display:grid; place-items:center; font-size:13px; font-weight:800}
+.step h5{margin:0 0 4px; font-size:15px; color:var(--navy)}
+.step p{margin:0; color:var(--muted); font-size:14px}
+.solution-card{background:linear-gradient(180deg,var(--navy),var(--navy-2)); color:#fff; border-radius:20px; padding:24px; border:1px solid rgba(255,255,255,.08)}
+.solution-card .section-title{color:rgba(255,255,255,.55)}
+.solution-card h3{margin:0 0 10px; font-size:26px}
+.solution-card p{margin:0 0 16px; color:rgba(255,255,255,.78)}
+.solution-list{display:grid; gap:10px; margin:0 0 18px}
+.solution-item{display:flex; gap:10px; align-items:flex-start; font-size:14px; color:rgba(255,255,255,.9)}
+.tick{width:18px; height:18px; border-radius:50%; background:rgba(255,255,255,.12); display:grid; place-items:center; flex:0 0 18px; margin-top:2px}
+.cta-stack{display:grid; gap:10px; margin-top:8px}
+.btn-light{background:#fff; color:var(--navy)}
+.btn-dark-outline{background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.16)}
+.quote{padding:18px; border-radius:18px; background:#fff; border:1px solid var(--border)}
+.quote p{margin:0; font-size:16px; color:var(--navy); font-weight:700}
+.quote small{display:block; margin-top:8px; color:var(--muted); font-size:13px}
+.footer-note{padding:18px 28px 28px; color:var(--muted); font-size:13px}
+.actions-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
+.hidden{display:none !important}
+@media (max-width: 980px){
+  .hero-grid,.question-layout,.results-layout{grid-template-columns:1fr}
+  .hero h1{font-size:38px}
+}
+@media (max-width: 700px){
+  .hero{padding:44px 22px}
+  .hero h1,.q-title,.result-hero h2{font-size:28px}
+  .content,.results-shell{padding:18px}
+  .progress-meta{padding:12px 18px}
+  .q-card{padding:20px}
+  .kpi-grid,.breakdown,.intro-strip{grid-template-columns:1fr 1fr}
+  .score-strip{grid-template-columns:1fr}
+}
+@media (max-width: 560px){
+  .kpi-grid,.breakdown,.intro-strip{grid-template-columns:1fr}
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  font-size: 15px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+@media print{
+  @page { size: A4 portrait; margin: 14mm; }
+  html, body{
+    background:#ffffff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body{margin:0 !important;}
+  .topbar,
+  .progress-wrap,
+  .hero,
+  .question-layout,
+  .footer-note,
+  .no-print{
+    display:none !important;
+  }
+  .print-cover,
+  .print-meta{
+    display:block !important;
+  }
+  #screen-intro,
+  #screen-questions{
+    display:none !important;
+  }
+  #screen-results{
+    display:block !important;
+  }
+  .page,
+  .frame,
+  .results-shell{
+    max-width:none !important;
+    width:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+    background:#ffffff !important;
+    border:none !important;
+    box-shadow:none !important;
+    border-radius:0 !important;
+    overflow:visible !important;
+  }
+  .results-layout{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:12px !important;
+  }
+  .panel,
+  .result-hero,
+  .solution-card,
+  .quote,
+  .step,
+  .kpi,
+  .mini,
+  .steps{
+    box-shadow:none !important;
+    break-inside:avoid !important;
+    page-break-inside:avoid !important;
+  }
+  .solution-card{
+    page-break-before:always !important;
+  }
+  .panel,
+  .solution-card{
+    margin:0 0 10px 0 !important;
+  }
+  .actions-row,
+  .cta-stack{
+    display:none !important;
+  }
+  a[href]:after{
+    content:none !important;
+  }
 }
 
-.app { display: flex; flex-direction: column; min-height: 100vh; }
 
-/* ── Topbar ── */
-.topbar {
-  background: var(--navy);
-  height: 52px;
-  display: flex;
-  align-items: center;
-  padding: 0 28px;
-  flex-shrink: 0;
-}
-.topbar-inner { display: flex; align-items: center; gap: 12px; }
-.brand-mark {
-  font-size: .68rem;
-  font-weight: 800;
-  letter-spacing: .12em;
-  color: #fff;
-  background: rgba(255,255,255,.12);
-  padding: 3px 8px;
-  border-radius: 4px;
-}
-.brand-sep { color: rgba(255,255,255,.25); font-weight: 300; }
-.brand-title { font-size: .88rem; font-weight: 500; color: rgba(255,255,255,.75); }
-
-/* ── Screens ── */
-.screen { display: none; flex: 1; flex-direction: column; }
-.screen.active { display: flex; }
-
-/* ── Intro ── */
-.intro-main {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 56px 20px 72px;
-}
-.intro-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 52px 52px 44px;
-  max-width: 600px;
-  width: 100%;
-  box-shadow: var(--shadow-md);
-}
-.eyebrow {
-  font-size: .7rem;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: var(--accent);
-  font-weight: 700;
-  margin-bottom: 18px;
-}
-.intro-card h1 {
-  font-size: 1.9rem;
-  font-weight: 800;
-  line-height: 1.2;
-  color: var(--navy);
-  margin-bottom: 18px;
-}
-.intro-lead {
-  color: var(--muted);
-  font-size: .95rem;
-  line-height: 1.8;
-  margin-bottom: 32px;
-}
-.intro-meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: .8rem;
-  color: var(--muted);
-  margin-bottom: 36px;
-}
-.intro-meta .dot { color: var(--border); }
-.btn-start {
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  padding: 13px 30px;
-  border-radius: 8px;
-  font-size: .95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background .15s, box-shadow .15s;
-  box-shadow: 0 2px 4px rgba(37,99,235,.25);
-  letter-spacing: .01em;
-}
-.btn-start:hover { background: #1d4ed8; box-shadow: 0 4px 12px rgba(37,99,235,.3); }
-
-/* ── Questions ── */
-.progress-wrap {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-.progress-track { height: 2px; background: var(--border); }
-.progress-fill {
-  height: 100%;
-  background: var(--accent);
-  transition: width .4s cubic-bezier(.4,0,.2,1);
-}
-.progress-meta {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 10px 20px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: .78rem;
-  color: var(--muted);
-}
-.progress-section { font-weight: 600; color: var(--accent); font-size: .75rem; letter-spacing: .04em; }
-
-.q-main {
-  flex: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 40px 20px 72px;
-}
-.q-outer { width: 100%; max-width: 640px; }
-.q-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 44px 44px 36px;
-  box-shadow: var(--shadow-md);
-  transition: opacity .2s ease, transform .2s ease;
-}
-.q-card h2 {
-  font-size: 1.22rem;
-  font-weight: 700;
-  color: var(--navy);
-  line-height: 1.38;
-  margin-bottom: 6px;
-}
-.q-hint {
-  font-size: .82rem;
-  color: var(--muted);
-  line-height: 1.65;
-  margin-bottom: 26px;
-  margin-top: 4px;
-}
-.q-multi-note {
-  font-size: .72rem;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  font-weight: 600;
-  color: var(--muted);
-  margin-bottom: 14px;
-  margin-top: 20px;
-}
-.q-options { display: flex; flex-direction: column; gap: 7px; margin-bottom: 28px; margin-top: 20px; }
-.q-opt {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px 16px;
-  border: 1.5px solid var(--border);
-  border-radius: 9px;
-  cursor: pointer;
-  transition: border-color .12s, background .12s;
-  background: var(--surface);
-  user-select: none;
-}
-.q-opt:hover { border-color: var(--accent); background: var(--accent-light); }
-.q-opt.selected { border-color: var(--accent); background: var(--accent-light); }
-.q-opt input { flex-shrink: 0; margin-top: 2px; accent-color: var(--accent); }
-.q-opt-body { display: flex; flex-direction: column; gap: 2px; }
-.q-opt-title { font-size: .92rem; font-weight: 500; color: var(--text); line-height: 1.45; }
-.q-opt-desc { font-size: .78rem; color: var(--muted); line-height: 1.5; margin-top: 2px; }
-
-.q-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 4px;
-}
-.btn-back {
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 9px 18px;
-  border-radius: 8px;
-  font-size: .875rem;
-  cursor: pointer;
-  transition: border-color .12s, color .12s;
-}
-.btn-back:hover { border-color: var(--text); color: var(--text); }
-.btn-next {
-  background: var(--accent);
-  border: none;
-  color: #fff;
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-size: .875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background .12s, box-shadow .12s, opacity .15s;
-  box-shadow: 0 1px 3px rgba(37,99,235,.2);
-  margin-left: auto;
-}
-.btn-next:hover:not(:disabled) { background: #1d4ed8; box-shadow: 0 3px 8px rgba(37,99,235,.3); }
-.btn-next:disabled { opacity: .3; cursor: default; box-shadow: none; }
-
-/* ── Results ── */
-.results-main {
-  flex: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 48px 20px 80px;
-}
-.results-wrap {
-  width: 100%;
-  max-width: 640px;
-  transition: opacity .35s ease, transform .35s ease;
+.preassess-shell{padding:24px}
+.preassess-card{background:#fff;border:1px solid var(--border);border-radius:20px;box-shadow:0 4px 16px rgba(15,32,64,.04);padding:26px}
+.preassess-hero{text-align:center;max-width:860px;margin:0 auto 22px}
+.preassess-hero .eyebrow{margin-bottom:10px}
+.preassess-hero h1{margin:0 0 14px;color:var(--navy);font-size:40px;line-height:1.08}
+.preassess-hero p{margin:0 auto;color:var(--muted);max-width:760px;font-size:16px;line-height:1.75}
+.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:24px auto 28px;max-width:760px;background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 4px 14px rgba(15,32,64,.04)}
+.stat-strip .stat-box{padding:18px 16px;text-align:center;border-right:1px solid var(--border)}
+.stat-strip .stat-box:last-child{border-right:none}
+.stat-strip .num{font-size:24px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:8px}
+.stat-strip .copy{font-size:13px;line-height:1.45;color:var(--muted)}
+.preassess-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:#64748b;font-weight:800;margin:0 0 12px}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:0 0 26px}
+.how-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:0 4px 14px rgba(15,32,64,.04)}
+.how-num{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:14px}
+.how-card h3{margin:0 0 10px;color:var(--navy);font-size:18px}
+.how-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
+.profile-section{margin-top:6px;padding-top:24px;border-top:1px solid var(--border)}
+.profile-head{margin-bottom:18px}
+.profile-head .kicker{margin-bottom:8px}
+.profile-head h2{margin:0 0 8px;color:var(--navy);font-size:30px;line-height:1.15}
+.profile-head p{margin:0;color:var(--muted);font-size:16px;line-height:1.7}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.profile-field{display:flex;flex-direction:column;gap:8px}
+.profile-field label{font-size:12px;font-weight:800;color:#64748b;letter-spacing:.08em;text-transform:uppercase}
+.profile-field input,.profile-field select{width:100%;background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;color:var(--text);outline:none}
+.profile-actions{display:flex;gap:12px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+.profile-note{margin-top:14px;color:var(--muted);font-size:13px;line-height:1.6}
+@media (max-width:980px){.how-grid{grid-template-columns:1fr}}
+@media (max-width:700px){
+  .preassess-shell{padding:18px}
+  .preassess-card{padding:20px}
+  .preassess-hero h1{font-size:32px}
+  .stat-strip{grid-template-columns:1fr}
+  .stat-strip .stat-box{border-right:none;border-bottom:1px solid var(--border)}
+  .stat-strip .stat-box:last-child{border-bottom:none}
+  .profile-grid{grid-template-columns:1fr}
 }
 
-.band-block {
-  border-radius: var(--radius);
-  padding: 36px 40px;
-  margin-bottom: 16px;
-}
-.band-block.controlled { background: var(--controlled-bg); border: 1px solid var(--controlled-bdr); }
-.band-block.exposed    { background: var(--exposed-bg);    border: 1px solid var(--exposed-bdr); }
-.band-block.blindspot  { background: var(--blindspot-bg);  border: 1px solid var(--blindspot-bdr); }
 
-.band-tag {
-  font-size: .68rem;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-.controlled .band-tag { color: var(--controlled); }
-.exposed    .band-tag { color: var(--exposed); }
-.blindspot  .band-tag { color: var(--blindspot); }
+.hero-tag-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.detail-link{font-size:12px;font-weight:700;color:var(--accent);text-decoration:none}
+.detail-link:hover{text-decoration:underline}
+.boardroom-summary{font-size:16px;line-height:1.8;color:#253144}
+.boardroom-grid{display:grid;gap:18px}
+.boardroom-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:24px;box-shadow:0 4px 16px rgba(15,32,64,.04)}
+.boardroom-list{display:grid;gap:12px}
+.boardroom-item{border:1px solid var(--border);border-radius:14px;padding:16px;background:#fff}
+.boardroom-item strong{display:block;font-size:15px;color:var(--navy);margin-bottom:6px}
+.boardroom-item span{display:block;font-size:14px;line-height:1.7;color:var(--muted)}
+.priority-callout{background:#eff6ff;border:1px solid #bfdbfe;border-radius:16px;padding:20px;position:relative}
+.priority-callout:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent);border-radius:16px 0 0 16px}
+.priority-callout h4{font-size:24px;line-height:1.15;color:var(--navy);margin:0 0 10px}
+.priority-callout p{font-size:15px;line-height:1.8;color:#334155;margin:0}
+.meta-grid-boardroom{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.meta-card-boardroom{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px}
+.meta-card-boardroom strong{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+.meta-card-boardroom span{display:block;color:#334155;font-size:14px;line-height:1.7}
+.overlay{position:fixed;inset:0;background:rgba(2,6,23,.45);display:flex;justify-content:flex-end;z-index:1000}
+.overlay.hidden{display:none}
+.overlay-panel{width:440px;max-width:100%;height:100%;background:#fff;padding:24px;box-shadow:-8px 0 24px rgba(0,0,0,.12);overflow:auto}
+.overlay-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.overlay-header h3{margin:0;color:var(--navy);font-size:22px}
+.overlay-header button{border:none;background:none;font-size:20px;cursor:pointer;color:var(--muted)}
+.overlay-intro{font-size:14px;line-height:1.7;color:#374151;margin-bottom:18px}
+.detail-section{margin-bottom:20px}
+.detail-section h4{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 10px}
+.response-list{display:grid;gap:10px}
+.response-item{border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff}
+.response-item strong{display:block;font-size:13px;color:var(--navy);margin-bottom:4px}
+.response-item span{display:block;font-size:13px;line-height:1.6;color:var(--muted)}
+@media (max-width:700px){.meta-grid-boardroom{grid-template-columns:1fr}.overlay-panel{width:100%}}
 
-.band-title {
-  font-size: 1.45rem;
-  font-weight: 800;
-  color: var(--navy);
-  margin-bottom: 14px;
-  line-height: 1.25;
+
+.profile-meta-card{
+  background:#fff;border:1px solid var(--border);border-radius:18px;padding:18px 20px;
+  box-shadow:0 4px 16px rgba(15,32,64,.04);margin-bottom:18px;
 }
-.band-summary {
-  font-size: .92rem;
-  line-height: 1.8;
-  color: var(--text);
+.profile-meta-card .section-title{margin-bottom:10px}
+.profile-meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.profile-meta-item{
+  background:#fbfcfe;border:1px solid var(--border);border-radius:12px;padding:12px 14px;
+}
+.profile-meta-item strong{
+  display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px;
+}
+.profile-meta-item span{display:block;font-size:14px;line-height:1.6;color:var(--navy)}
+.hero-topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.hero-tag-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0}
+.detail-link{
+  font-size:12px;font-weight:700;color:var(--accent);text-decoration:none;
+  padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;
+}
+.detail-link:hover{text-decoration:none;background:#f8fbff}
+@media (max-width:700px){
+  .profile-meta-grid{grid-template-columns:1fr}
+  .hero-topline{align-items:flex-start}
 }
 
-.result-block {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px 36px;
-  margin-bottom: 12px;
-  box-shadow: var(--shadow);
-}
-.result-block h3 {
-  font-size: .7rem;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  font-weight: 700;
-  color: var(--muted);
-  margin-bottom: 18px;
-}
-.steps-list { display: flex; flex-direction: column; gap: 14px; }
-.step-item { display: flex; align-items: flex-start; gap: 14px; }
-.step-num {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--accent-light);
-  color: var(--accent);
-  font-size: .72rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.step-text { font-size: .9rem; line-height: 1.7; color: var(--text); }
+</style>
 
-.wgl-block {
-  background: var(--navy);
-  border-radius: var(--radius);
-  padding: 36px 40px;
-  margin-bottom: 12px;
+<style>
+.inline-profile{margin-top:22px; padding:24px; background:#fff; border:1px solid var(--border); border-radius:16px;}
+.inline-profile-head{display:flex; align-items:center; gap:10px; margin-bottom:8px;}
+.inline-profile-title{font-size:15px; font-weight:700; color:var(--navy);}
+.optional-badge{font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; background:var(--accent-light); color:var(--accent); padding:3px 8px; border-radius:999px; border:1px solid var(--accent-border);}
+.inline-profile-note{font-size:13px; color:var(--muted); margin-bottom:18px; line-height:1.6;}
+.inline-profile-actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:20px;}
+.bullet-list{display:grid; gap:10px; margin-top:14px;}
+.bullet{display:flex; gap:10px; align-items:flex-start; font-size:14px; color:#334155; line-height:1.6;}
+.bullet .tick{background:#dbeafe; color:var(--accent); flex-shrink:0;}
+.steps-container {margin-top:20px;}
+.step {
+    padding:18px;
+    margin-bottom:16px;
+    border-radius:8px;
+    background:#f9fafb;
+    border-left:4px solid #2563eb;
 }
-.wgl-block h3 {
-  font-size: .68rem;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-weight: 700;
-  color: rgba(255,255,255,.4);
-  margin-bottom: 16px;
+.step.primary {
+    background:#eef2ff;
+    border-left:6px solid #1d4ed8;
 }
-.wgl-block p {
-  font-size: .92rem;
-  line-height: 1.8;
-  color: rgba(255,255,255,.82);
-  margin-bottom: 10px;
+.step h4 {
+    margin:0 0 8px 0;
+    font-size:16px;
+    color:#0f172a;
 }
-.wgl-block p.standalone { margin-bottom: 28px; }
-.btn-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #fff;
-  color: var(--navy);
-  border: none;
-  padding: 12px 22px;
-  border-radius: 8px;
-  font-size: .88rem;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background .12s;
-  letter-spacing: .01em;
-}
-.btn-cta:hover { background: #f1f5f9; }
-
-.retake-wrap {
-  text-align: center;
-  margin-top: 20px;
-}
-.btn-retake {
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-size: .8rem;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.btn-retake:hover { color: var(--text); }
-
-/* ── Score card & gauge ── */
-.score-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px 36px 24px;
-  margin-bottom: 12px;
-  box-shadow: var(--shadow);
-}
-.score-card-label {
-  font-size: .68rem;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-weight: 700;
-  color: var(--muted);
-  margin-bottom: 10px;
-}
-.score-row {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  margin-bottom: 24px;
-}
-.score-num {
-  font-size: 3rem;
-  font-weight: 800;
-  color: var(--navy);
-  line-height: 1;
-}
-.score-denom {
-  font-size: 1.15rem;
-  color: var(--muted);
-  font-weight: 400;
-}
-.score-note {
-  font-size: .75rem;
-  color: var(--muted);
-  margin-bottom: 20px;
-  margin-top: -16px;
-}
-.gauge-wrap { position: relative; }
-.gauge-track {
-  height: 10px;
-  border-radius: 5px;
-  background: linear-gradient(to right,
-    var(--controlled) 0%, var(--controlled) 24.1%,
-    #d1d5db 24.1%, #d1d5db 24.8%,
-    var(--exposed)    24.8%, var(--exposed)    65.5%,
-    #d1d5db 65.5%,  #d1d5db 66.2%,
-    var(--blindspot)  66.2%, var(--blindspot)  100%
-  );
-  position: relative;
-}
-.gauge-marker {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
-  background: var(--navy);
-  border: 3px solid #fff;
-  border-radius: 50%;
-  box-shadow: 0 1px 5px rgba(0,0,0,.25);
-  transition: left 1s cubic-bezier(.4,0,.2,1);
-  z-index: 2;
-  left: 0%;
-}
-.gauge-band-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  font-size: .72rem;
-  font-weight: 600;
-}
-.gbl-c { color: var(--controlled); flex: 0 0 24.1%; }
-.gbl-e { color: var(--exposed);    flex: 0 0 33.5%; text-align: center; }
-.gbl-b { color: var(--blindspot);  flex: 0 0 37%;   text-align: right; }
-
-/* ── Section breakdown ── */
-.breakdown-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-top: 4px;
-}
-@media (max-width: 560px) {
-  .breakdown-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-}
-.breakdown-circle-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-.breakdown-circle-wrap svg { overflow: visible; }
-.ring-track { fill: none; stroke: var(--border); stroke-width: 8; }
-.ring-fill {
-  fill: none;
-  stroke-width: 8;
-  stroke-linecap: round;
-  stroke-dasharray: 0 188.5;
-  transition: stroke-dasharray 1s cubic-bezier(.4,0,.2,1);
-  transform: rotate(-90deg);
-  transform-origin: 40px 40px;
-}
-.ring-fill.low  { stroke: var(--controlled); }
-.ring-fill.mid  { stroke: var(--exposed); }
-.ring-fill.high { stroke: var(--blindspot); }
-.breakdown-circle-label { font-size: .8rem; font-weight: 700; color: var(--text); text-align: center; }
-.breakdown-circle-risk { font-size: .72rem; font-weight: 600; text-align: center; }
-.breakdown-circle-risk.low  { color: var(--controlled); }
-.breakdown-circle-risk.mid  { color: var(--exposed); }
-.breakdown-circle-risk.high { color: var(--blindspot); }
-
-/* ── Responsive ── */
-@media (max-width: 600px) {
-  .intro-card { padding: 36px 24px 30px; }
-  .intro-card h1 { font-size: 1.55rem; }
-  .q-card { padding: 28px 22px 24px; }
-  .q-card h2 { font-size: 1.08rem; }
-  .band-block, .wgl-block { padding: 28px 22px; }
-  .result-block { padding: 22px 20px; }
-  .band-title { font-size: 1.25rem; }
-  .topbar { padding: 0 18px; }
+.step p {
+    margin:0;
+    color:#374151;
+    line-height:1.62;
 }
 </style>
+
 </head>
 <body>
-<div class="app">
-
-  <!-- Topbar -->
   <div class="topbar">
-    <div class="topbar-inner">
+    <div class="brand">
       <span class="brand-mark">TACTICA</span>
-      <span class="brand-sep">|</span>
+      <span>|</span>
       <span class="brand-title">Vibe Coding Risk Check</span>
     </div>
   </div>
 
-  <!-- Intro -->
-  <div id="screen-intro" class="screen active">
-    <div class="intro-main">
-      <div class="intro-card">
-        <div class="eyebrow">For IT Leadership</div>
-        <h1>How exposed is your organisation to ungoverned AI coding?</h1>
-        <p class="intro-lead">Staff across every department are using AI to build tools, automations, and scripts — often without IT's knowledge. This five-minute check gives you an honest picture of where your organisation stands, and what to do about it.</p>
-        <div class="intro-meta">
-          <span>10 questions</span>
-          <span class="dot">·</span>
-          <span>5 minutes</span>
-          <span class="dot">·</span>
-          <span>Instant result</span>
+  <main class="page">
+    <section id="screen-intro" class="screen active frame">
+      <div class="hero">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">For Heads of IT, IT Directors, and CISOs</div>
+            <h1>In most organisations, a growing share of AI-built tools are invisible to IT.</h1>
+            <p>This five-minute risk check shows how quickly shadow AI development could be outpacing your current controls — and where your biggest exposure is likely to be.</p>
+            <div class="meta">
+              <span>10 questions</span>
+              <span>5 minutes</span>
+              <span>Instant result</span>
+              <span>Built for IT leadership</span>
+            </div>
+          </div>
+          <aside class="hero-card">
+            <h3>What this gives you</h3>
+            <div class="stat-list">
+              <div class="stat">
+                <div class="stat-num">1</div>
+                <div class="stat-copy">A fast view of how visible AI-built tools really are to IT today</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num">2</div>
+                <div class="stat-copy">A practical sense of where your governance gap is widening fastest</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num">3</div>
+                <div class="stat-copy">A clear next-step view of how IT can respond without becoming the blocker</div>
+              </div>
+            </div>
+          </aside>
         </div>
-        <button class="btn-start" onclick="startSurvey()">Start the check →</button>
       </div>
-    </div>
-  </div>
+      <div class="content">
+        <div class="intro-strip">
+          <div class="intro-mini">
+            <h4>What this is</h4>
+            <p>A short executive diagnostic designed to expose visibility, control, and risk gaps around AI-assisted development.</p>
+          </div>
+          <div class="intro-mini">
+            <h4>What this is not</h4>
+            <p>It is not a technical audit. It is a directional risk check designed to start the right conversation quickly.</p>
+          </div>
+          <div class="intro-mini">
+            <h4>How to answer</h4>
+            <p>Answer based on how the organisation works in practice today, not how policy says it should work.</p>
+          </div>
+        </div>
 
-  <!-- Questions -->
-  <div id="screen-questions" class="screen">
-    <div class="progress-wrap">
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        <div class="inline-profile">
+          <div class="inline-profile-head" onclick="toggleProfile()" style="cursor:pointer; user-select:none;">
+            <span class="inline-profile-title">Personalise your report</span>
+            <span class="optional-badge">Optional</span>
+            <span id="profile-chevron" style="margin-left:auto; font-size:12px; color:var(--muted);">▼ Show</span>
+          </div>
+          <div id="profile-body" style="display:none;">
+          <p class="inline-profile-note">These fields personalise the PDF summary — useful if you're sharing it internally. Skip them if you'd prefer to start immediately.</p>
+          <div class="profile-grid">
+            <div class="profile-field" style="grid-column:1 / -1">
+              <label for="companyName">Organisation name</label>
+              <input id="companyName" placeholder="e.g. Acme Financial Services Ltd">
+            </div>
+            <div class="profile-field">
+              <label for="industrySector">Industry / sector</label>
+              <select id="industrySector">
+                <option value="">Select sector...</option>
+                <option>Consumer Goods</option>
+                <option>Manufacturing</option>
+                <option>Retail / eCommerce</option>
+                <option>Financial Services</option>
+                <option>Healthcare / Life Sciences</option>
+                <option>Technology / SaaS</option>
+                <option>Energy / Utilities</option>
+                <option>Public Sector</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="profile-field">
+              <label for="orgSize">Organisation size</label>
+              <select id="orgSize">
+                <option value="">Select size...</option>
+                <option>1–250</option>
+                <option>251–1,000</option>
+                <option>1,001–5,000</option>
+                <option>5,001–20,000</option>
+                <option>20,000+</option>
+              </select>
+            </div>
+            <div class="profile-field">
+              <label for="geo">Primary geography</label>
+              <select id="geo">
+                <option value="">Select...</option>
+                <option>UK</option>
+                <option>North America</option>
+                <option>Europe</option>
+                <option>APAC</option>
+                <option>Global / Multi-region</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="profile-field">
+              <label for="userName">Prepared by</label>
+              <input id="userName" placeholder="Your name">
+            </div>
+          </div>
+          <div class="inline-profile-actions">
+            <button class="btn btn-primary" onclick="startSurvey()">Start the risk check →</button>
+            <a class="btn btn-secondary" href="vibe-code-lab-redesigned-survey-format-v5.html">See how the Vibe Code Lab works</a>
+          </div>
+          </div><!-- end profile-body -->
+        </div>
+        <div style="margin-top:20px;">
+          <button class="btn btn-primary" onclick="startSurvey()">Start the risk check →</button>
+        </div>
       </div>
-      <div class="progress-meta">
-        <span id="progress-counter">Question 1 of 10</span>
-        <span class="progress-section" id="progress-section"></span>
-      </div>
-    </div>
-    <div class="q-main">
-      <div class="q-outer">
-        <div id="question-container"></div>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- Results -->
-  <div id="screen-results" class="screen">
-    <div class="results-main">
-      <div class="results-wrap" id="results-wrap">
-        <div id="results-content"></div>
-      </div>
-    </div>
-  </div>
 
-</div>
+    <section id="screen-questions" class="screen frame">
+      <div class="progress-wrap">
+        <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+        <div class="progress-meta">
+          <div id="progress-counter" class="counter">Question 1 of 8</div>
+          <div id="progress-section" class="section">Visibility</div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="question-layout">
+          <div id="question-card"></div>
+          <aside id="dynamic-side-panel" class="side-panel"></aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-results" class="screen frame">
+      <div class="results-shell">
+        <div class="results-layout">
+          <div id="results-left"></div>
+          <div id="results-right"></div>
+        </div>
+      </div>
+      <div class="footer-note">Directional diagnostic for discussion purposes. This is intended to help leadership frame the issue quickly — not replace a formal assessment.</div>
+    </section>
+  </main>
+
 <script>
-/* ═══════════════════════════════════════
-   QUESTIONS
-═══════════════════════════════════════ */
 const QUESTIONS = [
   {
-    id: 'q1',
-    section: 'Awareness',
-    text: 'Is your IT team actively monitoring for AI coding tool adoption across the business?',
-    hint: null,
-    type: 'single',
-    options: [
-      { value: 'yes',     label: 'Yes — we have active monitoring and reasonable visibility in place', score: 0 },
-      { value: 'partial', label: 'Partially — we monitor for some tools but not comprehensively', score: 1 },
-      { value: 'no',      label: 'No — we don\'t have active monitoring in place', score: 2 },
-      { value: 'unknown', label: 'Unknown — this hasn\'t been assessed', score: 3 },
+    id:'q1',
+    section:'Visibility',
+    title:'Does IT have a reliable, consistent picture of AI-enabled development activity across the business?',
+    hint:'Think about whether IT can see what is being built, where activity is happening, and whether that view is based on evidence rather than assumption.',
+    options:[
+      {value:'clear', label:'Yes — reliable and evidence-based', desc:'IT has a current and accurate view of AI-enabled development activity, supported by disclosure, intake, or active monitoring.', score:0},
+      {value:'mostly', label:'Mostly — with some gaps', desc:'Visibility is strong overall, with only limited exceptions or edge cases.', score:1},
+      {value:'partial', label:'Partially — incomplete or uneven', desc:'IT can see some activity, but the picture depends on which team or area you are looking at.', score:2},
+      {value:'limited', label:'Limited — depends on chance or local reporting', desc:'Visibility relies on informal awareness, local goodwill, or discovery after the fact.', score:3},
+      {value:'none', label:'No — AI-enabled development is largely invisible to IT', desc:'Activity can occur and move into use without meaningful IT visibility.', score:4}
     ]
   },
   {
-    id: 'q2',
-    section: 'Awareness',
-    text: 'Have non-technical staff been observed or confirmed using AI to build anything — tools, automations, scripts, or dashboards?',
-    hint: 'This includes anything created with AI assistance, not just conventional software development.',
-    type: 'single',
-    options: [
-      { value: 'confirmed_aware',   label: 'Yes — confirmed, and IT has assessed the specific instances', score: 0 },
-      { value: 'confirmed_unaware', label: 'Yes — confirmed, but not formally assessed by IT', score: 2 },
-      { value: 'suspected',         label: 'Suspected — observed informally, not formally assessed', score: 2 },
-      { value: 'no',                label: 'No — confirmed this is not happening', score: 0 },
-      { value: 'unknown',           label: 'Unknown — we haven\'t looked', score: 3 },
+    id:'q2',
+    section:'Visibility',
+    title:'How controlled is the movement of AI-enabled tools into real business use?',
+    hint:'Think about apps, automations, or workflows built using AI development tools and then used in day-to-day business activity.',
+    options:[
+      {value:'clear', label:'Clearly defined and consistently applied before use', desc:'AI-enabled tools follow a clear route into business use before people rely on them.', score:0},
+      {value:'mostly', label:'Mostly defined, with minor gaps', desc:'Controls exist, but some tools may enter use with limited deviation from the standard path.', score:1},
+      {value:'partial', label:'Partially defined or inconsistently applied', desc:'Some tools move into business use through process, while others do not.', score:2},
+      {value:'limited', label:'Limited or informal', desc:'Movement into business use depends more on local judgement than defined control.', score:3},
+      {value:'none', label:'Not defined / not visible to IT', desc:'AI-enabled tools may enter real business use without a known control point.', score:4}
     ]
   },
   {
-    id: 'q_it_vibe',
-    section: 'Exposure',
-    text: 'Is your IT team itself using AI to build internal tools or systems — such as service desk workflows, demand management processes, operational dashboards, or reporting tools?',
-    hint: 'IT-built tools can carry the same governance risks as those built by other departments — and may receive less scrutiny precisely because IT built them.',
-    type: 'single',
-    options: [
-      { value: 'yes-reviewed',   label: 'Yes — and IT-built tools go through the same formal review as anyone else\'s', score: 0 },
-      { value: 'yes-unreviewed', label: 'Yes — but they typically go straight into use without formal review', score: 2 },
-      { value: 'adhoc',          label: 'Occasionally — on an ad-hoc basis, no consistent approach', score: 1 },
-      { value: 'no',             label: 'No — IT doesn\'t use AI to build internal systems', score: 0 },
-      { value: 'unknown',        label: 'Unknown — this hasn\'t been assessed', score: 2 },
+    id:'q3',
+    section:'Control',
+    title:'How clearly are the rules defined for what employees can and cannot build using AI tools?',
+    hint:'Think about allowed platforms, data boundaries, build permissions, and review expectations.',
+    options:[
+      {value:'clear', label:'Clearly defined and consistently applied', desc:'Employees have practical guardrails and those guardrails are enforced.', score:0},
+      {value:'mostly', label:'Mostly defined, with minor gaps', desc:'The rules are broadly clear, with limited inconsistency in application.', score:1},
+      {value:'partial', label:'Partially defined or inconsistently applied', desc:'Some guardrails exist, but interpretation varies by team or use case.', score:2},
+      {value:'limited', label:'Limited or informal', desc:'Guidance is informal and teams rely heavily on judgement.', score:3},
+      {value:'none', label:'Not defined / not visible to IT', desc:'There is no meaningful boundary on what can be built or how.', score:4}
     ]
   },
   {
-    id: 'q3',
-    section: 'Exposure',
-    text: 'Which AI coding or building tools are present or suspected in your organisation?',
-    hint: 'Include both formally approved tools and tools staff may be using independently.',
-    type: 'multi',
-    options: [
-      { value: 'claude-code',   label: 'Claude Code / Cursor Agent / Devin',         desc: 'Agentic tools that write and run code — increasingly used by non-developers to build internal tools' },
-      { value: 'copilot-pers',  label: 'GitHub Copilot (personal accounts)',          desc: 'Personal-tier accounts have no enterprise DPA; code may be used for model training' },
-      { value: 'replit',        label: 'Replit',                                      desc: 'Browser-based AI coding environment; code and data sent to Replit servers' },
-      { value: 'lovable-bolt',  label: 'Lovable / Bolt / Vercel v0',                  desc: 'AI app builders that generate and deploy web applications from plain-language prompts' },
-      { value: 'bubble-retool', label: 'Bubble / Retool / Glide / Softr',             desc: 'No-code app builders often connected to live business data' },
-      { value: 'make-zapier',   label: 'Make or Zapier with AI steps',                desc: 'Automation platforms routing business data through external AI models' },
-      { value: 'paste-run',     label: 'ChatGPT or Claude used to generate code (copied and run)', desc: 'AI-assisted code that bypasses any tool-level controls' },
-      { value: 'none',          label: 'None known — confirmed' },
-      { value: 'not-assessed',  label: 'Not been assessed — unknown' },
+    id:'q4',
+    section:'Control',
+    title:'How clearly is ownership, monitoring, and ongoing governance defined for AI-enabled tools once they are in use?',
+    hint:'Think about support responsibility, access control, lifecycle oversight, incident response, and whether governance continues after initial adoption.',
+    options:[
+      {value:'clear', label:'Clearly defined and consistently applied', desc:'Ownership is explicit, tools remain visible, and governance continues through their lifecycle.', score:0},
+      {value:'mostly', label:'Mostly defined, with minor gaps', desc:'Ownership and ongoing oversight are strong overall, with limited exceptions.', score:1},
+      {value:'partial', label:'Partially defined or inconsistently applied', desc:'Some tools are owned and governed properly while others drift outside the model.', score:2},
+      {value:'limited', label:'Limited or informal', desc:'Ownership is assumed rather than assigned, and governance after initial use is largely reactive.', score:3},
+      {value:'none', label:'Not defined / not visible to IT', desc:'AI-enabled tools can remain in use without clear ownership or ongoing governance.', score:4}
     ]
   },
   {
-    id: 'q4',
-    section: 'Exposure',
-    text: 'Has any AI system been connected to internal data sources — databases, file systems, or business applications?',
-    hint: 'This includes any connection that allows an AI tool to read from or write to systems your organisation owns or manages.',
-    type: 'single',
-    options: [
-      { value: 'yes-reviewed',   label: 'Yes — the connection has been formally reviewed and documented', score: 0 },
-      { value: 'yes-unreviewed', label: 'Yes — but not formally reviewed or documented', score: 3 },
-      { value: 'unknown',        label: 'Unknown — we haven\'t assessed this', score: 3 },
-      { value: 'no',             label: 'No — confirmed this hasn\'t occurred', score: 0 },
+    id:'q5',
+    section:'Risk',
+    title:'How clearly are data access and processing controlled in AI-enabled tools, in practice?',
+    hint:'Consider prompts, uploads, integrations, connected data, and access to proprietary or sensitive information.',
+    options:[
+      {value:'clear', label:'Clearly defined and consistently applied', desc:'Data boundaries are explicit and enforced in practice.', score:0},
+      {value:'mostly', label:'Mostly defined, with minor gaps', desc:'Controls are strong overall, with limited uncertainty.', score:1},
+      {value:'partial', label:'Partially defined or inconsistently applied', desc:'Some data controls exist, but gaps or variation remain.', score:2},
+      {value:'limited', label:'Limited or informal', desc:'Data usage depends heavily on individual judgement or local practice.', score:3},
+      {value:'none', label:'Not defined / not visible to IT', desc:'IT cannot state confidently how data is being used or exposed.', score:4}
     ]
   },
   {
-    id: 'q5',
-    section: 'Exposure',
-    text: 'Has anything AI-generated reached production — live internal software tools, customer-facing systems, or automated processes — without a formal IT review?',
-    hint: null,
-    type: 'single',
-    options: [
-      { value: 'no',         label: 'No — AI-generated code goes through standard review before going live', score: 0 },
-      { value: 'yes',        label: 'Yes — some AI-generated code or tools have gone live without formal review', score: 3 },
-      { value: 'unknown',    label: 'Unknown — we don\'t have visibility into this', score: 3 },
-      { value: 'no-process', label: 'Our review process doesn\'t specifically cover AI-generated code', score: 2 },
+    id:'q6',
+    section:'Risk',
+    title:'How consistently are AI-enabled tools tested and validated before being relied on?',
+    hint:'Think about whether outputs are trusted for real work, decisions, or operational activity.',
+    options:[
+      {value:'clear', label:'Clearly defined and consistently applied', desc:'AI-enabled tools are tested and validated before people depend on them.', score:0},
+      {value:'mostly', label:'Mostly defined, with minor gaps', desc:'Testing is usually in place, with some exceptions.', score:1},
+      {value:'partial', label:'Partially defined or inconsistently applied', desc:'Validation happens in some areas, but not reliably across the board.', score:2},
+      {value:'limited', label:'Limited or informal', desc:'Testing is largely user-led or ad hoc.', score:3},
+      {value:'none', label:'Not defined / not visible to IT', desc:'AI-enabled tools may be relied on without meaningful validation.', score:4}
     ]
   },
   {
-    id: 'q6',
-    section: 'Exposure',
-    text: 'Has your organisation experienced any security, compliance, or operational issue that may have involved an ungoverned AI-built tool or automation?',
-    hint: null,
-    type: 'single',
-    options: [
-      { value: 'confirmed', label: 'Yes — a confirmed incident linked to an ungoverned AI tool', score: 3 },
-      { value: 'suspected', label: 'Possibly — something occurred that may be linked, not fully investigated', score: 2 },
-      { value: 'no',        label: 'No — nothing to our knowledge', score: 0 },
-      { value: 'unknown',   label: 'Unknown — we wouldn\'t necessarily know', score: 2 },
+    id:'q7',
+    section:'Strategy',
+    title:'How clearly is there a defined route for the business to develop or request AI-enabled solutions?',
+    hint:'Think about whether the business has a credible, low-friction path to move quickly with IT involvement.',
+    options:[
+      {value:'clear', label:'Clearly defined and consistently used', desc:'There is a visible route and teams use it in practice.', score:0},
+      {value:'mostly', label:'Mostly defined, with minor gaps', desc:'A route exists and is used in most cases, though not always.', score:1},
+      {value:'partial', label:'Partially defined or inconsistently used', desc:'Some teams use the route while others work around it.', score:2},
+      {value:'limited', label:'Limited or informal', desc:'The route is weak, unclear, or depends on who you know.', score:3},
+      {value:'none', label:'Not defined', desc:'The business does not have a credible path for safe AI-enabled delivery through IT.', score:4}
     ]
   },
   {
-    id: 'q7',
-    section: 'Governance',
-    text: 'Does a written policy exist covering employee use of AI coding tools, or AI in general?',
-    hint: null,
-    type: 'single',
-    options: [
-      { value: 'yes',         label: 'Yes — a specific, actively communicated policy is in place', score: 0 },
-      { value: 'partial',     label: 'Partial — referenced in acceptable use policy but not specific to AI tools', score: 1 },
-      { value: 'no',          label: 'No — this isn\'t covered in current policy', score: 2 },
-      { value: 'in-progress', label: 'In progress — being drafted', score: 1 },
+    id:'q8',
+    section:'Strategy',
+    title:'Is there a named individual or function with clear accountability for AI governance at a senior level?',
+    hint:'Think about whether there is someone with the authority and responsibility to make decisions about AI risk, policy, and the operating model across the organisation.',
+    options:[
+      {value:'clear', label:'Yes — named, active, and empowered', desc:'Accountability is explicit, the individual or function is engaged, and they have the authority to act.', score:0},
+      {value:'mostly', label:'Mostly — some ownership exists, with gaps', desc:'Accountability is largely in place but not fully formalised or consistently applied.', score:1},
+      {value:'partial', label:'Partially — shared or unclear across functions', desc:'Responsibility is distributed without a clear primary owner.', score:2},
+      {value:'limited', label:'Limited — implied rather than assigned', desc:'Ownership is assumed at a senior level but not made explicit.', score:3},
+      {value:'none', label:'No — no named accountability at a senior level', desc:'There is no clear owner for AI governance decisions at the organisational level.', score:4}
     ]
-  },
-  {
-    id: 'q8',
-    section: 'Governance',
-    text: 'Is there a formal review gate before AI-built tools or automations go live in your organisation?',
-    textAlt: 'If you discovered that staff had been building and deploying AI-powered tools internally, would you have a process to review them before they reached production?',
-    hint: null,
-    hintAlt: 'Given that you haven\'t yet assessed whether this is happening, this question asks whether a governance process is in place if it were.',
-    type: 'single',
-    options: [
-      { value: 'yes',      label: 'Yes — all AI-built tools go through an IT review before going live', score: 0 },
-      { value: 'informal', label: 'Informally — some review happens but it\'s inconsistent', score: 1 },
-      { value: 'no',       label: 'No — there is no formal gate', score: 2 },
-      { value: 'unknown',  label: 'Unknown — it hasn\'t been assessed', score: 3 },
-    ],
-    optionsAlt: [
-      { value: 'yes',      label: 'Yes — our existing IT review processes would cover this', score: 0 },
-      { value: 'informal', label: 'Partially — we\'d apply standard change management but have no AI-specific process', score: 1 },
-      { value: 'no',       label: 'No — we don\'t have a process that would cover this', score: 2 },
-      { value: 'unknown',  label: 'We haven\'t considered this scenario', score: 3 },
-    ]
-  },
-  {
-    id: 'q9',
-    section: 'Governance',
-    text: 'Is someone in your organisation specifically accountable for AI coding governance?',
-    hint: null,
-    type: 'single',
-    options: [
-      { value: 'named',      label: 'Yes — a named individual owns this area', score: 0 },
-      { value: 'shared',     label: 'Shared — clear responsibility across IT and legal or compliance', score: 1 },
-      { value: 'it-general', label: 'It sits with IT generally but no specific owner', score: 1 },
-      { value: 'no',         label: 'No named owner', score: 2 },
-    ]
-  },
-  {
-    id: 'q10',
-    section: 'Stance',
-    text: 'Which best describes your organisation\'s current stance on employee use of AI coding tools?',
-    hint: null,
-    type: 'single',
-    options: [
-      { value: 'governed',    label: 'IT-led governance — we have a framework in place', score: 0 },
-      { value: 'acknowledged',label: 'Acknowledged gap — we know this is happening and are working on a response', score: 1 },
-      { value: 'blocking',    label: 'Active blocking — employees are prevented from using these tools', score: 1 },
-      { value: 'permissive',  label: 'Permissive — staff can use them, no formal governance', score: 2 },
-      { value: 'want-to',     label: 'We want to lead this but don\'t have a framework yet', score: 2 },
-    ]
-  },
+  }
 ];
 
-/* ═══════════════════════════════════════
-   RESULT BANDS
-═══════════════════════════════════════ */
-const BANDS = {
-  controlled: {
-    cls:     'controlled',
-    tag:     'Controlled',
-    title:   'Your governance position is reasonably sound.',
-    summary: 'Your IT function has meaningful visibility of AI coding tool adoption and a governance foundation in place. The risk is contained — but the pace of change in this area means staying controlled requires active maintenance rather than periodic review. The tools available to staff are evolving faster than most policy cycles.',
-    steps: [
-      'Schedule quarterly reviews of your AI coding tool inventory. New tools emerge continuously, and staff migration between platforms is rapid — what is covered today may not reflect what is in use in six months.',
-      'Formalise your review gate into a documented process. Informal governance tends not to survive staff changes; a lightweight written process makes it transferable and auditable.',
-      'Brief senior leadership on the current position and what it takes to maintain it. Board-level awareness reduces the risk of business decisions that inadvertently create new exposure.',
-    ]
-  },
-  exposed: {
-    cls:     'exposed',
-    tag:     'Exposed',
-    title:   'There are gaps that need closing.',
-    summary: 'There are real gaps across visibility, policy, and enforcement — and in some areas, AI-built tools may already be in production without a formal review. The risk is manageable, but only if acted on. Knowing where the gaps are is the first step; the next is closing them before an incident forces the issue.',
-    steps: [
-      'Start with a structured discovery. Engage stakeholders across IT and the business to build an honest AS-IS picture of what AI tools are in use, what is working, and where the gaps are. Include departments most likely to be experimenting — operations, marketing, finance, and any team under consistent delivery pressure — and work out from there. You likely know more than you think; a structured process will surface the rest.',
-      'Use what you find to design a governed TO-BE. Agree the architectural principles for AI-assisted development, define an approved toolstack with security and data governance built in, and set out a target architecture that gives IT meaningful control without removing the capability the business is already depending on.',
-      'Assign a named owner for this area and put a lightweight review gate in place while the wider framework is being built. Imperfect governance with clear accountability is better than a complete framework that arrives too late.',
-    ]
-  },
-  blindspot: {
-    cls:     'blindspot',
-    tag:     'Blind Spot',
-    title:   'You don\'t have the visibility you need.',
-    summary: 'The picture your IT team has of AI coding tool adoption is incomplete — and incomplete visibility is the highest-risk position. It is not that nothing is happening. It is that you don\'t know what is happening. In regulated industries, this distinction matters to auditors and to regulators, and the gap tends to surface at the worst possible moment.',
-    steps: [
-      'Start with discovery, not policy. Engage stakeholders across IT and the business to understand what AI tools are in use, what problems they are solving, and what frustrations are driving adoption. The goal is an honest AS-IS picture — what is working, what is ungoverned, and where the gaps are. You cannot design a governed environment without it.',
-      'Move from AS-IS to TO-BE. Once you have a clear picture, agree the architectural principles for AI-assisted development in your organisation — an approved toolstack, security and governance standards, and a target architecture that gives IT control without removing the capability that staff are already relying on.',
-      'Establish a voluntary disclosure route before implementing enforcement. Staff who have already built tools should have a way to surface them without penalty — amnesty before policy creates better intelligence than enforcement from day one.',
-    ]
-  }
+let current = 0;
+const answers = {};
+
+const QUESTION_META = {
+  q1: [
+    {title:'What this question is testing', body:'Whether IT has a current, evidence-based picture of AI-enabled development activity — not just an assumption that things are being surfaced.'},
+    {title:'What a strong answer means', body:'Strong visibility usually indicates active detection, disclosure routes, and a culture where AI-enabled build activity surfaces early rather than after the fact.'},
+    {title:'What a weak answer implies', body:'When visibility is weak, governance only begins after activity has already moved ahead — often when a risk has already materialised.'}
+  ],
+  q2: [
+    {title:'What this question is testing', body:'Whether AI-enabled tools can move into real business use before IT has had a chance to apply the right level of control.'},
+    {title:'What a strong answer means', body:'A strong answer suggests the move from experimentation to business use is visible and deliberately managed.'},
+    {title:'What a weak answer implies', body:'If tools can enter real business use informally, operational exposure can grow quietly and quickly.'}
+  ],
+  q3: [
+    {title:'What this question is testing', body:'Whether practical guardrails exist for what employees can build, where they can build it, and what they can use.'},
+    {title:'What a strong answer means', body:'Good guardrails remove ambiguity and make safe experimentation easier rather than slower.'},
+    {title:'What a weak answer implies', body:'Weak guardrails usually mean each team is interpreting risk differently — with no consistent baseline.'}
+  ],
+  q4: [
+    {title:'What this question is testing', body:'Whether ownership and governance remain clear and active once AI-enabled tools move into business use — not just at the point of build.'},
+    {title:'What a strong answer means', body:'Explicit ownership and lifecycle governance mean tools do not become orphaned assets. Accountability is clear before something goes wrong.'},
+    {title:'What a weak answer implies', body:'Weak post-adoption governance is one of the most common sources of hidden exposure — tools drift into unmanaged use over time.'}
+  ],
+  q5: [
+    {title:'What this question is testing', body:'Whether IT can credibly state how data is being used, exposed, or protected in AI-enabled tools.'},
+    {title:'What a strong answer means', body:'A strong answer means data boundaries are understood, applied, and enforced in practice — not just stated in policy.'},
+    {title:'What a weak answer implies', body:'Weak answers here often create the fastest path from experimentation to board-level concern.'}
+  ],
+  q6: [
+    {title:'What this question is testing', body:'Whether AI-enabled tools are being validated before people trust them for real work or decisions.'},
+    {title:'What a strong answer means', body:'Strong validation suggests AI-built outputs are being treated like real delivery assets rather than casual experiments.'},
+    {title:'What a weak answer implies', body:'If validation is inconsistent, quality and risk depend too much on the individual creator rather than the organisation.'}
+  ],
+  q7: [
+    {title:'What this question is testing', body:'Whether the business has a credible route to move quickly with AI-enabled solutions through IT rather than around it.'},
+    {title:'What a strong answer means', body:'A strong answer suggests IT is already positioned as the route to safe speed — not as an obstacle to avoid.'},
+    {title:'What a weak answer implies', body:'Without a credible route, business teams usually optimise for speed and create their own path.'}
+  ],
+  q8: [
+    {title:'What this question is testing', body:'Whether someone at a senior level owns the AI governance question — or whether it falls between functions without a clear decision-maker.'},
+    {title:'What a strong answer means', body:'Named accountability at a senior level means AI governance decisions do not stall, escalate inconsistently, or depend on informal influence.'},
+    {title:'What a weak answer implies', body:'Without clear senior ownership, governance gaps tend to persist — because nobody has the authority or mandate to close them.'}
+  ]
 };
 
-/* ═══════════════════════════════════════
-   STATE
-═══════════════════════════════════════ */
-let currentQ = 0;
-let answers  = {};
-let skipped  = new Set();
+const SECTION_WEIGHTS = {
+  'Visibility': 1.2,
+  'Control': 1.0,
+  'Risk': 1.5,
+  'Strategy': 0.8
+};
 
-// No questions are skipped — Q8 adapts its text based on awareness answers.
-function shouldSkip(idx) {
-  return false;
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+  document.getElementById(`screen-${name}`).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
-// Q8 uses an alternate version when IT doesn't know if vibe coding is happening.
-function useAltVariant(q) {
-  return q.id === 'q8' && (answers.q1 === 'unknown' || answers.q2 === 'unknown');
+function toggleProfile(){
+  const body = document.getElementById('profile-body');
+  const chevron = document.getElementById('profile-chevron');
+  const open = body.style.display === 'none';
+  body.style.display = open ? 'block' : 'none';
+  chevron.textContent = open ? '▲ Hide' : '▼ Show';
 }
 
-function displayedNum(idx) {
-  // Count non-skipped questions up to and including idx
-  let n = 0;
-  for (let i = 0; i <= idx; i++) if (!skipped.has(i)) n++;
-  return n;
-}
-
-function displayedTotal() {
-  return QUESTIONS.length - skipped.size;
-}
-
-/* ═══════════════════════════════════════
-   NAVIGATION
-═══════════════════════════════════════ */
-function startSurvey() {
-  currentQ = 0;
-  answers  = {};
-  skipped.clear();
+function startSurvey(){
+  current = 0;
+  Object.keys(answers).forEach(k => delete answers[k]);
   showScreen('questions');
-  renderQuestion(0, 'none');
+  renderQuestion();
 }
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + id).classList.add('active');
-  window.scrollTo(0, 0);
+function selectOption(qid, value){
+  answers[qid] = value;
+  renderQuestion();
 }
 
-function goNext() {
-  animateCard('forward', () => {
-    let next = currentQ + 1;
-    while (next < QUESTIONS.length && shouldSkip(next)) {
-      skipped.add(next);
-      answers[QUESTIONS[next].id] = 'unknown'; // auto-score as unknown
-      next++;
-    }
-    if (next < QUESTIONS.length) {
-      currentQ = next;
-      renderQuestion(currentQ, 'forward');
-    } else {
-      showResults();
-    }
-  });
+function getQuestionScore(question){
+  const chosen = answers[question.id];
+  const opt = question.options.find(o => o.value === chosen);
+  return opt ? opt.score : 0;
 }
 
-function goBack() {
-  if (currentQ > 0) {
-    animateCard('back', () => {
-      let prev = currentQ - 1;
-      while (prev > 0 && skipped.has(prev)) {
-        skipped.delete(prev);
-        delete answers[QUESTIONS[prev].id];
-        prev--;
-      }
-      currentQ = prev;
-      renderQuestion(currentQ, 'back');
+function renderSidePanel(questionId){
+  const panel = document.getElementById('dynamic-side-panel');
+  const cards = QUESTION_META[questionId] || QUESTION_META.q1;
+  panel.innerHTML = cards.map(card => `
+    <div class="side-card">
+      <h4>${card.title}</h4>
+      <p>${card.body}</p>
+    </div>
+  `).join('');
+}
+
+function weightedScoreRaw(){
+  return QUESTIONS.reduce((sum, q) => sum + (getQuestionScore(q) * SECTION_WEIGHTS[q.section]), 0);
+}
+
+function totalScore(){
+  const raw = weightedScoreRaw();
+  const maxRaw = 36.0;
+  return Math.round((raw / maxRaw) * 30);
+}
+
+function sectionScore(section){
+  return QUESTIONS.filter(q => q.section === section).reduce((sum, q) => sum + getQuestionScore(q), 0);
+}
+
+function detectPatterns(){
+  const flags = [];
+  const vals = Object.fromEntries(QUESTIONS.map(q => [q.id, answers[q.id]]));
+
+  if ((vals.q1 === 'limited' || vals.q1 === 'none') &&
+      (vals.q2 === 'limited' || vals.q2 === 'none')) {
+    flags.push({
+      key:'visibility-gap',
+      title:'AI-enabled activity may be entering business use before IT can reliably see it.',
+      text:'Your answers suggest the issue is not demand alone. It is that visibility and control may be activating too late.'
     });
+  }
+
+  if ((vals.q3 === 'limited' || vals.q3 === 'none') &&
+      (vals.q4 === 'limited' || vals.q4 === 'none')) {
+    flags.push({
+      key:'control-drift',
+      title:'Control appears weaker in practice than it may seem on paper.',
+      text:'Where guardrails and ongoing governance are weak together, AI-enabled delivery tends to drift into unmanaged use.'
+    });
+  }
+
+  if ((vals.q5 === 'limited' || vals.q5 === 'none') &&
+      (vals.q6 === 'limited' || vals.q6 === 'none')) {
+    flags.push({
+      key:'risk-concentration',
+      title:'Data and assurance risk appear to be concentrated in the same place.',
+      text:'Weak data control combined with weak validation usually creates the most material exposure pattern.'
+    });
+  }
+
+  if ((vals.q7 === 'limited' || vals.q7 === 'none') &&
+      (vals.q8 === 'partial' || vals.q8 === 'limited' || vals.q8 === 'none')) {
+    flags.push({
+      key:'enablement-gap',
+      title:'The business may have demand without a credible operating route.',
+      text:'Where there is no clear route and no named accountability, teams usually solve for speed locally rather than safely.'
+    });
+  }
+
+  return flags;
+}
+
+function scoreProfile(){
+  const score = totalScore();
+  const vals = Object.fromEntries(QUESTIONS.map(q => [q.id, answers[q.id]]));
+  const patterns = detectPatterns();
+  let forcedBand = null;
+
+  if (vals.q5 === 'none') forcedBand = 'exposed';
+  if ((vals.q5 === 'none' || vals.q6 === 'none') &&
+      (vals.q1 === 'none' || vals.q2 === 'none')) forcedBand = 'blindspot';
+
+  let naturalBand = score <= 10 ? 'controlled' : score <= 20 ? 'exposed' : 'blindspot';
+  const rank = score <= 10 ? 'Lower relative risk position' : score <= 20 ? 'Middle-to-higher relative risk position' : 'Top relative risk position';
+
+  const finalBand = forcedBand === 'blindspot'
+    ? 'blindspot'
+    : (forcedBand === 'exposed' && naturalBand === 'controlled' ? 'exposed' : naturalBand);
+
+  return {score, patterns, finalBand, rank};
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  const card = document.getElementById('question-card');
+  const progress = ((current + 1) / QUESTIONS.length) * 100;
+  document.getElementById('progress-fill').style.width = `${progress}%`;
+  document.getElementById('progress-counter').textContent = `Question ${current + 1} of ${QUESTIONS.length}`;
+  document.getElementById('progress-section').textContent = q.section;
+  renderSidePanel(q.id);
+
+  const optionsHtml = q.options.map(opt => {
+    const selected = answers[q.id] === opt.value ? 'selected' : '';
+    return `
+      <div class="option ${selected}" onclick="selectOption('${q.id}','${opt.value.replace(/'/g, "\\'")}')">
+        <div class="radio"></div>
+        <strong>${opt.label}</strong>
+        <span>${opt.desc}</span>
+      </div>`;
+  }).join('');
+
+  card.innerHTML = `
+    <div class="q-card">
+      <div class="q-kicker">${q.section}</div>
+      <h2 class="q-title">${q.title}</h2>
+      <div class="q-hint">${q.hint}</div>
+      <div class="options">${optionsHtml}</div>
+      <div class="nav">
+        <button class="btn btn-ghost ${current===0 ? 'hidden' : ''}" onclick="goBack()">← Back</button>
+        <div style="margin-left:auto"></div>
+        <button class="btn btn-blue" id="next-btn" onclick="goNext()" ${answers[q.id] ? '' : 'disabled'}>${current === QUESTIONS.length - 1 ? 'See my result →' : 'Next →'}</button>
+      </div>
+    </div>`;
+}
+
+function goBack(){
+  if(current > 0){
+    current -= 1;
+    renderQuestion();
   }
 }
 
-function animateCard(dir, cb) {
-  const card = document.querySelector('.q-card');
-  if (!card) { cb(); return; }
-  card.style.opacity   = '0';
-  card.style.transform = dir === 'forward' ? 'translateY(-10px)' : 'translateY(10px)';
-  setTimeout(cb, 200);
+function goNext(){
+  const q = QUESTIONS[current];
+  if(!answers[q.id]) return;
+  if(current < QUESTIONS.length - 1){
+    current += 1;
+    renderQuestion();
+  } else {
+    renderResults();
+    showScreen('results');
+    setTimeout(() => {
+      const marker = document.getElementById('marker');
+      if(marker){ marker.style.left = `${Math.max(2, Math.min(98, (totalScore()/30)*100))}%`; }
+    }, 60);
+  }
 }
 
-/* ═══════════════════════════════════════
-   RENDER QUESTION
-═══════════════════════════════════════ */
-function renderQuestion(idx, dir) {
-  const qBase = QUESTIONS[idx];
-  const alt = useAltVariant(qBase);
-  const q = {
-    ...qBase,
-    text:    alt && qBase.textAlt    ? qBase.textAlt    : qBase.text,
-    hint:    alt && qBase.hintAlt    ? qBase.hintAlt    : qBase.hint,
-    options: alt && qBase.optionsAlt ? qBase.optionsAlt : qBase.options,
+function bandFor(band){
+  if(band === 'controlled'){
+    return {
+      key:'controlled',
+      heroClass:'green',
+      tag:'Controlled',
+      title:'You appear more controlled than most — now the opportunity is to turn that advantage into a repeatable capability.',
+      summary:'Your answers suggest there is already some structure, visibility, and control in place. That is a strong position — but it is most valuable when it is formalised before fragmented local behaviour and demand growth create new gaps.',
+      insight:'Your biggest opportunity is not just to reduce risk. It is to package what already works into an operating model the business can recognise, trust, and use repeatedly.',
+      estimate:['0–3','Low but not zero','Manageable if strengthened'],
+      steps:[
+        ['Validate the current AS-IS view of AI activity and confirm it reflects reality', 'Ensure visibility, control, and usage are understood in practice, not just assumed — confirming that current confidence is supported by evidence.'],
+        ['Align stakeholders on the operating model and formalise how AI-enabled development is managed', 'Establish a shared understanding of how the business engages with IT, and how ideas move from experimentation to controlled delivery.'],
+        ['Strengthen key control points across data, testing, and production release', 'Ensure AI-built tools are subject to consistent expectations around validation, ownership, and lifecycle management as usage scales.'],
+        ['Position IT as the engine for safe, accelerated AI-enabled delivery', 'Promote a clear, trusted pathway for teams to move from idea to MVP quickly — ensuring demand continues to flow through IT as adoption grows.']
+      ]
+    };
+  }
+  if(band === 'exposed'){
+    return {
+      key:'exposed',
+      heroClass:'amber',
+      tag:'Exposed',
+      title:'AI-enabled development is likely moving faster than the current governance model can absorb.',
+      summary:'Your answers suggest the issue is probably not intent. It is that speed and control have drifted apart, creating growing exposure across visibility, governance, and safe progression into business use. The immediate goal is to regain alignment without killing momentum. In most organisations, this position does not stay static for long — it tends to move quickly.',
+      insight:'Your biggest gap is likely not policy coverage alone. It is the lack of a visible, credible route that keeps experimentation, delivery, and governance connected in practice.',
+      estimate:['3–15+','Medium to high','Growing faster than visibility'],
+      steps:[
+        ['Engage key stakeholders to establish a fact-based AS-IS view of AI activity across the business', 'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage, surface the frustrations behind it, and map what is currently in use or development — what’s working, what’s ungoverned, where the gaps are, and the risks already present or emerging.'],
+        ['Run structured stakeholder workshops to review the AS-IS position and build alignment', 'Validate what has been identified, align on where AI is being used and where risks are emerging, and establish a shared understanding across IT and the business.'],
+        ['Establish baseline visibility and lightweight controls for AI-enabled development', 'Introduce simple intake, data usage expectations, and ownership rules — ensuring activity is visible and governed without disrupting momentum.'],
+        ['Position IT as the fastest route to safe delivery, not just a governance gate', 'Create a credible, low-friction path for teams to move from idea to controlled MVP, reducing the incentive to work around IT.']
+      ]
+    };
+  }
+  return {
+    key:'blindspot',
+    heroClass:'',
+    tag:'Blindspot',
+    title:'Material AI-enabled delivery risk may already exist outside clear IT visibility and control.',
+    summary:'Your answers suggest the governance gap is already open. The issue is not that nothing is happening. It is that the organisation may not know what is happening until something breaks, leaks, or scales beyond control. The immediate goal is to regain visibility and stabilise the position quickly. In most organisations, this position does not stay static for long — it tends to become more difficult once informal use embeds itself.',
+    insight:'Your biggest exposure is probably not tool usage itself. It is the lack of a fact-based view of where AI-built tools exist, what data they touch, how they are being relied on, and who is accountable for them.',
+    estimate:['15+','Unknown','Likely rising now'],
+    steps:[
+      ['Engage key stakeholders to establish a fact-based AS-IS view of AI activity across the business', 'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage, surface the frustrations behind it, and map what is currently in use or development — what’s working, what’s ungoverned, where the gaps are, and the risks already present or emerging.'],
+      ['Run structured stakeholder workshops to review the AS-IS position and build consensus', 'Validate the current state, align on what is in use and where the risks sit, and establish a shared understanding across IT and the business.'],
+      ['Put interim controls in place to stabilise the current position', 'Define what can and cannot be used, pause uncontrolled movement into production, and assign clear ownership to any tools already in operation.'],
+      ['Stand up an IT-led route for safe experimentation and rapid development', 'Provide a controlled environment where business demand can continue to move at pace — with visibility, governance, and support built in from the start.']
+    ]
+  };
+}
+
+function ringClass(score, max){
+  const ratio = score / max;
+  if(ratio <= 0.33) return 'green';
+  if(ratio <= 0.66) return 'amber';
+  return '';
+}
+
+function riskLabel(score, max){
+  const ratio = score / max;
+  if(ratio <= 0.33) return 'Lower risk';
+  if(ratio <= 0.66) return 'Moderate risk';
+  return 'Higher risk';
+}
+
+function ringDeg(score, max){
+  return Math.max(18, Math.round((score / max) * 360));
+}
+
+function nextStepsFor(profile, highestSection){
+  const band = profile.finalBand;
+  const map = {
+    controlled: {
+      Visibility: [
+        ['Strengthen detection coverage', 'Close the remaining visibility gaps so emerging AI build activity is surfaced before it becomes informal production use.'],
+        ['Publish the approved route', 'Make the safe path to AI experimentation visible so business teams know where speed and governance come together.'],
+        ['Create a light-touch review cadence', 'Review new use cases regularly to catch drift early without creating heavyweight process friction.']
+      ],
+      Control: [
+        ['Standardise guardrails', 'Convert existing good practice into explicit build, release, and ownership rules that scale consistently.'],
+        ['Tighten production handoffs', 'Make sure AI-built tools cannot move into business use without defined review, approval, and support ownership.'],
+        ['Train managers on the route', 'Ensure business leaders know how to access fast experimentation without bypassing the model that already works.']
+      ],
+      Risk: [
+        ['Revalidate data boundaries', 'Check that sensitive data controls still hold as usage expands into new tools, prompts, and integrations.'],
+        ['Formalise testing expectations', 'Apply a repeatable testing standard so AI-built outputs are treated like any other quality-bearing asset.'],
+        ['Run a targeted assurance check', 'Use a focused review to confirm that confidence in data and testing is supported by evidence, not assumption.']
+      ],
+      Strategy: [
+        ['Name the operating model', 'Package the current approach into a visible IT-led proposition the business can recognise and use.'],
+        ['Promote safe speed internally', 'Position IT as the fastest credible route to MVP so teams choose it over shadow build behaviour.'],
+        ['Measure adoption of the pathway', 'Track who is using the model and where demand is emerging so capability can scale deliberately.']
+      ]
+    },
+    exposed: {
+      Visibility: [
+        ['Engage key stakeholders to establish a fact-based AS-IS view of AI activity across the business', 'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage, surface the frustrations behind it, and map what is currently in use or development — what’s working, what’s ungoverned, where the gaps are, and the risks already present or emerging.'],
+        ['Establish baseline visibility and a lightweight intake for AI-built solutions', 'Focus first on capturing activity and making it visible, rather than restricting it — creating a clear view of where and how AI-enabled development is taking place.'],
+        ['Define minimum guardrails for safe experimentation and controlled progression to production', 'Set clear expectations around data usage, testing, ownership, and when IT review is required — without slowing down early-stage exploration.'],
+        ['Position IT as the fastest route to safe delivery, not just a governance gate', 'Create a credible, low-friction path for teams to move from idea to controlled MVP, reducing the incentive to work around IT.']
+      ],
+      Control: [
+        ['Engage key stakeholders to establish a fact-based AS-IS view of AI activity across the business', 'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage, surface the frustrations behind it, and map what is currently in use or development — what’s working, what’s ungoverned, where the gaps are, and the risks already present or emerging.'],
+        ['Establish baseline visibility and a lightweight intake for AI-built solutions', 'Focus first on capturing activity and making it visible, rather than restricting it — creating a clear view of where and how AI-enabled development is taking place.'],
+        ['Define minimum guardrails for safe experimentation and controlled progression to production', 'Set clear expectations around data usage, testing, ownership, and when IT review is required — without slowing down early-stage exploration.'],
+        ['Position IT as the fastest route to safe delivery, not just a governance gate', 'Create a credible, low-friction path for teams to move from idea to controlled MVP, reducing the incentive to work around IT.']
+      ],
+      Risk: [
+        ['Engage key stakeholders to establish a fact-based AS-IS view of AI activity across the business', 'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage, surface the frustrations behind it, and map what is currently in use or development — what’s working, what’s ungoverned, where the gaps are, and the risks already present or emerging.'],
+        ['Establish baseline visibility and a lightweight intake for AI-built solutions', 'Focus first on capturing activity and making it visible, rather than restricting it — creating a clear view of where and how AI-enabled development is taking place.'],
+        ['Define minimum guardrails for safe experimentation and controlled progression to production', 'Set clear expectations around data usage, testing, ownership, and when IT review is required — without slowing down early-stage exploration.'],
+        ['Position IT as the fastest route to safe delivery, not just a governance gate', 'Create a credible, low-friction path for teams to move from idea to controlled MVP, reducing the incentive to work around IT.']
+      ],
+      Strategy: [
+        ['Engage key stakeholders to establish a fact-based AS-IS view of AI activity across the business', 'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage, surface the frustrations behind it, and map what is currently in use or development — what’s working, what’s ungoverned, where the gaps are, and the risks already present or emerging.'],
+        ['Establish baseline visibility and a lightweight intake for AI-built solutions', 'Focus first on capturing activity and making it visible, rather than restricting it — creating a clear view of where and how AI-enabled development is taking place.'],
+        ['Define minimum guardrails for safe experimentation and controlled progression to production', 'Set clear expectations around data usage, testing, ownership, and when IT review is required — without slowing down early-stage exploration.'],
+        ['Position IT as the fastest route to safe delivery, not just a governance gate', 'Create a credible, low-friction path for teams to move from idea to controlled MVP, reducing the incentive to work around IT.']
+      ]
+    },
+    blindspot: {
+      Visibility: [
+        ['Engage key stakeholders to establish a fact-based AS-IS view of AI activity across the business', 'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage, surface the frustrations behind it, and map what is currently in use or development — what’s working, what’s ungoverned, where the gaps are, and the risks already present or emerging.'],
+        ['Run structured stakeholder workshops to review the AS-IS position and build alignment', 'Validate what has been identified, align on where AI is being used and where risks are emerging, and establish a shared understanding across IT and the business.'],
+        ['Put interim controls in place to stabilise the current position', 'Define what can and cannot be used, pause uncontrolled movement into production, and assign clear ownership to any tools already in operation.'],
+        ['Stand up an IT-led route for safe experimentation and rapid development', 'Provide a controlled environment where business demand can continue to move at pace — but within visibility, governance, and support structures.']
+      ],
+      Control: [
+        ['Engage key stakeholders to establish a fact-based AS-IS view of AI activity across the business', 'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage, surface the frustrations behind it, and map what is currently in use or development — what’s working, what’s ungoverned, where the gaps are, and the risks already present or emerging.'],
+        ['Run structured stakeholder workshops to review the AS-IS position and build alignment', 'Validate what has been identified, align on where AI is being used and where risks are emerging, and establish a shared understanding across IT and the business.'],
+        ['Put interim controls in place to stabilise the current position', 'Define what can and cannot be used, pause uncontrolled movement into production, and assign clear ownership to any tools already in operation.'],
+        ['Stand up an IT-led route for safe experimentation and rapid development', 'Provide a controlled environment where business demand can continue to move at pace — but within visibility, governance, and support structures.']
+      ],
+      Risk: [
+        ['Engage key stakeholders to establish a fact-based AS-IS view of AI activity across the business', 'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage, surface the frustrations behind it, and map what is currently in use or development — what’s working, what’s ungoverned, where the gaps are, and the risks already present or emerging.'],
+        ['Run structured stakeholder workshops to review the AS-IS position and build alignment', 'Validate what has been identified, align on where AI is being used and where risks are emerging, and establish a shared understanding across IT and the business.'],
+        ['Put interim controls in place to stabilise the current position', 'Define what can and cannot be used, pause uncontrolled movement into production, and assign clear ownership to any tools already in operation.'],
+        ['Stand up an IT-led route for safe experimentation and rapid development', 'Provide a controlled environment where business demand can continue to move at pace — but within visibility, governance, and support structures.']
+      ],
+      Strategy: [
+        ['Engage key stakeholders to establish a fact-based AS-IS view of AI activity across the business', 'Capture the business AI strategy as it is emerging in practice, understand the demand driving AI tool usage, surface the frustrations behind it, and map what is currently in use or development — what’s working, what’s ungoverned, where the gaps are, and the risks already present or emerging.'],
+        ['Run structured stakeholder workshops to review the AS-IS position and build alignment', 'Validate what has been identified, align on where AI is being used and where risks are emerging, and establish a shared understanding across IT and the business.'],
+        ['Put interim controls in place to stabilise the current position', 'Define what can and cannot be used, pause uncontrolled movement into production, and assign clear ownership to any tools already in operation.'],
+        ['Stand up an IT-led route for safe experimentation and rapid development', 'Provide a controlled environment where business demand can continue to move at pace — but within visibility, governance, and support structures.']
+      ]
+    }
+  };
+  return (map[band] && map[band][highestSection]) ? map[band][highestSection] : map.controlled.Visibility;
+}
+
+
+function renderResults(){
+  const profile = scoreProfile();
+  const score = profile.score;
+  const result = bandFor(profile.finalBand);
+  const visibility = sectionScore('Visibility');
+  const control = sectionScore('Control');
+  const risk = sectionScore('Risk');
+  const strategy = sectionScore('Strategy');
+
+  const sections = [
+    {name:'Visibility', score:visibility, max:8},
+    {name:'Control', score:control, max:8},
+    {name:'Risk', score:risk, max:8},
+    {name:'Strategy', score:strategy, max:8}
+  ];
+
+  const highest = [...sections].sort((a,b) => (b.score/b.max) - (a.score/a.max))[0];
+  const nextSteps = nextStepsFor(profile, highest.name);
+  const pattern = profile.patterns[0];
+  const urgencyMap = {
+    controlled: 'The opportunity now is to formalise what works before fragmented local behaviour creates new gaps.',
+    exposed: 'In most organisations, this position does not stay static for long — it tends to move quickly unless a credible route is introduced.',
+    blindspot: 'In most organisations, this position does not stay static for long — it tends to become more difficult once informal use embeds itself.'
+  };
+  const whyMatters = {
+    controlled: [
+      ['Control exists, but may not yet be formalised', 'Current strength is most valuable when it is made repeatable before demand grows further.'],
+      ['Local good practice can mask enterprise gaps', 'What works in parts of the organisation may not yet constitute a full operating model.'],
+      ['Leadership still has time to shape behaviour', 'This is the point to define the route before shadow patterns become normalised.']
+    ],
+    exposed: [
+      ['Usage becomes normalised before governance catches up', 'AI adoption is not occurring solely through formal programmes. It is spreading through teams solving problems in real time.'],
+      ['Locally built solutions become embedded and hard to unwind', 'Once lightweight tools enter everyday use, they often become part of the operating model before leadership has a chance to assess them properly.'],
+      ['IT is bypassed because it is not perceived as the fastest route', 'The longer this continues, the harder it becomes to reintroduce control without disrupting progress.']
+    ],
+    blindspot: [
+      ['Activity can embed before leadership has line of sight', 'When AI-enabled delivery is not visible, risk grows before it is formally recognised or discussed.'],
+      ['Unsupported use becomes harder to unwind over time', 'The absence of visibility, ownership, and assurance creates compounding difficulty once local tools become relied upon.'],
+      ['Control is harder to restore after informal patterns settle', 'The longer unmanaged behaviour persists, the more disruptive it becomes to stabilise the position later.']
+    ]
+  };
+  const implicationMap = {
+    controlled: [
+      ['Leadership implication', 'The organisation appears to have a stronger starting position than most, but that advantage needs to be codified.'],
+      ['Operating implication', 'The next challenge is scaling a credible route rather than relying on local strength or good intent.'],
+      ['Governance implication', 'Without formalisation, controls may weaken as demand and experimentation expand.'],
+      ['Required next move', 'Package current practice into a visible operating model the business can recognise and use.']
+    ],
+    exposed: [
+      ['Leadership implication', 'There is unlikely to be a complete or reliable view of where AI is being used today.'],
+      ['Operating implication', 'The current IT delivery model may not provide a credible route for safe, rapid experimentation.'],
+      ['Governance implication', 'Governance mechanisms are more likely reacting to adoption than shaping it.'],
+      ['Required next move', 'Create a visible, low-friction route through which AI-enabled demand can move safely.']
+    ],
+    blindspot: [
+      ['Leadership implication', 'The organisation may not yet know where the most material AI-enabled delivery risks now sit.'],
+      ['Operating implication', 'IT may be responding after usage exists rather than shaping how demand moves in the first place.'],
+      ['Governance implication', 'Ownership, assurance, and data discipline are unlikely to be consistently applied where activity is not visible.'],
+      ['Required next move', 'Establish a fact-based position quickly, then stabilise the operating environment before unmanaged usage expands further.']
+    ]
   };
 
-  // Progress
-  const pct = (displayedNum(idx) / displayedTotal()) * 100;
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-counter').textContent = `Question ${displayedNum(idx)} of ${displayedTotal()}`;
-  document.getElementById('progress-section').textContent = q.section;
-
-  // Options HTML
-  let optsHtml = '';
-  if (q.type === 'single') {
-    q.options.forEach(opt => {
-      const sel = answers[q.id] === opt.value ? ' selected' : '';
-      optsHtml += `
-        <div class="q-opt${sel}" onclick="selectAnswer('${q.id}','${opt.value}',this)">
-          <input type="radio" name="${q.id}" value="${opt.value}" ${sel ? 'checked' : ''}/>
-          <div class="q-opt-body">
-            <span class="q-opt-title">${opt.label}</span>
-            ${opt.desc ? `<span class="q-opt-desc">${opt.desc}</span>` : ''}
-          </div>
-        </div>`;
-    });
-  } else {
-    const sel = answers[q.id] || [];
-    q.options.forEach(opt => {
-      const isSel = sel.includes(opt.value) ? ' selected' : '';
-      optsHtml += `
-        <div class="q-opt${isSel}" onclick="toggleMulti('${q.id}','${opt.value}',this)">
-          <input type="checkbox" value="${opt.value}" ${isSel ? 'checked' : ''}/>
-          <div class="q-opt-body">
-            <span class="q-opt-title">${opt.label}</span>
-            ${opt.desc ? `<span class="q-opt-desc">${opt.desc}</span>` : ''}
-          </div>
-        </div>`;
-    });
-  }
-
-  const hasAnswer = q.type === 'single'
-    ? !!answers[q.id]
-    : (answers[q.id] || []).length > 0;
-
-  const isLast  = idx === QUESTIONS.length - 1;
-  const isFirst = idx === 0;
-
-  document.getElementById('question-container').innerHTML = `
-    <div class="q-card">
-      <h2>${q.text}</h2>
-      ${q.hint ? `<p class="q-hint">${q.hint}</p>` : ''}
-      ${q.type === 'multi' ? '<p class="q-multi-note">Select all that apply</p>' : ''}
-      <div class="q-options">${optsHtml}</div>
-      <div class="q-nav">
-        ${!isFirst
-          ? `<button class="btn-back" onclick="goBack()">← Back</button>`
-          : '<span></span>'}
-        <button class="btn-next" id="btn-next" onclick="goNext()" ${hasAnswer ? '' : 'disabled'}>
-          ${isLast ? 'See my result →' : 'Next →'}
-        </button>
-      </div>
-    </div>`;
-
-  // Animate in
-  const card = document.querySelector('.q-card');
-  card.style.opacity   = '0';
-  card.style.transform = dir === 'back' ? 'translateY(-10px)' : 'translateY(12px)';
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    card.style.opacity   = '1';
-    card.style.transform = 'translateY(0)';
-  }));
-}
-
-/* ═══════════════════════════════════════
-   ANSWER HANDLERS
-═══════════════════════════════════════ */
-function selectAnswer(qId, value, el) {
-  answers[qId] = value;
-  document.querySelectorAll('.q-options .q-opt').forEach(o => {
-    o.classList.remove('selected');
-    o.querySelector('input').checked = false;
+  const responseLabels = QUESTIONS.map(q => {
+    const chosen = answers[q.id];
+    const opt = q.options.find(o => o.value === chosen);
+    return { title: q.title, answer: opt ? opt.label : 'No answer recorded' };
   });
-  el.classList.add('selected');
-  el.querySelector('input').checked = true;
-  document.getElementById('btn-next').removeAttribute('disabled');
-}
 
-function toggleMulti(qId, value, el) {
-  if (!answers[qId]) answers[qId] = [];
+  window.latestSurveyResult = { band: result.key, section: highest.name.toLowerCase(), score };
+  window.latestAssessmentDetail = responseLabels;
+  setPrintMeta();
 
-  if (value === 'none' || value === 'not-assessed') {
-    // Exclusive options
-    answers[qId] = [value];
-    document.querySelectorAll('.q-options .q-opt').forEach(o => {
-      o.classList.remove('selected');
-      o.querySelector('input').checked = false;
-    });
-    el.classList.add('selected');
-    el.querySelector('input').checked = true;
-  } else {
-    // Clear exclusive options if a real tool selected
-    answers[qId] = answers[qId].filter(v => v !== 'none' && v !== 'not-assessed');
-    document.querySelectorAll('.q-options .q-opt').forEach(o => {
-      const v = o.querySelector('input').value;
-      if (v === 'none' || v === 'not-assessed') {
-        o.classList.remove('selected');
-        o.querySelector('input').checked = false;
-      }
-    });
-
-    const idx = answers[qId].indexOf(value);
-    if (idx === -1) {
-      answers[qId].push(value);
-      el.classList.add('selected');
-      el.querySelector('input').checked = true;
-    } else {
-      answers[qId].splice(idx, 1);
-      el.classList.remove('selected');
-      el.querySelector('input').checked = false;
-    }
-  }
-
-  document.getElementById('btn-next').disabled = answers[qId].length === 0;
-}
-
-/* ═══════════════════════════════════════
-   SCORING
-═══════════════════════════════════════ */
-function score() {
-  let awareness = 0, exposure = 0, governance = 0, stance = 0;
-
-  // Awareness
-  awareness += { yes: 0, partial: 1, no: 2, unknown: 3 }[answers.q1] ?? 0;
-  awareness += { confirmed_aware: 0, confirmed_unaware: 2, suspected: 2, no: 0, unknown: 3 }[answers.q2] ?? 0;
-
-  // Exposure
-  const tools = answers.q3 || [];
-  if (tools.includes('not-assessed')) {
-    exposure += 2;
-  } else if (!tools.includes('none')) {
-    exposure += Math.min(3, tools.filter(v => v !== 'none' && v !== 'not-assessed').length);
-  }
-  exposure += { 'yes-reviewed': 0, 'yes-unreviewed': 2, adhoc: 1, no: 0, unknown: 2 }[answers.q_it_vibe] ?? 0;
-  exposure += { 'yes-reviewed': 0, 'yes-unreviewed': 3, unknown: 3, no: 0 }[answers.q4] ?? 0;
-  exposure += { no: 0, yes: 3, unknown: 3, 'no-process': 2 }[answers.q5] ?? 0;
-  exposure += { confirmed: 3, suspected: 2, no: 0, unknown: 2 }[answers.q6] ?? 0;
-
-  // Governance
-  governance += { yes: 0, partial: 1, no: 2, 'in-progress': 1 }[answers.q7] ?? 0;
-  governance += { yes: 0, informal: 1, no: 2, unknown: 3 }[answers.q8] ?? 0;
-  governance += { named: 0, shared: 1, 'it-general': 1, no: 2 }[answers.q9] ?? 0;
-
-  // Stance
-  stance += { governed: 0, acknowledged: 1, blocking: 1, permissive: 2, 'want-to': 2 }[answers.q10] ?? 0;
-
-  return { total: awareness + exposure + governance + stance, awareness, exposure, governance, stance };
-}
-
-function band(s) {
-  if (s <= 7)  return 'controlled';
-  if (s <= 19) return 'exposed';
-  return 'blindspot';
-}
-
-function sectionRiskClass(val, max) {
-  const r = val / max;
-  if (r <= 0.33) return 'low';
-  if (r <= 0.66) return 'mid';
-  return 'high';
-}
-
-function sectionRiskLabel(cls) {
-  return { low: 'Low risk', mid: 'Medium risk', high: 'High risk' }[cls];
-}
-
-function breakdownCircle(label, val, max) {
-  const cls = sectionRiskClass(val, max);
-  const circ = 188.5;
-  const target = Math.round((val / max) * circ * 10) / 10;
-  return `
-    <div class="breakdown-circle-wrap">
-      <svg viewBox="0 0 80 80" width="80" height="80">
-        <circle class="ring-track" cx="40" cy="40" r="30"/>
-        <circle class="ring-fill ${cls}" cx="40" cy="40" r="30" data-target="${target}"/>
-      </svg>
-      <span class="breakdown-circle-label">${label}</span>
-      <span class="breakdown-circle-risk ${cls}">${sectionRiskLabel(cls)}</span>
-    </div>`;
-}
-
-/* ═══════════════════════════════════════
-   RESULTS
-═══════════════════════════════════════ */
-function showResults() {
-  const s = score();
-  const b = band(s.total);
-  const r = BANDS[b];
-
-  const markerPct = Math.round((s.total / 29) * 100);
-
-  const stepsHtml = r.steps.map((t, i) => `
-    <div class="step-item">
-      <div class="step-num">${i + 1}</div>
-      <div class="step-text">${t}</div>
-    </div>`).join('');
-
-  document.getElementById('results-content').innerHTML = `
-    <div class="score-card">
-      <div class="score-card-label">Risk Score</div>
-      <div class="score-row">
-        <span class="score-num">${s.total}</span>
-        <span class="score-denom">/ 29</span>
-      </div>
-      <p class="score-note">This is a risk score — lower is better. 0 = fully controlled, 29 = maximum exposure.</p>
-      <div class="gauge-wrap">
-        <div class="gauge-track">
-          <div class="gauge-marker" id="gauge-marker" style="left:0%"></div>
+  document.getElementById('results-left').innerHTML = `
+    <div class="panel result-hero ${result.heroClass}">
+      <div class="section-title">AI governance risk summary</div>
+      <div class="hero-topline">
+        <div class="hero-tag-wrap">
+          <div class="result-tag"><span class="dot"></span>Current position: ${result.tag}</div>
         </div>
-        <div class="gauge-band-labels">
-          <span class="gbl-c">Controlled</span>
-          <span class="gbl-e">Exposed</span>
-          <span class="gbl-b">Blind Spot</span>
+        <a href="#" id="viewDetail" class="detail-link">How this was assessed</a>
+      </div>
+      <h2>${result.title}</h2>
+      <p class="boardroom-summary">${result.summary}</p>
+    </div>
+
+    <div class="boardroom-grid">
+      <div class="boardroom-card">
+        <div class="section-title">Where to focus first</div>
+        <div class="callout">
+          <h4>${{Visibility:'Limited visibility across AI-enabled development activity', Control:'Inconsistent controls over AI-enabled tool delivery', Risk:'Data and assurance exposure', Strategy:'No credible IT-led route for AI-enabled delivery'}[highest.name]}</h4>
+          <p>${({
+            controlled: {
+              Visibility: 'Visibility is currently your strongest area. Maintain it by formalising detection and disclosure routes so confidence is supported by evidence rather than assumption.',
+              Control:    'Controls are broadly in place. The priority is to standardise them so that good practice in some areas becomes the consistent baseline across all teams.',
+              Risk:       'Data and assurance controls appear solid. The focus should be on keeping them current as new tools, integrations, and use cases emerge.',
+              Strategy:   'An operating model exists in some form. The opportunity is to make it visible and credible so the business routes AI-enabled demand through IT rather than around it.'
+            },
+            exposed: {
+              Visibility: 'Visibility is where the gap is widening fastest. AI-enabled activity is likely moving into business use before IT has a consistent view of it — which means governance is activating after the fact.',
+              Control:    'Controls are inconsistently applied. Tools are likely entering real business use through informal routes, and ownership and accountability tend to be unclear until something breaks.',
+              Risk:       'Data and assurance controls are the most material gap. The organisation cannot currently state with confidence how data is being used in AI-enabled tools — and that is typically the fastest route to a board-level incident.',
+              Strategy:   'There is no credible, low-friction route for the business to move quickly with AI through IT. When that route does not exist, teams create their own — and speed wins over safety every time.'
+            },
+            blindspot: {
+              Visibility: 'Visibility is the most urgent gap. AI-enabled activity may already be embedded in operations without IT having a reliable view of what exists, what data it touches, or who is accountable for it.',
+              Control:    'Controls are insufficient to manage AI-enabled delivery safely. Tools may be moving into production without review, ownership is unclear, and the gap is likely wider than current intelligence suggests.',
+              Risk:       'Data and assurance exposure is the most immediate concern. Without visibility into how AI-enabled tools are using or processing data, the organisation cannot assess its own risk position — let alone manage it.',
+              Strategy:   'There is no operating route through which AI-enabled demand can move safely. Teams are solving for speed without IT involvement, and the gap between what is happening and what IT can see is growing.'
+            }
+          }[result.key] || {})[highest.name] || result.insight}</p>
+        </div>
+      </div>
+
+      <div class="boardroom-card">
+        <div class="section-title">Why this matters now</div>
+        <div class="boardroom-item" style="border:none; padding:0;">
+          <strong>${whyMatters[result.key][0][0]}</strong>
+          <span>${whyMatters[result.key][0][1]}</span>
+        </div>
+        <p style="font-size:14px; color:var(--muted); margin-top:14px; line-height:1.7;">${urgencyMap[result.key]}</p>
+      </div>
+
+      <div class="boardroom-card">
+        <div class="section-title">Immediate priority</div>
+        <div class="priority-callout">
+          <h4>${{controlled:'Formalise the current operating model', exposed:'Establish a clear AS-IS picture', blindspot:'Establish a fact-based position — quickly'}[result.key]}</h4>
+          <p>${nextSteps[0][1]}</p>
+          ${pattern ? `<p style="margin-top:10px; font-size:14px; color:#475569;">${pattern.text}</p>` : ''}
+        </div>
+      </div>
+
+      <div class="boardroom-card">
+        <div class="section-title">What follows from this</div>
+        <div class="meta-grid-boardroom">
+          ${implicationMap[result.key].map(item => `
+            <div class="meta-card-boardroom">
+              <strong>${item[0]}</strong>
+              <span>${item[1]}</span>
+            </div>
+          `).join('')}
         </div>
       </div>
     </div>
 
-    <div class="band-block ${r.cls}">
-      <div class="band-tag">${r.tag}</div>
-      <div class="band-title">${r.title}</div>
-      <div class="band-summary">${r.summary}</div>
+    <div class="panel quote">
+      <p>"This is not primarily a technology issue. It is an operating model issue."</p>
+      <small>Use this result as the start of a leadership conversation, not the end of one.</small>
     </div>
 
-    <div class="result-block">
-      <h3>Score by section</h3>
-      <div class="breakdown-grid">
-        ${breakdownCircle('Awareness',  s.awareness,  6)}
-        ${breakdownCircle('Exposure',   s.exposure,   14)}
-        ${breakdownCircle('Governance', s.governance, 7)}
-        ${breakdownCircle('Stance',     s.stance,     2)}
+    <div class="panel no-print">
+      <div class="section-title">Next actions</div>
+      <div class="actions-row">
+        <button class="btn btn-blue" onclick="downloadPDF()">Download PDF summary</button>
+        <button class="btn btn-ghost" onclick="reviewAnswers()">Review my answers</button>
+      </div>
+    </div>`;
+
+  document.getElementById('results-right').innerHTML = `
+    <div class="solution-card">
+      <div class="section-title">Recommended next step</div>
+      <h3>Turn this into a working session.</h3>
+      <p>This result gives you a directional position. The logical next step is a short structured session with Tactica to validate the current state, align leadership on risk appetite, and agree the first governance move.</p>
+      <p style="color:rgba(255,255,255,.78); font-size:14px; margin-bottom:20px;">Most organisations find it useful to bring the right IT and business stakeholders into the room for this — rather than treating it as an IT-only conversation.</p>
+      <div class="cta-stack">
+        <a class="btn btn-light" href="mailto:john@tacticapartners.com?subject=Working%20session%20request%20-%20Vibe%20Coding%20Risk%20Check">Request a working session →</a>
+        <a class="btn btn-dark-outline" href="vibe-code-lab-redesigned-survey-format-v5.html?band=${result.key}&section=${highest.name.toLowerCase()}">How we approach this engagement</a>
       </div>
     </div>
 
-    <div class="result-block">
-      <h3>Prioritised next steps</h3>
-      <div class="steps-list">${stepsHtml}</div>
+    <div class="panel">
+      <div class="section-title">Boardroom view</div>
+      <div class="boardroom-list">
+        <div class="boardroom-item">
+          <strong>Executive risk statement</strong>
+          <span>${{
+            controlled: 'Your governance position appears more structured than most. The priority now is to formalise what works before fragmented local behaviour or growing demand creates gaps your current model was not built to absorb.',
+            exposed: 'AI-enabled tools are likely entering business use faster than IT can reliably see or govern them. This is a gap in the operating model, not a technology problem — and it tends to move quickly once informal use embeds itself.',
+            blindspot: 'The organisation may not yet have a reliable picture of what AI-enabled tools exist, what data they touch, or who is accountable for them. That is the highest-risk position — not because of what is known, but because of what is not.'
+          }[result.key]}</span>
+        </div>
+        <div class="boardroom-item">
+          <strong>What this means for your organisation</strong>
+          <span>${{
+            Visibility: 'Your Visibility gap suggests AI-enabled activity is likely moving into business use before IT has a consistent view of it. Decisions about what gets built, what data it touches, and what happens if something goes wrong are being made without reliable IT involvement.',
+            Control: 'Your Control gap suggests AI-enabled tools may be moving into real business use through informal routes. Without consistent guardrails and clear ownership, accountability is unclear — and tends only to surface when something breaks.',
+            Risk: 'Your Risk gap means the organisation cannot currently state with confidence how data is being used or validated in AI-enabled tools. That is typically the fastest route from silent exposure to a board-level incident.',
+            Strategy: 'Your Strategy gap means there is no credible, low-friction route for the business to move quickly with AI through IT. When that route does not exist, teams create their own — and speed wins over safety every time.'
+          }[highest.name]}</span>
+        </div>
+        <div class="boardroom-item">
+          <strong>How to use this result</strong>
+          <span>This result gives you directional evidence to open a leadership conversation about operating model risk — not a technology audit. Use it to frame a discussion around where AI-enabled development is happening, where IT currently has line of sight, and what a governed approach would look like. The next step is typically a short working session to validate the position and agree the first move.</span>
+        </div>
+      </div>
     </div>
+  `;
 
-    <div class="wgl-block">
-      <h3>What good looks like</h3>
-      <p>The Vibe Code Lab is an IT-governed environment where AI-assisted development is enabled rather than blocked — with the access controls, data governance, and pre-production review that accountability requires. It gives staff across the business the tools they want to use, while IT retains the visibility it needs to stay in control of what happens with them.</p>
-      <p class="standalone">When IT leads this rather than reacts to it, the conversation with senior leadership shifts from risk exposure to competitive capability.</p>
-      <a href="https://wynny12-arch.github.io/shadowai/vibe-code-lab.html#contact" class="btn-cta">Want to see how this works in practice? →</a>
+  const overlayHtml = `
+    <div id="detailOverlay" class="overlay hidden">
+      <div class="overlay-panel">
+        <div class="overlay-header">
+          <h3>How this was assessed</h3>
+          <button id="closeOverlay" aria-label="Close">✕</button>
+        </div>
+        <p class="overlay-intro">Your position is based on responses across 10 governance indicators covering visibility, control, risk, and operating model maturity. The result is then translated into an executive summary designed to help leadership discuss the issue quickly.</p>
+        <div class="detail-section">
+          <h4>Your responses</h4>
+          <div class="response-list">
+            ${responseLabels.map(r => `
+              <div class="response-item">
+                <strong>${r.title}</strong>
+                <span>${r.answer}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="detail-section">
+          <h4>Assessment logic</h4>
+          <p class="overlay-intro">Responses are grouped into maturity bands. Lower visibility and control, combined with unmanaged use in risk-sensitive areas, increase the overall exposure position. Risk and visibility responses carry more weight because they tend to create the fastest route to unmanaged exposure.</p>
+        </div>
+      </div>
     </div>
+  `;
+  const existing = document.getElementById('detailOverlay');
+  if(existing) existing.remove();
+  document.body.insertAdjacentHTML('beforeend', overlayHtml);
 
-    <div class="retake-wrap">
-      <button class="btn-retake" onclick="reviewAnswers()">← Review my answers</button>
-      <span style="color:var(--border);margin:0 10px;">|</span>
-      <button class="btn-retake" onclick="retake()">Start over</button>
-    </div>`;
-
-  showScreen('results');
-
-  // Animate wrap in
-  const wrap = document.getElementById('results-wrap');
-  wrap.style.opacity   = '0';
-  wrap.style.transform = 'translateY(16px)';
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    wrap.style.opacity   = '1';
-    wrap.style.transform = 'translateY(0)';
-
-    // Animate gauge marker
-    setTimeout(() => {
-      const marker = document.getElementById('gauge-marker');
-      if (marker) marker.style.left = markerPct + '%';
-    }, 200);
-
-    // Animate section rings
-    setTimeout(() => {
-      document.querySelectorAll('.ring-fill').forEach(el => {
-        el.style.strokeDasharray = el.dataset.target + ' 188.5';
-      });
-    }, 300);
-  }));
+  const openBtn = document.getElementById('viewDetail');
+  const overlay = document.getElementById('detailOverlay');
+  const closeBtn = document.getElementById('closeOverlay');
+  openBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    overlay.classList.remove('hidden');
+  });
+  closeBtn.addEventListener('click', () => overlay.classList.add('hidden'));
+  overlay.addEventListener('click', (e) => {
+    if(e.target === overlay) overlay.classList.add('hidden');
+  });
 }
 
-function retake() {
-  currentQ = 0;
-  answers  = {};
-  skipped.clear();
-  showScreen('intro');
+
+
+function setPrintMeta(){
+  const dateEl = document.getElementById('print-date');
+  if(dateEl){
+    dateEl.textContent = new Date().toLocaleDateString();
+  }
+  const company = (document.getElementById('companyName')?.value || '').trim();
+  const userName = (document.getElementById('userName')?.value || '').trim();
+  const sector = (document.getElementById('industrySector')?.value || '').trim();
+
+  const companyWrap = document.getElementById('print-company-wrap');
+  const companyEl = document.getElementById('print-company');
+  const nameWrap = document.getElementById('print-name-wrap');
+  const nameEl = document.getElementById('print-name');
+  const sectorWrap = document.getElementById('print-sector-wrap');
+  const sectorEl = document.getElementById('print-sector');
+
+  if(company && companyWrap && companyEl){
+    companyEl.textContent = company;
+    companyWrap.style.display = 'block';
+  } else if(companyWrap){
+    companyWrap.style.display = 'none';
+  }
+
+  if(userName && nameWrap && nameEl){
+    nameEl.textContent = userName;
+    nameWrap.style.display = 'block';
+  } else if(nameWrap){
+    nameWrap.style.display = 'none';
+  }
+
+  if(sector && sectorWrap && sectorEl){
+    sectorEl.textContent = sector;
+    sectorWrap.style.display = 'block';
+  } else if(sectorWrap){
+    sectorWrap.style.display = 'none';
+  }
 }
 
-function reviewAnswers() {
-  currentQ = QUESTIONS.length - 1;
+function downloadPDF(){
+  setPrintMeta();
+  const previousTitle = document.title;
+  const result = window.latestSurveyResult || {};
+  const band = result.band ? result.band.charAt(0).toUpperCase() + result.band.slice(1) : 'Summary';
+  document.title = `Vibe-Coding-Risk-Summary-${band}`;
+  window.print();
+  setTimeout(() => { document.title = previousTitle; }, 500);
+}
+
+
+function reviewAnswers(){
+  current = 0;
   showScreen('questions');
-  renderQuestion(currentQ, 'back');
+  renderQuestion();
 }
 </script>
 </body>
