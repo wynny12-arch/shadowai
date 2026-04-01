@@ -1218,30 +1218,25 @@ function renderResults(){
   const ringTrackColor = result.key === 'controlled' ? '#d1fae5' : result.key === 'exposed' ? '#fef3c7' : '#fee2e2';
   const ringPillBg = result.key === 'controlled' ? '#ecfdf5' : result.key === 'exposed' ? '#fffbeb' : '#fef2f2';
 
-  // Main ring: full arc in band colour — colour = verdict, no partial fill confusion
+  // Main ring: full circle in band colour, pill in centre
   const mainCirc = 502.65;
-  const mainArcTotal = 376.99;
+  const mainArcTotal = 502.65; // full 360°
 
-  // Section rings: colour by section score band, full arc
-  const sCirc = 188.50;
-  const sArcTotal = 141.37;
+  // Section rings: full circle in section band colour, pill in centre
   const sectionRingsHtml = sections.map(s => {
-    const pct = s.score / s.max;
-    const sc  = pct <= 0.33 ? '#059669' : pct <= 0.66 ? '#d97706' : '#dc2626';
-    const bg  = pct <= 0.33 ? '#ecfdf5' : pct <= 0.66 ? '#fffbeb' : '#fef2f2';
-    const bdr = pct <= 0.33 ? '#6ee7b7' : pct <= 0.66 ? '#fcd34d' : '#fecaca';
+    const pct  = s.score / s.max;
+    const sc   = pct <= 0.33 ? '#059669' : pct <= 0.66 ? '#d97706' : '#dc2626';
+    const bg   = pct <= 0.33 ? '#ecfdf5' : pct <= 0.66 ? '#fffbeb' : '#fef2f2';
+    const lbl  = pct <= 0.33 ? 'Good' : pct <= 0.66 ? 'Fair' : 'Risk';
     return `
     <div class="section-ring-item">
       <svg viewBox="0 0 76 76" width="76" height="76" style="display:block">
-        <circle cx="38" cy="38" r="30" fill="none" stroke="${bg}" stroke-width="8"
-          stroke-dasharray="${sArcTotal.toFixed(2)} ${sCirc}" stroke-linecap="butt"
-          transform="rotate(135 38 38)"/>
-        <circle cx="38" cy="38" r="30" fill="none" stroke="${sc}" stroke-width="8"
-          stroke-dasharray="${sArcTotal.toFixed(2)} ${sCirc}" stroke-linecap="butt"
-          transform="rotate(135 38 38)"/>
-        <circle cx="38" cy="38" r="30" fill="none" stroke="white" stroke-width="9"
-          stroke-dasharray="2 68.69" stroke-linecap="butt"
-          transform="rotate(135 38 38)"/>
+        <circle cx="38" cy="38" r="30" fill="none" stroke="${bg}" stroke-width="8"/>
+        <circle cx="38" cy="38" r="30" fill="none" stroke="${sc}" stroke-width="8"/>
+        <rect x="14" y="29" width="48" height="18" rx="9" fill="${bg}" stroke="${sc}" stroke-width="1.5"/>
+        <text x="38" y="38" text-anchor="middle" dominant-baseline="middle"
+          font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="10" font-weight="800" fill="${sc}">${lbl}</text>
       </svg>
       <div class="section-ring-name">${s.name === 'Risk' ? 'Risk Aware' : s.name}</div>
     </div>`;
@@ -1260,17 +1255,9 @@ function renderResults(){
       <div class="ring-top" style="margin-top:20px">
         <svg viewBox="0 0 200 200" width="200" height="200" style="display:block;flex-shrink:0">
           <!-- Soft tint track -->
-          <circle cx="100" cy="100" r="80" fill="none" stroke="${ringTrackColor}" stroke-width="15"
-            stroke-dasharray="${mainArcTotal.toFixed(2)} ${mainCirc}" stroke-linecap="butt"
-            transform="rotate(135 100 100)"/>
-          <!-- Full arc in band colour -->
-          <circle cx="100" cy="100" r="80" fill="none" stroke="${ringColor}" stroke-width="15"
-            stroke-dasharray="${mainArcTotal.toFixed(2)} ${mainCirc}" stroke-linecap="butt"
-            transform="rotate(135 100 100)"/>
-          <!-- Segment dividers -->
-          <circle cx="100" cy="100" r="80" fill="none" stroke="white" stroke-width="16"
-            stroke-dasharray="3 44.1" stroke-linecap="butt"
-            transform="rotate(135 100 100)"/>
+          <circle cx="100" cy="100" r="80" fill="none" stroke="${ringTrackColor}" stroke-width="15"/>
+          <!-- Full circle in band colour -->
+          <circle cx="100" cy="100" r="80" fill="none" stroke="${ringColor}" stroke-width="15"/>
           <!-- Band label pill -->
           <rect x="54" y="90" width="92" height="28" rx="14" fill="${ringPillBg}" stroke="${ringColor}" stroke-width="1.5"/>
           <text x="100" y="104" text-anchor="middle" dominant-baseline="middle"
