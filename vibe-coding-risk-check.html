@@ -1218,39 +1218,30 @@ function renderResults(){
   const ringTrackColor = result.key === 'controlled' ? '#d1fae5' : result.key === 'exposed' ? '#fef3c7' : '#fee2e2';
   const ringPillBg = result.key === 'controlled' ? '#ecfdf5' : result.key === 'exposed' ? '#fffbeb' : '#fef2f2';
 
-  // Main ring: per-answer count — literally how many questions got best vs worst selection
-  const mainCirc = 502.65;   // 2π × 80
-  const mainArcTotal = 376.99; // 270°
-  const mainTopCount    = QUESTIONS.filter(q => getQuestionScore(q) === 0).length;
-  const mainBottomCount = QUESTIONS.filter(q => getQuestionScore(q) === 4).length;
-  const greenFilled     = (mainTopCount    / QUESTIONS.length) * mainArcTotal;
-  const redFilled       = (mainBottomCount / QUESTIONS.length) * mainArcTotal;
-  const redDegrees      = (redFilled / mainArcTotal) * 270;
-  const redStartAngle   = 405 - redDegrees;
+  // Main ring: full arc in band colour — colour = verdict, no partial fill confusion
+  const mainCirc = 502.65;
+  const mainArcTotal = 376.99;
 
-  // Section rings: same per-answer count approach, small SVG rings
-  const sCirc = 188.50;     // 2π × 30
-  const sArcTotal = 141.37; // 270° of r=30 ring
+  // Section rings: colour by section score band, full arc
+  const sCirc = 188.50;
+  const sArcTotal = 141.37;
   const sectionRingsHtml = sections.map(s => {
-    const sQs = QUESTIONS.filter(q => q.section === s.name);
-    const sTop    = sQs.filter(q => getQuestionScore(q) === 0).length;
-    const sBottom = sQs.filter(q => getQuestionScore(q) === 4).length;
-    const sGreen  = (sTop    / sQs.length) * sArcTotal;
-    const sRed    = (sBottom / sQs.length) * sArcTotal;
-    const sRedDeg = (sRed / sArcTotal) * 270;
-    const sRedAngle = 405 - sRedDeg;
+    const pct = s.score / s.max;
+    const sc  = pct <= 0.33 ? '#059669' : pct <= 0.66 ? '#d97706' : '#dc2626';
+    const bg  = pct <= 0.33 ? '#ecfdf5' : pct <= 0.66 ? '#fffbeb' : '#fef2f2';
+    const bdr = pct <= 0.33 ? '#6ee7b7' : pct <= 0.66 ? '#fcd34d' : '#fecaca';
     return `
     <div class="section-ring-item">
       <svg viewBox="0 0 76 76" width="76" height="76" style="display:block">
-        <circle cx="38" cy="38" r="30" fill="none" stroke="#e5e7eb" stroke-width="8"
+        <circle cx="38" cy="38" r="30" fill="none" stroke="${bg}" stroke-width="8"
           stroke-dasharray="${sArcTotal.toFixed(2)} ${sCirc}" stroke-linecap="butt"
           transform="rotate(135 38 38)"/>
-        <circle cx="38" cy="38" r="30" fill="none" stroke="#059669" stroke-width="8"
-          stroke-dasharray="${sGreen.toFixed(2)} ${sCirc}" stroke-linecap="butt"
+        <circle cx="38" cy="38" r="30" fill="none" stroke="${sc}" stroke-width="8"
+          stroke-dasharray="${sArcTotal.toFixed(2)} ${sCirc}" stroke-linecap="butt"
           transform="rotate(135 38 38)"/>
-        <circle cx="38" cy="38" r="30" fill="none" stroke="#dc2626" stroke-width="8"
-          stroke-dasharray="${sRed.toFixed(2)} ${sCirc}" stroke-linecap="butt"
-          transform="rotate(${sRedAngle.toFixed(2)} 38 38)"/>
+        <circle cx="38" cy="38" r="30" fill="none" stroke="white" stroke-width="9"
+          stroke-dasharray="2 68.69" stroke-linecap="butt"
+          transform="rotate(135 38 38)"/>
       </svg>
       <div class="section-ring-name">${s.name === 'Risk' ? 'Risk Aware' : s.name}</div>
     </div>`;
@@ -1268,18 +1259,14 @@ function renderResults(){
       <p class="boardroom-summary">${result.summary}</p>
       <div class="ring-top" style="margin-top:20px">
         <svg viewBox="0 0 200 200" width="200" height="200" style="display:block;flex-shrink:0">
-          <!-- Track -->
-          <circle cx="100" cy="100" r="80" fill="none" stroke="#e5e7eb" stroke-width="15"
+          <!-- Soft tint track -->
+          <circle cx="100" cy="100" r="80" fill="none" stroke="${ringTrackColor}" stroke-width="15"
             stroke-dasharray="${mainArcTotal.toFixed(2)} ${mainCirc}" stroke-linecap="butt"
             transform="rotate(135 100 100)"/>
-          <!-- Green: fills from top proportional to good governance -->
-          <circle cx="100" cy="100" r="80" fill="none" stroke="#059669" stroke-width="15"
-            stroke-dasharray="${greenFilled.toFixed(2)} ${mainCirc}" stroke-linecap="butt"
+          <!-- Full arc in band colour -->
+          <circle cx="100" cy="100" r="80" fill="none" stroke="${ringColor}" stroke-width="15"
+            stroke-dasharray="${mainArcTotal.toFixed(2)} ${mainCirc}" stroke-linecap="butt"
             transform="rotate(135 100 100)"/>
-          <!-- Red: fills from bottom proportional to bad governance -->
-          <circle cx="100" cy="100" r="80" fill="none" stroke="#dc2626" stroke-width="15"
-            stroke-dasharray="${redFilled.toFixed(2)} ${mainCirc}" stroke-linecap="butt"
-            transform="rotate(${redStartAngle.toFixed(2)} 100 100)"/>
           <!-- Segment dividers -->
           <circle cx="100" cy="100" r="80" fill="none" stroke="white" stroke-width="16"
             stroke-dasharray="3 44.1" stroke-linecap="butt"
