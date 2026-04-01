@@ -1245,7 +1245,13 @@ function renderResults(){
 
   document.getElementById('results-left').innerHTML = `
     <div class="panel result-hero ${result.heroClass}">
-      <div class="ring-top">
+      <div class="hero-topline">
+        <div class="section-title" style="margin-bottom:0">AI governance risk summary</div>
+        <a href="#" id="viewDetail" class="detail-link">How this was assessed</a>
+      </div>
+      <h2>${result.title}</h2>
+      <p class="boardroom-summary">${result.summary}</p>
+      <div class="ring-top" style="margin-top:20px">
         <svg viewBox="0 0 200 200" width="200" height="200" style="display:block;flex-shrink:0">
           <circle cx="100" cy="100" r="80" fill="none" stroke="${ringTrackColor}" stroke-width="15"
             stroke-dasharray="${mainArcTotal.toFixed(2)} ${mainCirc}" stroke-linecap="round"
@@ -1306,15 +1312,6 @@ function renderResults(){
       <div class="section-rings">
         ${sectionRingsHtml}
       </div>
-      <div class="section-title">AI governance risk summary</div>
-      <div class="hero-topline">
-        <div class="hero-tag-wrap">
-          <div class="result-tag"><span class="dot"></span>Current position: ${result.tag}</div>
-        </div>
-        <a href="#" id="viewDetail" class="detail-link">How this was assessed</a>
-      </div>
-      <h2>${result.title}</h2>
-      <p class="boardroom-summary">${result.summary}</p>
     </div>
 
     <div class="boardroom-grid">
