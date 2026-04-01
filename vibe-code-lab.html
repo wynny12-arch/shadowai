@@ -85,7 +85,6 @@ a,button,input,textarea{font:inherit}
 .card h3{margin:0 0 10px; font-size:18px; color:var(--navy)}
 .card p{margin:0; color:var(--muted); font-size:14px; line-height:1.75}
 /* Phase grid — 4-col for timeline, 2-col for AS-IS / TO-BE groups */
-.phase-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--border); border-radius:18px; overflow:hidden; margin-top:22px}
 .phase-grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:0; border:1px solid var(--border); border-radius:18px; overflow:hidden; margin-top:10px}
 .phase{padding:22px; background:#fff; border-right:1px solid var(--border)}
 .phase:last-child{border-right:none}
@@ -124,10 +123,7 @@ a,button,input,textarea{font:inherit}
 .footer{padding:20px 34px; border-top:1px solid var(--border); color:var(--muted); font-size:12px; background:#fff}
 @media (max-width:980px){
   .hero-grid,.section-grid,.grid-3{grid-template-columns:1fr}
-  .phase-grid{grid-template-columns:repeat(2,1fr)}
   .phase-grid-2{grid-template-columns:1fr}
-  .phase:nth-child(2){border-right:none}
-  .phase:nth-child(1),.phase:nth-child(2){border-bottom:1px solid var(--border)}
   .summary-strip{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:700px){
@@ -137,7 +133,8 @@ a,button,input,textarea{font:inherit}
   .hero{padding-top:46px; padding-bottom:46px}
   .hero h1{font-size:32px}
   .hero p{font-size:16px}
-  .phase-grid,.summary-strip,.form-grid{grid-template-columns:1fr}
+  .summary-strip,.form-grid{grid-template-columns:1fr}
+  .phase-grid-2{grid-template-columns:1fr}
   .phase{border-right:none; border-bottom:1px solid var(--border)}
   .phase:last-child{border-bottom:none}
 }
@@ -160,7 +157,7 @@ a,button,input,textarea{font:inherit}
         <div>
           <div class="eyebrow">Tactica Partners</div>
           <h1>Where enterprise experience meets AI-enabled development.</h1>
-          <p>AI-assisted development is moving faster than enterprise governance can absorb. Tactica bridges that gap — bringing over a decade of enterprise IT experience to bear on a problem most organisations haven't started solving yet. The Vibe Code Lab is the result.</p>
+          <p>AI-assisted development is moving faster than enterprise governance can absorb. Tactica bridges that gap — bringing over a decade of enterprise IT experience to bear on a problem most organisations haven't started solving yet.</p>
           <div class="meta">
             <span>Enterprise-grade methodology</span>
             <span>AS-IS to TO-BE</span>
@@ -197,7 +194,7 @@ a,button,input,textarea{font:inherit}
         <div>
           <div class="kicker">The challenge</div>
           <h2>The tools are moving faster than the governance.</h2>
-          <p class="lead">Staff across every department are using AI to build tools, automations, and workflows — often without IT's knowledge. The risk isn't the technology. It's that the expectations, controls, and accountability structures of enterprise IT haven't been applied to it yet. AI-assisted development is powerful. But it is not yet enterprise-ready.</p>
+          <p class="lead">Staff across every department are using AI to build tools, automations, and workflows — often without IT's knowledge. The risk isn't the technology. It's that the expectations, controls, and accountability structures of enterprise IT haven't been applied to it yet.</p>
         </div>
         <div class="callout">
           <h3>The gap Tactica closes</h3>
@@ -224,30 +221,7 @@ a,button,input,textarea{font:inherit}
       </div>
     </section>
 
-    <!-- 3. What it is -->
-    <section class="section">
-      <div class="kicker">What the Vibe Code Lab is</div>
-      <h2>A governed environment. Not a policy document.</h2>
-      <div class="grid-3">
-        <div class="card">
-          <div class="card-num">01</div>
-          <h3>IT-led by design</h3>
-          <p>The Vibe Code Lab puts IT at the centre of AI-enabled development — not as a blocker, but as the team that makes safe speed possible. The business gets the tools and momentum it wants. IT gets the visibility and control it needs.</p>
-        </div>
-        <div class="card">
-          <div class="card-num">02</div>
-          <h3>Built on AS-IS reality</h3>
-          <p>Every engagement starts with an honest picture of where the organisation actually is — not where it thinks it is. The TO-BE is designed around that reality, not a generic framework that looks good on paper but doesn't reflect how your organisation operates.</p>
-        </div>
-        <div class="card">
-          <div class="card-num">03</div>
-          <h3>From risk to capability</h3>
-          <p>Done well, the conversation with leadership changes. IT stops being seen as the team that slows AI-enabled delivery down and becomes the team that made it safe, scalable, and commercially useful.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. Why Tactica -->
+    <!-- 3. Why Tactica -->
     <section class="section">
       <div class="kicker">Why Tactica</div>
       <h2>The right experience on both sides of the problem.</h2>
@@ -255,26 +229,26 @@ a,button,input,textarea{font:inherit}
         <div class="card">
           <div class="card-num">→</div>
           <h3>Enterprise foundations</h3>
-          <p>Since 2012, Tactica has delivered IT transformation for global blue-chip organisations across every industry sector — saving tens of millions of dollars and delivering change that sticks. We understand what enterprise-grade delivery actually requires: governance, accountability, assurance, and stakeholder alignment.</p>
+          <p>Since 2012, Tactica has delivered IT transformation for global organisations across financial services, retail, energy, and professional services. We understand what enterprise-grade delivery actually requires: governance, accountability, assurance, and stakeholder alignment.</p>
         </div>
         <div class="card">
           <div class="card-num">→</div>
           <h3>AI-enabled delivery expertise</h3>
-          <p>The Vibe Code Lab is the product of applying that enterprise rigour to AI-assisted development. We understand how these tools work in practice, where the risks concentrate, and what a governed operating model for AI-enabled delivery actually looks like — not in theory, but in your organisation.</p>
+          <p>The Vibe Code Lab is the product of applying that enterprise rigour to AI-assisted development. We understand how these tools work in practice, where the risks concentrate, and what a governed operating model actually looks like — not in theory, but in your organisation.</p>
         </div>
         <div class="card">
           <div class="card-num">→</div>
           <h3>Independent and pragmatic</h3>
-          <p>We are a boutique firm with no vendor relationships to protect and no packaged product to sell. Our approach is independent and sleeves-rolled-up — designed to reflect your organisation's reality and deliver outcomes, not to produce a report that sits on a shelf.</p>
+          <p>No vendor relationships to protect, no packaged product to sell. Our approach is sleeves-rolled-up and designed to reflect your organisation's reality — to deliver outcomes, not produce a report that sits on a shelf.</p>
         </div>
       </div>
     </section>
 
-    <!-- 5. How it works — AS-IS → TO-BE -->
+    <!-- 4. How it works — AS-IS → TO-BE -->
     <section class="section" id="how-it-works">
       <div class="kicker">How it works</div>
       <h2>AS-IS to TO-BE. A methodology built for this moment.</h2>
-      <p class="lead" style="margin-bottom:4px">Every Vibe Code Lab engagement follows a two-stage structure. First, we establish an honest picture of where you are. Then, we design and deliver the governed capability you need.</p>
+      <p class="lead" style="margin-bottom:4px">Every engagement follows a two-stage structure. First, we establish an honest picture of where you are. Then we design and deliver the governed capability you need.</p>
 
       <div class="phase-group">
         <div class="phase-group-label">
@@ -283,14 +257,14 @@ a,button,input,textarea{font:inherit}
         </div>
         <div class="phase-grid-2">
           <div class="phase">
-            <div class="phase-kicker">Phase 01 — Discover</div>
+            <div class="phase-kicker">Phase 01 — Discover · Weeks 1–2</div>
             <h3>Discover</h3>
-            <p>We engage stakeholders to understand AI strategy at the business level, surface the frustrations driving demand for AI coding tools, and build an honest map of what is currently in use — what is working, what is ungoverned, and where the gaps are. The goal is not to find fault. It is to understand how your organisation actually operates, so what we design reflects that reality.</p>
+            <p>Rapid stakeholder engagement, current-state mapping, and risk identification. We surface what is already in use — what is working, what is ungoverned, and where the gaps are — so what we design reflects how your organisation actually operates.</p>
           </div>
           <div class="phase">
-            <div class="phase-kicker">Phase 02 — Design</div>
+            <div class="phase-kicker">Phase 02 — Design · Weeks 3–4</div>
             <h3>Design</h3>
-            <p>We validate the AS-IS position with leadership and agree the path forward. Structured stakeholder workshops align IT and business around a shared understanding of the current risk, the appetite for change, and the first governance moves that will make the biggest practical difference.</p>
+            <p>Validate the AS-IS position with leadership and agree the path forward. Structured workshops align IT and business around a shared understanding of risk, appetite for change, and the first governance moves that will make the biggest practical difference.</p>
           </div>
         </div>
       </div>
@@ -302,92 +276,35 @@ a,button,input,textarea{font:inherit}
         </div>
         <div class="phase-grid-2">
           <div class="phase">
-            <div class="phase-kicker">Phase 03 — Govern</div>
+            <div class="phase-kicker">Phase 03 — Govern · Weeks 5–6</div>
             <h3>Govern</h3>
-            <p>Establish the policies, guardrails, and accountability structures that make AI-assisted development safe at the enterprise level. Define what is approved, what requires review, and how ownership and assurance are maintained once tools move into business use. This is not bureaucracy — it is the operating model that makes speed sustainable.</p>
+            <p>Establish the policies, guardrails, and accountability structures that make AI-assisted development safe at enterprise scale. Define what is approved, what requires review, and how ownership and assurance are maintained once tools move into business use.</p>
           </div>
           <div class="phase">
-            <div class="phase-kicker">Phase 04 — Enable</div>
+            <div class="phase-kicker">Phase 04 — Enable · Ongoing</div>
             <h3>Enable</h3>
-            <p>Stand up the Vibe Code Lab — a governed environment where business demand can move at pace through IT rather than around it. Done well, this shifts IT from the team that said no to the team that made it possible. That is a different conversation with leadership, and it has lasting value.</p>
+            <p>Stand up the Vibe Code Lab — a governed environment where business demand moves at pace through IT rather than around it. Expand adoption safely, embed governance, and continuously prioritise where AI-enabled delivery creates the most value.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 6. What changes -->
+    <!-- 5. Who it's for -->
     <section class="section">
       <div class="section-grid">
         <div>
-          <div class="kicker">What changes when it is in place</div>
-          <h2>IT does not have to choose between control and progress.</h2>
-          <p class="lead">The Vibe Code Lab gives the business a practical route to move quickly without going around IT. At the same time, it gives IT a way to govern AI-enabled delivery before it turns into unsupported assets, unmanaged data exposure, or fragmented local tooling.</p>
+          <div class="kicker">Who this is for</div>
+          <h2>Built for IT leaders who want to get ahead of this.</h2>
+          <p class="lead">The Vibe Code Lab is designed for Heads of IT, IT Directors, Enterprise Architects, and CISOs at organisations where AI-enabled development is already happening — or where it is clearly about to.</p>
         </div>
         <div class="callout">
-          <h3>What this enables in practice</h3>
-          <p>Discover the art of the possible with controlled AI-enabled development — without exposing the organisation to unmanaged risk. The Vibe Code Lab gives teams a safe environment to explore, build, and prove value quickly, while ensuring IT retains visibility, governance, and control.</p>
-          <p>Instead of fragmented experimentation, you get a structured path from idea to controlled outcome — accelerating delivery, reducing risk, and turning AI demand into a managed, scalable capability.</p>
-        </div>
-      </div>
-      <div class="grid-3" style="margin-top:22px">
-        <div class="card">
-          <div class="card-num">A</div>
-          <h3>Business teams get</h3>
-          <p>A credible, low-friction route to experiment, build, and reach controlled MVP faster — without working around IT.</p>
-        </div>
-        <div class="card">
-          <div class="card-num">B</div>
-          <h3>IT gets</h3>
-          <p>Visibility, control, governance, and a structured way to prioritise where support and oversight matter most.</p>
-        </div>
-        <div class="card">
-          <div class="card-num">C</div>
-          <h3>Leadership gets</h3>
-          <p>A practical answer to the governance gap — and a clearer route from AI demand to useful, supportable, enterprise-grade outcomes.</p>
+          <h3>If the diagnostic surfaced gaps</h3>
+          <p>Whether the pressure is in visibility, control, risk, or strategy — this is the conversation to have next. Tactica has delivered IT transformation for global organisations across every major sector since 2012. We have seen what enterprise-grade delivery requires and we apply that standard to AI-enabled development.</p>
         </div>
       </div>
     </section>
 
-    <!-- 7. Who it's for -->
-    <section class="section">
-      <div class="kicker">Who this is for</div>
-      <h2>Built for IT leaders who want to get ahead of this.</h2>
-      <div class="callout" style="background:#fff; border-color:var(--border); margin-top:16px">
-        <h3>Typical fit</h3>
-        <p>The Vibe Code Lab is designed for Heads of IT, IT Directors, Enterprise Architects, and CISOs at organisations where AI-enabled development is already happening — or where it is clearly about to. If the risk diagnostic surfaced gaps in visibility, control, risk, or strategy, this is the conversation to have next.</p>
-        <p style="margin-top:12px">Tactica has delivered IT transformation for global organisations across financial services, retail, energy, and professional services since 2012. We have seen what enterprise-grade delivery requires and we apply that standard to AI-enabled development — which is why we are positioned to advise in a space where most organisations are still working out what the question is.</p>
-      </div>
-    </section>
-
-    <!-- 8. Typical engagement path -->
-    <section class="section">
-      <div class="kicker">Typical engagement path</div>
-      <h2>From insight to controlled delivery in weeks, not months.</h2>
-      <div class="phase-grid">
-        <div class="phase">
-          <div class="phase-kicker">Weeks 1–2</div>
-          <h3>Discover</h3>
-          <p>Rapid stakeholder engagement, current-state mapping, and risk identification. Establish a fact-based view of AI activity across the business.</p>
-        </div>
-        <div class="phase">
-          <div class="phase-kicker">Weeks 3–4</div>
-          <h3>Design</h3>
-          <p>Define the target operating model, governance approach, and approved tool stack aligned to business needs and risk appetite.</p>
-        </div>
-        <div class="phase">
-          <div class="phase-kicker">Weeks 5–6</div>
-          <h3>Stand up the Lab</h3>
-          <p>Implement the Vibe Code Lab environment, guardrails, and delivery workflow. Enable first controlled use cases.</p>
-        </div>
-        <div class="phase">
-          <div class="phase-kicker">Ongoing</div>
-          <h3>Scale and govern</h3>
-          <p>Expand adoption safely, embed governance, and continuously prioritise where AI-enabled delivery creates the most value.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 9. Ways to engage -->
+    <!-- 6. Ways to engage -->
     <section class="section">
       <div class="kicker">Ways to engage</div>
       <h2>Flexible entry points depending on where you are.</h2>
@@ -405,33 +322,18 @@ a,button,input,textarea{font:inherit}
         <div class="card">
           <div class="card-num">C</div>
           <h3>Vibe Code Lab stand-up</h3>
-          <p>A structured engagement to design, govern, and enable the Lab as a repeatable IT-led route for AI-enabled delivery.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 10. Commercial outcomes -->
-    <section class="section">
-      <div class="section-grid">
-        <div>
-          <div class="kicker">Commercial outcomes</div>
-          <h2>What organisations are really buying</h2>
-          <p class="lead">This is not just a governance response. It is a way to turn uncontrolled AI demand into a managed delivery capability that improves speed, reduces duplicated spend, lowers exposure, and strengthens IT's position with the business.</p>
-        </div>
-        <div class="callout">
-          <h3>Typical outcomes</h3>
-          <p>Better visibility into what already exists. Faster movement from idea to controlled MVP. Fewer unsupported tools. Clearer ownership. Stronger data and testing discipline. A more strategic role for IT in shaping how AI-enabled delivery actually happens.</p>
+          <p>A structured engagement to design, govern, and enable the Lab as a repeatable IT-led route for AI-enabled delivery across the business.</p>
         </div>
       </div>
       <div class="summary-strip">
         <div class="summary-chip"><strong>Reduce unmanaged risk</strong><span>Bring shadow experimentation into a visible, governed operating model.</span></div>
-        <div class="summary-chip"><strong>Accelerate delivery</strong><span>Create a credible, faster route than bypassing IT.</span></div>
+        <div class="summary-chip"><strong>Accelerate delivery</strong><span>A credible, faster route to MVP than bypassing IT.</span></div>
         <div class="summary-chip"><strong>Improve spend discipline</strong><span>Reduce fragmented tooling and duplicated local solutions.</span></div>
         <div class="summary-chip"><strong>Reposition IT</strong><span>Move from reactive gatekeeper to enabler of safe speed.</span></div>
       </div>
     </section>
 
-    <!-- 11. Contact -->
+    <!-- 7. Contact -->
     <section class="section" id="contact">
       <div class="panel-dark">
         <div class="kicker">Get in touch</div>
