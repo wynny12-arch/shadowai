@@ -397,7 +397,7 @@ a,button,input,textarea{font:inherit}
         <div class="kicker">Start the conversation</div>
         <h2>The first step is understanding where you are.</h2>
         <p class="lead">If you have completed the diagnostic, you already have a starting point. If not, the conversation itself is enough. We will help you understand your current position and agree whether — and how — a Vibe Code Lab engagement makes sense for your organisation.</p>
-        <form onsubmit="handleSubmit(event)" id="contact-form">
+        <form action="https://formspree.io/f/xpqoledb" method="POST" id="contact-form">
           <input type="hidden" id="hidden-band" name="band">
           <input type="hidden" id="hidden-section" name="section">
           <div class="form-grid">
@@ -422,10 +422,6 @@ a,button,input,textarea{font:inherit}
             <button class="btn btn-primary" type="submit">Send →</button>
           </div>
         </form>
-        <div id="form-confirm" style="display:none;margin-top:18px;font-size:15px;color:rgba(255,255,255,.9)">
-          <strong>Thanks — we'll be in touch shortly.</strong><br>
-          We'll review your message and come back to you within one business day.
-        </div>
         <div class="contact-note">Or email directly at <a href="mailto:john@tacticapartners.com" style="color:#fff">john@tacticapartners.com</a></div>
       </div>
     </section>
@@ -436,12 +432,6 @@ a,button,input,textarea{font:inherit}
 </main>
 
 <script>
-function handleSubmit(e){
-  e.preventDefault();
-  document.getElementById('contact-form').style.display='none';
-  document.getElementById('form-confirm').style.display='block';
-}
-
 (function applyDiagContext(){
   const params = new URLSearchParams(window.location.search);
   const band = (params.get('band') || '').toLowerCase();
