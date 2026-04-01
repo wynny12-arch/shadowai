@@ -185,24 +185,26 @@ button,input{font:inherit}
 }
 
 @media print{
-  @page { size: A4 portrait; margin: 14mm; }
+  @page { size: A4 portrait; margin: 14mm 14mm 18mm; }
   html, body{
     background:#ffffff !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    font-size: 13px;
   }
   body{margin:0 !important;}
+
+  /* Hide everything except results */
   .topbar,
   .progress-wrap,
   .hero,
   .question-layout,
   .footer-note,
+  .inline-profile,
+  .actions-row,
+  .cta-stack,
   .no-print{
     display:none !important;
-  }
-  .print-cover,
-  .print-meta{
-    display:block !important;
   }
   #screen-intro,
   #screen-questions{
@@ -211,6 +213,22 @@ button,input{font:inherit}
   #screen-results{
     display:block !important;
   }
+
+  /* Print-only header */
+  #screen-results::before{
+    content: 'Vibe Coding Risk Diagnostic  ·  Confidential';
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: #64748b;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 16px;
+  }
+
+  /* Strip all layout chrome */
   .page,
   .frame,
   .results-shell{
@@ -224,34 +242,49 @@ button,input{font:inherit}
     border-radius:0 !important;
     overflow:visible !important;
   }
+
+  /* Single column, left then right */
   .results-layout{
-    display:grid !important;
-    grid-template-columns:1fr !important;
-    gap:12px !important;
+    display:block !important;
   }
+  #results-right{
+    position:static !important;
+    align-self:auto !important;
+    margin-top:12px !important;
+  }
+
+  /* Avoid breaking inside key elements */
   .panel,
   .result-hero,
-  .solution-card,
   .quote,
   .step,
   .kpi,
   .mini,
-  .steps{
+  .steps,
+  .callout{
     box-shadow:none !important;
     break-inside:avoid !important;
     page-break-inside:avoid !important;
   }
-  .solution-card{
+
+  /* Right column starts on a fresh page */
+  #results-right{
+    break-before:page !important;
     page-break-before:always !important;
   }
+
+  /* Solution/lab card — no forced break, let flow decide */
+  .solution-card{
+    break-inside:avoid !important;
+    page-break-inside:avoid !important;
+    box-shadow:none !important;
+  }
+
   .panel,
   .solution-card{
     margin:0 0 10px 0 !important;
   }
-  .actions-row,
-  .cta-stack{
-    display:none !important;
-  }
+
   a[href]:after{
     content:none !important;
   }
