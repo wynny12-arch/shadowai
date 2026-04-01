@@ -1221,7 +1221,7 @@ function renderResults(){
     const sc = pct <= 0.33 ? '#059669' : pct <= 0.66 ? '#d97706' : '#dc2626';
     const st = pct <= 0.33 ? '#d1fae5' : pct <= 0.66 ? '#fef3c7' : '#fee2e2';
     const filled = Math.max(3, (1 - pct) * secArcTotal);
-    const label = pct <= 0.33 ? 'Low' : pct <= 0.66 ? 'Medium' : 'High';
+    const label = pct <= 0.33 ? 'High' : pct <= 0.66 ? 'Medium' : 'Low';
     return `
     <div class="section-ring-item">
       <svg viewBox="0 0 80 80" width="76" height="76" style="display:block">
