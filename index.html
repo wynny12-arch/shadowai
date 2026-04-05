@@ -503,5 +503,29 @@ footer{
   &copy; 2026 Tactica Partners. All rights reserved.
 </footer>
 
+<script>
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const band = params.get('band');
+  const section = params.get('section');
+  if(!band) return;
+
+  const bandLabel = {controlled:'Controlled', exposed:'Exposed', blindspot:'Blindspot'}[band] || band;
+  const sectionLabel = section ? section.charAt(0).toUpperCase() + section.slice(1) : null;
+
+  const msg = document.querySelector('textarea[name="message"]');
+  if(msg){
+    msg.value = `I've just completed the Tactica AI Governance Risk Check and landed in the ${bandLabel} band${sectionLabel ? ` — with ${sectionLabel} as my highest pressure area` : ''}. I'd like to discuss a working session.`;
+  }
+
+  if(window.location.hash === '#contact'){
+    setTimeout(() => {
+      const el = document.getElementById('contact');
+      if(el) el.scrollIntoView({behavior:'smooth'});
+    }, 200);
+  }
+})();
+</script>
+
 </body>
 </html>
