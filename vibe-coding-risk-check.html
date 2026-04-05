@@ -752,6 +752,19 @@ const QUESTIONS = [
       {value:'limited', label:'Limited — implied rather than assigned', desc:'Ownership is assumed at a senior level but not made explicit.', score:3},
       {value:'none', label:'No — no named accountability at a senior level', desc:'There is no clear owner for AI governance decisions at the organisational level.', score:4}
     ]
+  },
+  {
+    id:'q9',
+    section:'Risk',
+    title:'Are professionals in your organisation using AI to generate content for communications without any review or approval process?',
+    hint:'Think about AI-generated text, images, or summaries used in emails, reports, presentations, marketing materials, or social media — internal or external — where no review or approval step exists.',
+    options:[
+      {value:'clear', label:'A defined review process is in place and consistently applied', desc:'AI-generated content used in communications goes through an approval or review step before use or publication.', score:0},
+      {value:'mostly', label:'Mostly in place, with minor gaps or exceptions', desc:'Oversight is broadly applied, though some edge cases or content types may fall outside the process.', score:1},
+      {value:'partial', label:'Some oversight exists but inconsistently applied', desc:'Certain teams or content types are covered while others are not, creating an uneven picture.', score:2},
+      {value:'limited', label:'No formal process — use is largely at individual discretion', desc:'Professionals create and use AI-generated content without a defined review or approval step.', score:3},
+      {value:'none', label:'AI-generated content circulates without organisational awareness', desc:'The organisation has no reliable view of what AI-generated content is being produced or used in communications.', score:4}
+    ]
   }
 ];
 
@@ -800,14 +813,9 @@ const QUESTION_META = {
     {title:'Why it matters', body:'Where testing is inconsistent, quality and confidence depend too heavily on the creator.'}
   ],
   q9: [
-    {title:'What we typically see', body:'Business demand for speed usually finds a route, whether or not IT has provided one.'},
-    {title:'What this usually indicates', body:'If the formal route is unclear or slow, teams may look for alternatives that feel more practical.'},
-    {title:'Why it matters', body:'A weak route through IT increases the likelihood of fragmented local adoption.'}
-  ],
-  q10: [
-    {title:'What we typically see', body:'Direction is often present in principle before it is fully translated into a working operating model.'},
-    {title:'What this usually indicates', body:'Leadership may recognise the issue, but the organisational response is still forming.'},
-    {title:'Why it matters', body:'Without a clear approach, demand continues while the model designed to govern it lags behind.'}
+    {title:'What we typically see', body:'AI-generated content is spreading into communications faster than review processes are being put in place — particularly in teams that move quickly or operate with significant autonomy.'},
+    {title:'What this usually indicates', body:'The organisation may have no reliable view of what AI-generated content is going out under its name, internally or externally.'},
+    {title:'Why it matters', body:'Ungoverned AI content in communications creates reputational, legal, and compliance exposure that is difficult to trace once it has circulated.'}
   ]
 };
 
@@ -867,7 +875,7 @@ function weightedScoreRaw(){
 
 function totalScore(){
   const raw = weightedScoreRaw();
-  const maxRaw = 36.0;
+  const maxRaw = 42.0;
   return Math.round((raw / maxRaw) * 30);
 }
 
