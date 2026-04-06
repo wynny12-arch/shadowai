@@ -1261,7 +1261,7 @@ function renderResults(){
           font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
           font-size="10" font-weight="800" fill="${sc}">${lbl}</text>
       </svg>
-      <div class="section-ring-name">${s.name === 'Risk' ? 'Risk Aware' : s.name}</div>
+      <div class="section-ring-name">${s.name === 'Risk' ? 'Assurance' : s.name}</div>
     </div>`;
   }).join('');
 
@@ -1307,7 +1307,7 @@ function renderResults(){
               </svg>
             </div>
             <div class="ring-bullet-body">
-              <strong>${highest.name}</strong>
+              <strong>${highest.name === 'Risk' ? 'Assurance' : highest.name}</strong>
               <span>Highest pressure area</span>
             </div>
           </div>
@@ -1335,7 +1335,7 @@ function renderResults(){
       <div class="boardroom-card">
         <div class="section-title">Where to focus first</div>
         <div class="callout">
-          <h4>${highest.name} — ${{Visibility:'Limited visibility across AI-enabled development activity', Control:'Inconsistent controls over AI-enabled tool delivery', Risk:'Data and assurance exposure', Strategy:'No credible IT-led route for AI-enabled delivery'}[highest.name]}</h4>
+          <h4>${highest.name === 'Risk' ? 'Assurance' : highest.name} — ${{Visibility:'Limited visibility across AI-enabled development activity', Control:'Inconsistent controls over AI-enabled tool delivery', Risk:'Data and assurance exposure', Strategy:'No credible IT-led route for AI-enabled delivery'}[highest.name]}</h4>
           <p>${({
             controlled: {
               Visibility: 'Visibility is currently your strongest area. Maintain it by formalising detection and disclosure routes so confidence is supported by evidence rather than assumption.',
