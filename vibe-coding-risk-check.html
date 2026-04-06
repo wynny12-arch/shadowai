@@ -1335,7 +1335,7 @@ function renderResults(){
       <div class="boardroom-card">
         <div class="section-title">Where to focus first</div>
         <div class="callout">
-          <h4>${{Visibility:'Limited visibility across AI-enabled development activity', Control:'Inconsistent controls over AI-enabled tool delivery', Risk:'Data and assurance exposure', Strategy:'No credible IT-led route for AI-enabled delivery'}[highest.name]}</h4>
+          <h4>${highest.name} — ${{Visibility:'Limited visibility across AI-enabled development activity', Control:'Inconsistent controls over AI-enabled tool delivery', Risk:'Data and assurance exposure', Strategy:'No credible IT-led route for AI-enabled delivery'}[highest.name]}</h4>
           <p>${({
             controlled: {
               Visibility: 'Visibility is currently your strongest area. Maintain it by formalising detection and disclosure routes so confidence is supported by evidence rather than assumption.',
