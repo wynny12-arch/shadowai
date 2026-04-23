@@ -48,6 +48,15 @@ button,input{font:inherit}
 .nav-links{display:flex; gap:10px}
 .nav-links a{color:rgba(255,255,255,.88); text-decoration:none; font-size:12px; padding:6px 12px; border:1px solid rgba(255,255,255,.14); border-radius:999px; background:rgba(255,255,255,.07); transition:.15s}
 .nav-links a:hover{background:rgba(255,255,255,.14)}
+.resume-banner{margin-bottom:20px; padding:18px 22px; background:#fffbeb; border:1px solid #fde68a; border-radius:14px; display:none; align-items:center; gap:16px; flex-wrap:wrap}
+.resume-banner p{margin:0; font-size:14px; color:#92400e; flex:1}
+.resume-banner strong{color:#78350f}
+.resume-btn-row{display:flex; gap:10px; flex-shrink:0}
+.resume-btn{padding:8px 16px; border-radius:8px; font-size:13px; font-weight:700; border:none; cursor:pointer; transition:.15s}
+.resume-btn.primary{background:#d97706; color:#fff}
+.resume-btn.primary:hover{background:#b45309}
+.resume-btn.ghost{background:transparent; color:#92400e; border:1px solid #fcd34d}
+.resume-btn.ghost:hover{background:#fef3c7}
 .page{max-width:1180px; margin:0 auto; padding:28px 20px 60px}
 .screen{display:none}
 .screen.active{display:block}
@@ -544,6 +553,14 @@ button,input{font:inherit}
         </div>
       </div>
       <div class="content">
+        <div id="resume-banner" class="resume-banner">
+          <p><strong>You have saved answers.</strong> Pick up where you left off, or start fresh.</p>
+          <div class="resume-btn-row">
+            <button class="resume-btn primary" onclick="resumeSurvey()">Continue →</button>
+            <button class="resume-btn ghost" onclick="startSurvey()">Start fresh</button>
+          </div>
+        </div>
+
         <div class="intro-strip">
           <div class="intro-mini">
             <h4>What this is</h4>
@@ -848,15 +865,49 @@ function toggleProfile(){
   chevron.textContent = open ? '▲ Hide' : '▼ Show';
 }
 
+const STORAGE_KEY = 'tactica_diag_v1';
+
+function saveProgress(){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({answers, current})); } catch(e){}
+}
+
+function clearProgress(){
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e){}
+}
+
+function checkResume(){
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(saved && saved.answers && Object.keys(saved.answers).length > 0){
+      const banner = document.getElementById('resume-banner');
+      if(banner) banner.style.display = 'flex';
+    }
+  } catch(e){}
+}
+
+function resumeSurvey(){
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(saved){
+      Object.assign(answers, saved.answers);
+      current = saved.current || 0;
+    }
+  } catch(e){}
+  showScreen('questions');
+  renderQuestion();
+}
+
 function startSurvey(){
   current = 0;
   Object.keys(answers).forEach(k => delete answers[k]);
+  clearProgress();
   showScreen('questions');
   renderQuestion();
 }
 
 function selectOption(qid, value){
   answers[qid] = value;
+  saveProgress();
   renderQuestion();
 }
 
@@ -1163,6 +1214,7 @@ function nextStepsFor(profile, highestSection){
 
 
 function renderResults(){
+  clearProgress();
   const profile = scoreProfile();
   const score = profile.score;
   const result = bandFor(profile.finalBand);
@@ -1554,6 +1606,8 @@ function reviewAnswers(){
   showScreen('questions');
   renderQuestion();
 }
+
+checkResume();
 </script>
 </body>
 </html>
