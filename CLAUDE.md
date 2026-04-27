@@ -22,3 +22,7 @@ Static HTML/JS tools for Tactica's AI governance and vibe coding content. Multip
 ## Deploy notes
 - No build step — what you edit is what gets deployed
 - Changes to any HTML or JSON file are live after push
+
+## Decisions
+- **Static HTML, no framework** — content-focused marketing/tool pages; no need for build complexity.
+- **tool-risk-database.json separate from HTML** — keeps risk data editable without touching layout code.
